@@ -14,12 +14,8 @@ namespace SharpAudio
         /// </summary>
         XAudio2,
         // <summary>
-        /// Alsa
+        /// OpenAL
         /// </summary>
-        Alsa,
-        // <summary>
-        /// CoreAudio
-        /// </summary>
-        CoreAudio,
+        OpenAL,
     }
 }

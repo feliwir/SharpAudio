@@ -1,6 +1,6 @@
 ﻿namespace SharpAudio
 {
-    public struct AudioEngineOptions
+    public class AudioEngineOptions
     {
         /// <summary>
         /// The sample rate to which all sources will be resampled to (if required). 
@@ -13,7 +13,12 @@
         /// </summary>
         public int SampleChannels;
 
-        public AudioEngineOptions(int sampleRate = 44100,int sampleChannels = 2)
+        public AudioEngineOptions() : this(44100, 2)
+        {
+
+        }
+
+        public AudioEngineOptions(int sampleRate, int sampleChannels)
         {
             SampleRate = sampleRate;
             SampleChannels = sampleChannels;

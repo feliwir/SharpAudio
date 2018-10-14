@@ -27,20 +27,6 @@ namespace SharpAudio.Tests
             float duration = data.Length / (float)soundStream.Format.BytesPerSecond;
 
             Assert.True(MathF.Round(duration) == 54);
-
-            var engine = AudioEngine.CreateXAudio(new AudioEngineOptions());
-            var buffer = engine.CreateBuffer();
-            buffer.BufferData(data, soundStream.Format, data.Length);
-
-            var source = engine.CreateSource();
-            source.QueryBuffer(buffer);
-            source.Play();
-
-
-            while (source.IsPlaying())
-            {
-                Thread.Sleep(100);
-            }
         }
     }
 }

@@ -1,0 +1,24 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+configuration: Release
+before_build:
+- cmd: dotnet restore src\SharpAudio.sln
+
+build_script:
+- cmd: dotnet pack -c Release src\SharpAudio\SharpAudio.csproj
+- cmd: dotnet pack -c Release src\SharpAudio.Util\SharpAudio.Util.csproj
+
+artifacts:
+- path: bin\Packages\Release\*.nupkg
+  name: nugetPackages
+
+deploy:
+  provider: NuGet
+  server: https://www.myget.org/F/feliwir/api/v2/package
+  api_key:
+    secure: weRKCN6uh+JEb70fPUrGkOgcSyzkeoXydxHiqcPuZj+kP60lJ+c0MV9hcGCP+s0u
+  skip_symbols: false
+  symbol_server: https://www.myget.org/F/mellinoe/api/v2/package
+  artifact: nugetPackages
+  on:
+    branch: master

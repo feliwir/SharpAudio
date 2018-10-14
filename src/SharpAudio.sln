@@ -10,7 +10,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpAudio.Tests", "SharpAu
 		{AD19351A-0D24-444D-BD1D-6E341751AD37} = {AD19351A-0D24-444D-BD1D-6E341751AD37}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpAudio.Util", "SharpAudio.Util\SharpAudio.Util.csproj", "{5986D531-84E3-4AD2-9401-6DAAC0B99A72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpAudio.Util", "SharpAudio.Util\SharpAudio.Util.csproj", "{5986D531-84E3-4AD2-9401-6DAAC0B99A72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpAudio.Sample", "SharpAudio.Sample\SharpAudio.Sample.csproj", "{47471B24-824D-4F9F-8544-4628B9754232}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpAudio.ALBinding", "SharpAudio.ALBinding\SharpAudio.ALBinding.csproj", "{F81E95D5-F38D-4CC9-B7D3-749273EF3F2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +34,14 @@ Global
 		{5986D531-84E3-4AD2-9401-6DAAC0B99A72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5986D531-84E3-4AD2-9401-6DAAC0B99A72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5986D531-84E3-4AD2-9401-6DAAC0B99A72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47471B24-824D-4F9F-8544-4628B9754232}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47471B24-824D-4F9F-8544-4628B9754232}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47471B24-824D-4F9F-8544-4628B9754232}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47471B24-824D-4F9F-8544-4628B9754232}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F81E95D5-F38D-4CC9-B7D3-749273EF3F2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F81E95D5-F38D-4CC9-B7D3-749273EF3F2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F81E95D5-F38D-4CC9-B7D3-749273EF3F2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F81E95D5-F38D-4CC9-B7D3-749273EF3F2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

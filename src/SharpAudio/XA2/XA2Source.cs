@@ -30,7 +30,8 @@ namespace SharpAudio.XA2
 
         public override void Dispose()
         {
-            throw new NotImplementedException();
+            _voice.DestroyVoice();
+            _voice.Dispose();
         }
 
         public override bool IsPlaying()

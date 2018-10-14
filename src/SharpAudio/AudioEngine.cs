@@ -18,9 +18,38 @@ namespace SharpAudio
         /// Creates a new <see cref="AudioEngine"/> using XAudio 2.
         /// </summary>
         /// <returns>A new <see cref="AudioEngine"/> using the XAudio 2 API.</returns>
+        public static AudioEngine CreateXAudio()
+        {
+            return CreateXAudio(new AudioEngineOptions());
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="AudioEngine"/> using XAudio 2.
+        /// </summary>
+        /// <param name="options">the settings for this audio engine</param>
+        /// <returns>A new <see cref="AudioEngine"/> using the XAudio 2 API.</returns>
         public static AudioEngine CreateXAudio(AudioEngineOptions options)
         {
             return new XA2.XA2Engine(options);
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="AudioEngine"/> using OpenAL.
+        /// </summary>
+        /// <returns>A new <see cref="AudioEngine"/> using the openal API.</returns>
+        public static AudioEngine CreateOpenAL()
+        {
+            return CreateOpenAL(new AudioEngineOptions());
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="AudioEngine"/> using OpenAL.
+        /// </summary>
+        /// <param name="options">the settings for this audio engine</param>
+        /// <returns>A new <see cref="AudioEngine"/> using the openal API.</returns>
+        public static AudioEngine CreateOpenAL(AudioEngineOptions options)
+        {
+            return new AL.ALEngine(options);
         }
 
         /// <summary>

@@ -1,0 +1,15 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" >
+  <PropertyGroup>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/feliwir/SharpAudio/master/LICENSE</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Copyright>Copyright 2018 (c) Stephan Vedder. All rights reserved.</Copyright>
+    <Authors>Stephan Vedder</Authors>
+    <RepositoryUrl>https://github.com/feliwir/SharpAudio</RepositoryUrl>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsWindows Condition="'$(OS)' == 'Windows_NT'">true</IsWindows>
+    <IsMacOS Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsMacOS>
+    <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</IsLinux>
+  </PropertyGroup>
+</Project>

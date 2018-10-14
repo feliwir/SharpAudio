@@ -13,10 +13,9 @@ namespace SharpAudio.XA2
         public override AudioBackend BackendType => AudioBackend.XAudio2;
         public XAudio2 Device => _device;
 
-
         public XA2Engine(AudioEngineOptions options)
         {
-            _device = new XAudio2();
+            _device = new XAudio2(XAudio2Flags.DebugEngine,ProcessorSpecifier.AnyProcessor);
 
             _master = new MasteringVoice(_device,options.SampleChannels,options.SampleRate);
         }
