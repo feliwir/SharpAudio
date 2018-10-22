@@ -1,8 +1,5 @@
 ﻿using SharpDX.Multimedia;
 using SharpDX.XAudio2;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SharpAudio.XA2
 {

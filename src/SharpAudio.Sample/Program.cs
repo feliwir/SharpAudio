@@ -26,7 +26,7 @@ namespace SharpAudio.Sample
 
         private static void RunOptionsAndReturnExitCode(Options opts)
         {
-            var engine = AudioEngine.CreateOpenAL();
+            var engine = AudioEngine.CreateDefault();
 
             foreach (var file in opts.InputFiles)
             {

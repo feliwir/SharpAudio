@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace SharpAudio
@@ -50,6 +51,23 @@ namespace SharpAudio
         public static AudioEngine CreateOpenAL(AudioEngineOptions options)
         {
             return new AL.ALEngine(options);
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="AudioEngine"/> using OpenAL.
+        /// </summary>
+        /// <returns>A new <see cref="AudioEngine"/> using the openal API.</returns>
+        public static AudioEngine CreateDefault()
+        {
+            return CreateDefault(new AudioEngineOptions());
+        }
+
+        public static AudioEngine CreateDefault(AudioEngineOptions options)
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                return CreateXAudio(options);
+            else
+                return CreateOpenAL(options);
         }
 
         /// <summary>

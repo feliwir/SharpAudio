@@ -1,7 +1,4 @@
 ﻿using SharpDX;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SharpAudio.XA2
 {
@@ -38,6 +35,6 @@ namespace SharpAudio.XA2
         public override void Dispose()
         {
             _dataStream?.Dispose();
-        }
+         }
     }
 }

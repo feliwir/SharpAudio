@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using NativeLibraryLoader;
 
@@ -6,7 +7,8 @@ namespace SharpAudio.ALBinding
 {
     public static unsafe partial class AlNative
     {
-        private static readonly NativeLibrary m_alLibrary = LoadOpenAL();
+        private static readonly NativeLibrary m_alLibrary;
+
         private static NativeLibrary LoadOpenAL()
         {
             string[] names;
@@ -42,6 +44,14 @@ namespace SharpAudio.ALBinding
         private static T LoadFunction<T>(string name)
         {
             return m_alLibrary.LoadFunction<T>(name);
+        }
+
+        static AlNative()
+        {
+            m_alLibrary = LoadOpenAL();
+
+            LoadAlc();
+            LoadAl();
         }
     }
 }
