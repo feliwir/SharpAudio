@@ -5,8 +5,8 @@ before_build:
 - cmd: dotnet restore src\SharpAudio.sln
 
 build_script:
-- cmd: dotnet pack -c Release src\SharpAudio\SharpAudio.csproj
-- cmd: dotnet pack -c Release src\SharpAudio.Util\SharpAudio.Util.csproj
+- cmd: dotnet build -c Release src\SharpAudio\SharpAudio.csproj
+- cmd: dotnet build -c Release src\SharpAudio.Util\SharpAudio.Util.csproj
 
 artifacts:
 - path: /.*\.nupkg/

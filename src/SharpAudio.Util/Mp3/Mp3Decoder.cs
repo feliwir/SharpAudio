@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MP3Sharp;
+using System;
 using System.IO;
-using System.Text;
-using MP3Sharp;
 
 namespace SharpAudio.Util.Mp3
 {

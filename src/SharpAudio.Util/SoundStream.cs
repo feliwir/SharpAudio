@@ -20,21 +20,18 @@ namespace SharpAudio.Util
             if (stream == null)
                 throw new ArgumentNullException("Stream cannot be null!");
 ;
-            using (BinaryReader br = new BinaryReader(stream))
-            {
-                var fourcc = br.ReadFourCc();
+            var fourcc = stream.ReadFourCc();
 
-                switch(fourcc)
-                {
-                    case "RIFF":
-                        _decoder = new WaveDecoder(stream);
-                        break;
-                    case "ID3\u0003":
-                        _decoder = new Mp3Decoder(stream);
-                        break;
-                    default:
-                        throw new InvalidDataException("Unknown format: " + fourcc);
-                }
+            switch(fourcc)
+            {
+                case "RIFF":
+                    _decoder = new WaveDecoder(stream);
+                    break;
+                case "ID3\u0003":
+                    _decoder = new Mp3Decoder(stream);
+                    break;
+                default:
+                    throw new InvalidDataException("Unknown format: " + fourcc);
             }
         }
 
