@@ -8,7 +8,9 @@ namespace SharpAudio
     /// Represents an abstract source
     /// </summary>
     public abstract class AudioSource : IDisposable
-    {  
+    {
+        protected float _volume;
+
         /// <summary>
         /// Return the number of buffers that are currently buffered
         /// </summary>
@@ -17,7 +19,7 @@ namespace SharpAudio
         /// <summary>
         /// Set the volume of this source. Ranges for 0 to 1.
         /// </summary>
-        public abstract float Volume { get; set; }
+        public abstract float Volume { get ; set; }
 
         /// <summary>
         /// Queries to buffer to the playback queue

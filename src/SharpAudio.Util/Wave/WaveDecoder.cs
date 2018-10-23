@@ -24,18 +24,13 @@ namespace SharpAudio.Util.Wave
         private WaveFormat _format;
         private WaveFact _fact;
         private WaveData _data;
-        private AudioFormat _audioFormat;
         private long _numSamples;
-        private long _bytesLeft;
+        private long _samplesLeft;
         private byte[] _decodedData;
 
-        public override AudioFormat Format => _audioFormat;
-
-        public override long NumberOfSampes => _numSamples;
-
-        public WaveDecoder(Stream s) : base(s)
+        public WaveDecoder(Stream s) 
         {
-            using (BinaryReader br = new BinaryReader(_stream))
+            using (BinaryReader br = new BinaryReader(s))
             {
                 _header = RiffHeader.Parse(br);
                 _format = WaveFormat.Parse(br);
@@ -49,27 +44,31 @@ namespace SharpAudio.Util.Wave
                 _decodedData = WavParser.GetParser(_format.AudioFormat)
                                        .Parse(br, (int)_data.SubChunkSize, _format);
 
-                _bytesLeft = _decodedData.Length;
-
                 _audioFormat.BitsPerSample = _format.BitsPerSample;
                 _audioFormat.Channels = _format.NumChannels;
                 _audioFormat.SampleRate = (int)_format.SampleRate;
 
-                _numSamples = _decodedData.Length / _audioFormat.BytesPerSample;
+                _numSamples = _samplesLeft = _decodedData.Length / _audioFormat.BytesPerSample;
             }
         }
 
         public override long GetSamples(int samples, out byte[] data)
         {
-            throw new NotImplementedException();
+            long numSamples = Math.Min(samples, _samplesLeft);
+            long byteSize = _audioFormat.BytesPerSample * numSamples;
+
+            data = _decodedData.AsSpan<byte>().Slice((int)(_numSamples - _samplesLeft),(int)byteSize).ToArray();
+            _samplesLeft -= numSamples;
+
+            return numSamples;
         }
 
         public override long GetSamples(out byte[] data)
         {
             data = _decodedData;
 
-            long samples = _bytesLeft / _audioFormat.BytesPerSample;
-            _bytesLeft = 0;
+            long samples = _samplesLeft;
+            _samplesLeft = 0;
             return samples;
         }
     }

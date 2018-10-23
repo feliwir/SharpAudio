@@ -9,7 +9,11 @@ namespace SharpAudio.AL
 
         public override int BuffersQueued => throw new NotImplementedException();
 
-        public override float Volume { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override float Volume
+        {
+            get { return _volume; }
+            set { _volume = value; AlNative.alSourcef(_source, AlNative.AL_GAIN, value); }
+        }
 
         public ALSource()
         {

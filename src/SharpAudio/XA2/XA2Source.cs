@@ -21,9 +21,11 @@ namespace SharpAudio.XA2
 
         public override int BuffersQueued => _voice.State.BuffersQueued;
 
-        public override float Volume {
-            get { _voice.GetVolume(out float val); return val; }
-            set => _voice.SetVolume(value); }
+        public override float Volume
+        {
+            get { return _volume; }
+            set { _volume = value; _voice.SetVolume(value); }
+        }
 
         public override void Dispose()
         {
@@ -33,7 +35,7 @@ namespace SharpAudio.XA2
 
         public override bool IsPlaying()
         {
-           return _voice?.State.BuffersQueued > 0;
+            return _voice?.State.BuffersQueued > 0;
         }
 
         public override void Play()
@@ -48,13 +50,13 @@ namespace SharpAudio.XA2
 
         public override void QueryBuffer(AudioBuffer buffer)
         {
-            if(_voice==null)
+            if (_voice == null)
             {
                 SetupVoice(buffer.Format);
             }
 
             var xaBuffer = (XA2Buffer)buffer;
-            _voice.SubmitSourceBuffer(xaBuffer.Buffer,null);
+            _voice.SubmitSourceBuffer(xaBuffer.Buffer, null);
         }
 
         public override void Flush()

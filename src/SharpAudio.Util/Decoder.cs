@@ -1,22 +1,23 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace SharpAudio.Util
 {
-    internal abstract class Decoder
+    internal abstract class Decoder : IDisposable
     {
-        protected Stream _stream;
+        //protected Stream _stream;
+        protected AudioFormat _audioFormat;
 
-        public abstract AudioFormat Format { get; }
-        public abstract long NumberOfSampes { get; }
+        public AudioFormat Format => _audioFormat;
 
         /// <summary>
         /// Initializes a decoder
         /// </summary>
         /// <param name="s">the input stream</param>
-        protected Decoder(Stream s)
-        {
-            _stream = s;
-        }
+        //protected Decoder(Stream s)
+        //{
+        //    _stream = s;
+        //}
 
         /// <summary>
         /// Reads the specified amount of samples
@@ -32,5 +33,10 @@ namespace SharpAudio.Util
         /// <param name="data"></param>
         /// <returns></returns>
         public abstract long GetSamples(out byte[] data);
+
+        public void Dispose()
+        {
+            //_stream.Close();
+        }
     }
 }

@@ -9,7 +9,7 @@ build_script:
 - cmd: dotnet pack -c Release src\SharpAudio.Util\SharpAudio.Util.csproj
 
 artifacts:
-- path: bin\Packages\Release\*.nupkg
+- path: /.*\.nupkg/
   name: nugetPackages
 
 deploy:

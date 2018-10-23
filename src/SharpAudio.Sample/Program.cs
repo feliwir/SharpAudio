@@ -14,7 +14,7 @@ namespace SharpAudio.Sample
             [Option('i', "input", Required = true, HelpText = "Specify the file(s) that should be played")]
             public IEnumerable<string> InputFiles { get; set; }
 
-            [Option('v', "volume", Required = false, HelpText = "Set the output volume (0-100).")]
+            [Option('v', "volume", Required = false, HelpText = "Set the output volume (0-100).",Default=100)]
             public int Volume { get; set; }
         }
 
@@ -32,7 +32,7 @@ namespace SharpAudio.Sample
             {
                 var soundStream = new SoundStream(File.OpenRead(file));
 
-                var data = soundStream.ReadAll();
+                var data = soundStream.ReadSamples(TimeSpan.FromSeconds(5));
 
                 float duration = data.Length / (float)soundStream.Format.BytesPerSecond;
 
@@ -41,6 +41,8 @@ namespace SharpAudio.Sample
 
                 var source = engine.CreateSource();
                 source.QueryBuffer(buffer);
+                source.Volume = opts.Volume / 100.0f;
+
                 source.Play();
 
                 while (source.IsPlaying())

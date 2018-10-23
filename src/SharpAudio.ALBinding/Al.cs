@@ -117,25 +117,26 @@ namespace SharpAudio.ALBinding
         private static AL_deleteSources_t s_al_deleteSources;
         public static void alDeleteSources(int n, uint[] sources) => s_al_deleteSources(n, sources);
 
-        /* n refers to an ALsizei */
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void AL_sourceQueueBuffers_t(uint source, int n, uint[] buffers);
         private static AL_sourceQueueBuffers_t s_al_sourceQueueBuffers;
         public static void alSourceQueueBuffers(uint source, int n, uint[] sources) => s_al_sourceQueueBuffers(source, n, sources);
 
-        /* n refers to an ALsizei */
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void AL_sourcePlay_t(uint source);
         private static AL_sourcePlay_t s_al_sourcePlay;
         public static void alSourcePlay(uint source) => s_al_sourcePlay(source);
 
-        /* n refers to an ALsizei */
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void AL_getSourcei_t(uint source, int param, out int value);
         private static AL_getSourcei_t s_al_getSourcei;
         public static void alGetSourcei(uint source, int param, out int value) => s_al_getSourcei(source, param, out value);
 
-
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void AL_sourcef_t(uint source, int param, float value);
+        private static AL_sourcef_t s_al_sourcef;
+        public static void alSourcef(uint source, int param, float value) => s_al_sourcef(source, param, value);
+        
         private static void LoadAl()
         {
             s_al_getError = LoadFunction<AL_getError_t>("alGetError");
@@ -153,6 +154,8 @@ namespace SharpAudio.ALBinding
             s_al_sourceQueueBuffers = LoadFunction<AL_sourceQueueBuffers_t>("alSourceQueueBuffers");
 
             s_al_getSourcei = LoadFunction<AL_getSourcei_t>("alGetSourcei");
+
+            s_al_sourcef = LoadFunction<AL_sourcef_t>("alSourcef");
         }
     }
 }
