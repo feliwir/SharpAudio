@@ -6,12 +6,9 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Assets\bach.wav" />
-  </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Assets\bach.wav" />
+    <EmbeddedResource Include="Assets\*" />
   </ItemGroup>
 
   <ItemGroup>

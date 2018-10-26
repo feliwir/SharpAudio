@@ -21,6 +21,7 @@ namespace SharpAudio.Util
                 throw new ArgumentNullException("Stream cannot be null!");
 ;
             var fourcc = stream.ReadFourCc();
+            stream.Seek(0, SeekOrigin.Begin);
 
             switch(fourcc)
             {

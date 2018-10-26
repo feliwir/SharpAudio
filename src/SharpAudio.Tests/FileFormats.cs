@@ -28,5 +28,25 @@ namespace SharpAudio.Tests
 
             Assert.True(MathF.Round(duration) == 54);
         }
+
+        [Fact]
+        public void Mp3()
+        {
+            var files = typeof(FileFormats).Assembly.GetManifestResourceNames();
+
+            var mp3Stream = typeof(FileFormats).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.test.mp3");
+
+            var soundStream = new SoundStream(mp3Stream);
+
+            Assert.True(soundStream.Format.BitsPerSample == 16);
+            Assert.True(soundStream.Format.Channels == 2);
+            Assert.True(soundStream.Format.SampleRate == 44100);
+
+            // var data = soundStream.ReadAll();
+
+            // float duration = data.Length / (float)soundStream.Format.BytesPerSecond;
+
+            // Assert.True(MathF.Round(duration) == 54);
+        }
     }
 }
