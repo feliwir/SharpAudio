@@ -10,9 +10,6 @@ namespace SharpAudio.AL
 
         public uint Buffer => _buffer;
 
-
-        public override AudioFormat Format { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
-
         public ALBuffer()
         {
             var buffers = new uint[1];
@@ -37,7 +34,7 @@ namespace SharpAudio.AL
             ALEngine.checkAlError();
 
             handle.Free();
-            
+            _format = format;
         }
 
         public override void Dispose()

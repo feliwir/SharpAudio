@@ -12,8 +12,6 @@ namespace SharpAudio.XA2
         public int SizeInBytes { get; private set; }
         public int TotalSamples => SizeInBytes / Format.BytesPerSample;
 
-        public override AudioFormat Format { get; protected set; }
-
         public XA2Buffer()
         {
             _buffer = new SharpDX.XAudio2.AudioBuffer();
@@ -26,7 +24,7 @@ namespace SharpAudio.XA2
             _dataStream.WriteRange(buffer, 0, buffer.Length);
             _dataStream.Position = 0;
 
-            Format = format;
+            _format = format;
             SizeInBytes = sizeInBytes;
             _buffer.AudioDataPointer = _dataStream.PositionPointer;
             _buffer.AudioBytes = SizeInBytes;
