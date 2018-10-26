@@ -19,16 +19,14 @@ namespace SharpAudio.Util
 
     internal static class StreamExtensions
     {
-        public static string ReadFourCc(this Stream reader, bool bigEndian = false)
+        public static byte[] ReadFourCc(this Stream reader, bool bigEndian = false)
         {
-            var a = (char)reader.ReadByte();
-            var b = (char)reader.ReadByte();
-            var c = (char)reader.ReadByte();
-            var d = (char)reader.ReadByte();
+            byte a = (byte)reader.ReadByte();
+            byte b = (byte)reader.ReadByte();
+            byte c = (byte)reader.ReadByte();
+            byte d = (byte)reader.ReadByte();
 
-            return bigEndian
-                ? new string(new[] { d, c, b, a })
-                : new string(new[] { a, b, c, d });
+            return new[] { a, b, c, d };
         }
     }
 }
