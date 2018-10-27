@@ -18,11 +18,12 @@ namespace SharpAudio.AL
             _buffer = buffers[0];
         }
 
-        public override unsafe void BufferData<T>(T[] buffer, AudioFormat format, int sizeInBytes)
+        public override unsafe void BufferData<T>(T[] buffer, AudioFormat format)
         {
             int fmt = (format.Channels==2) ? AlNative.AL_FORMAT_STEREO8 : AlNative.AL_FORMAT_MONO8;
+            int sizeInBytes = sizeof(T) * buffer.Length;
 
-            if(format.BitsPerSample==16)
+            if (format.BitsPerSample==16)
             {
                 fmt++;
             }

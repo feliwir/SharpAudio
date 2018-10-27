@@ -11,6 +11,8 @@ namespace SharpAudio.AL
         {
             get
             {
+                RemoveProcessed();
+
                 AlNative.alGetSourcei(_source, AlNative.AL_BUFFERS_QUEUED, out int bufs);
                 return bufs;
             }
@@ -59,17 +61,23 @@ namespace SharpAudio.AL
             ALEngine.checkAlError();
         }
 
-        public override void QueryBuffer(AudioBuffer buffer)
+        private void RemoveProcessed()
         {
             //before querying new data check if sth was processed already:
             AlNative.alGetSourcei(_source, AlNative.AL_BUFFERS_PROCESSED, out int processed);
             ALEngine.checkAlError();
 
-            while ((processed--)>0)
+            while (processed > 0)
             {
                 var bufs = new uint[] { 1 };
                 AlNative.alSourceUnqueueBuffers(_source, 1, bufs);
+                processed--;
             }
+        }
+
+        public override void QueryBuffer(AudioBuffer buffer)
+        {
+            RemoveProcessed();
 
             var alBuffer = (ALBuffer)buffer;
             AlNative.alSourceQueueBuffers(_source, 1, new uint[] { alBuffer.Buffer });

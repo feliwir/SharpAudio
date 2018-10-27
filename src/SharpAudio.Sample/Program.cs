@@ -35,12 +35,10 @@ namespace SharpAudio.Sample
                 var soundStream = new SoundStream(File.OpenRead(file));
 
                 var data = soundStream.ReadSamples(TimeSpan.FromSeconds(1));
-                var buffer = chain.BufferData(data, soundStream.Format, data.Length);
-                source.QueryBuffer(buffer);
+                chain.QueryData(source, data, soundStream.Format);
 
                 data = soundStream.ReadSamples(TimeSpan.FromSeconds(1));
-                buffer = chain.BufferData(data, soundStream.Format, data.Length);
-                source.QueryBuffer(buffer);
+                chain.QueryData(source, data, soundStream.Format);
 
                 source.Volume = opts.Volume / 100.0f;
 
@@ -48,16 +46,10 @@ namespace SharpAudio.Sample
 
                 while (source.IsPlaying())
                 {
-                    if(soundStream.IsFinished)
-                    {
-                        int a = 0;
-                    }
-
                     if(source.BuffersQueued<3 && !soundStream.IsFinished)
                     {
                         data = soundStream.ReadSamples(TimeSpan.FromSeconds(1));
-                        buffer = chain.BufferData(data, soundStream.Format, data.Length);
-                        source.QueryBuffer(buffer);
+                        chain.QueryData(source, data, soundStream.Format);
                     }
 
                     Thread.Sleep(100);

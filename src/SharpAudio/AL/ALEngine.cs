@@ -12,9 +12,8 @@ namespace SharpAudio.AL
 
         public ALEngine(AudioEngineOptions options)
         {
-            checkAlError();
             _device = AlNative.alcOpenDevice(null);
-            checkAlError();
+            checkAlcError();
             _context = AlNative.alcCreateContext(_device, null);
             checkAlcError();
             AlNative.alcMakeContextCurrent(_context);
@@ -26,7 +25,7 @@ namespace SharpAudio.AL
             int error = AlNative.alGetError();
             if (error != AlNative.AL_NO_ERROR)
             {
-                // throw new Exception("OpenAL Error: " + error);
+                throw new Exception("OpenAL Error: " + error);
             }
         }
 

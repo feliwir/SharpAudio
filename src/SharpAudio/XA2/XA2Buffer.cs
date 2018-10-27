@@ -17,8 +17,10 @@ namespace SharpAudio.XA2
             _buffer = new SharpDX.XAudio2.AudioBuffer();
         }
 
-        public override void BufferData<T>(T[] buffer, AudioFormat format, int sizeInBytes)
+        public override unsafe void BufferData<T>(T[] buffer, AudioFormat format)
         {
+            int sizeInBytes = sizeof(T) * buffer.Length;
+
             _dataStream?.Dispose();
             _dataStream = new DataStream(sizeInBytes, true, true);
             _dataStream.WriteRange(buffer, 0, buffer.Length);

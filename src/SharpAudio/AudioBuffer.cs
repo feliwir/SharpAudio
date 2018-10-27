@@ -16,7 +16,7 @@ namespace SharpAudio
         /// </summary>
         public AudioFormat Format => _format;
 
-        public abstract void BufferData<T>(T[] buffer, AudioFormat format, int sizeInBytes) where T : struct;
+        public abstract void BufferData<T>(T[] buffer, AudioFormat format) where T : unmanaged;
         public abstract void Dispose();
     }
 }

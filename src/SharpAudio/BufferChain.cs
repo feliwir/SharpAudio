@@ -20,16 +20,22 @@ namespace SharpAudio
             }
         }
 
-        public AudioBuffer BufferData<T>(T[] buffer, AudioFormat format, int sizeInBytes) where T : struct
+        public AudioBuffer BufferData<T>(T[] buffer, AudioFormat format) where T : unmanaged
         {
             var buf = _buffers[_currentBuffer];
 
-            _buffers[_currentBuffer].BufferData(buffer, format, sizeInBytes);
+            _buffers[_currentBuffer].BufferData(buffer, format);
 
             _currentBuffer++;
             _currentBuffer %= 3;
 
             return buf;
+        }
+
+        public void QueryData<T>(AudioSource target, T[] buffer, AudioFormat format) where T : unmanaged
+        {
+            var buf = BufferData(buffer, format);
+            target.QueryBuffer(buf);
         }
 
 
