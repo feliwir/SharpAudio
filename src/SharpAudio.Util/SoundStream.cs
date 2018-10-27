@@ -18,7 +18,12 @@ namespace SharpAudio.Util
                             (byte)magic[3]};
         }
 
-        public AudioFormat Format => _decoder.Format; 
+        /// <summary>
+        /// The audio format of this stream
+        /// </summary>
+        public AudioFormat Format => _decoder.Format;
+
+        public bool IsFinished => _decoder.IsFinished;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundStream"/> class.
@@ -47,6 +52,10 @@ namespace SharpAudio.Util
             }
         }
 
+        /// <summary>
+        /// Real all samples from this stream
+        /// </summary>
+        /// <returns></returns>
         public byte[] ReadAll()
         {
             _decoder.GetSamples(out byte[] data);
@@ -54,6 +63,11 @@ namespace SharpAudio.Util
             return data;
         }
 
+        /// <summary>
+        /// Read a specific amount of samples
+        /// </summary>
+        /// <param name="numSamples">The amount of samples</param>
+        /// <returns></returns>
         public byte[] ReadSamples(int numSamples)
         {
             _decoder.GetSamples(numSamples, out byte[] data);
@@ -61,6 +75,11 @@ namespace SharpAudio.Util
             return data;
         }
 
+        /// <summary>
+        /// Read a specific duration of samples
+        /// </summary>
+        /// <param name="span">The timespan</param>
+        /// <returns></returns>
         public byte[] ReadSamples(TimeSpan span)
         {
             int numSamples = span.Seconds * Format.SampleRate * Format.Channels;

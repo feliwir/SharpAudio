@@ -10,6 +10,8 @@ namespace SharpAudio.Util
 
         public AudioFormat Format => _audioFormat;
 
+        public abstract bool IsFinished { get; }
+
         /// <summary>
         /// Initializes a decoder
         /// </summary>

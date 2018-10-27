@@ -62,6 +62,11 @@ namespace SharpAudio
             return CreateDefault(new AudioEngineOptions());
         }
 
+        /// <summary>
+        /// Create the default backend for the current operating system
+        /// </summary>
+        /// <param name="options">the settings for this audio engine</param>
+        /// <returns></returns>
         public static AudioEngine CreateDefault(AudioEngineOptions options)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))

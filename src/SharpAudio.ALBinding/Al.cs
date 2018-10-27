@@ -123,6 +123,11 @@ namespace SharpAudio.ALBinding
         public static void alSourceQueueBuffers(uint source, int n, uint[] sources) => s_al_sourceQueueBuffers(source, n, sources);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void AL_sourceUnqueueBuffers_t(uint source, int n, uint[] buffers);
+        private static AL_sourceUnqueueBuffers_t s_al_sourceUnqueueBuffers;
+        public static void alSourceUnqueueBuffers(uint source, int n, uint[] sources) => s_al_sourceUnqueueBuffers(source, n, sources);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void AL_sourcePlay_t(uint source);
         private static AL_sourcePlay_t s_al_sourcePlay;
         public static void alSourcePlay(uint source) => s_al_sourcePlay(source);
@@ -152,6 +157,7 @@ namespace SharpAudio.ALBinding
 
             s_al_sourcePlay = LoadFunction<AL_sourcePlay_t>("alSourcePlay");
             s_al_sourceQueueBuffers = LoadFunction<AL_sourceQueueBuffers_t>("alSourceQueueBuffers");
+            s_al_sourceUnqueueBuffers = LoadFunction<AL_sourceUnqueueBuffers_t>("alSourceUnqueueBuffers");
 
             s_al_getSourcei = LoadFunction<AL_getSourcei_t>("alGetSourcei");
 

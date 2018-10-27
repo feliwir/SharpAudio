@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace SharpAudio.XA2
 {
-    class XA2Engine : AudioEngine
+    internal class XA2Engine : AudioEngine
     {
         private XAudio2 _device;
         private MasteringVoice _master;

@@ -3,7 +3,7 @@ using SharpDX.XAudio2;
 
 namespace SharpAudio.XA2
 {
-    class XA2Source : AudioSource
+    internal class XA2Source : AudioSource
     {
         private readonly XA2Engine _engine;
         private SourceVoice _voice;
@@ -35,7 +35,7 @@ namespace SharpAudio.XA2
 
         public override bool IsPlaying()
         {
-            return _voice?.State.BuffersQueued > 0;
+            return _voice?.State.BuffersQueued>0;
         }
 
         public override void Play()

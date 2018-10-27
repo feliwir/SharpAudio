@@ -3,11 +3,18 @@ using System;
 
 namespace SharpAudio.AL
 {
-    class ALSource : AudioSource
+    internal class ALSource : AudioSource
     {
         private uint _source;
 
-        public override int BuffersQueued => throw new NotImplementedException();
+        public override int BuffersQueued
+        {
+            get
+            {
+                AlNative.alGetSourcei(_source, AlNative.AL_BUFFERS_QUEUED, out int bufs);
+                return bufs;
+            }
+        }
 
         public override float Volume
         {
@@ -26,17 +33,24 @@ namespace SharpAudio.AL
         public override void Dispose()
         {
             AlNative.alDeleteSources(1, new uint[] { _source });
+            ALEngine.checkAlError();
         }
 
         public override void Flush()
         {
-            throw new NotImplementedException();
+            //TODO: not sure if we should unquery buffers here. Investigate
         }
 
         public override bool IsPlaying()
         {
             AlNative.alGetSourcei(_source, AlNative.AL_SOURCE_STATE, out int state);
-            return state == AlNative.AL_PLAYING;
+            bool playing = state == AlNative.AL_PLAYING;
+
+            if(!playing)
+            {
+                int a = 0;
+            }
+            return playing;
         }
 
         public override void Play()
@@ -47,6 +61,16 @@ namespace SharpAudio.AL
 
         public override void QueryBuffer(AudioBuffer buffer)
         {
+            //before querying new data check if sth was processed already:
+            AlNative.alGetSourcei(_source, AlNative.AL_BUFFERS_PROCESSED, out int processed);
+            ALEngine.checkAlError();
+
+            while ((processed--)>0)
+            {
+                var bufs = new uint[] { 1 };
+                AlNative.alSourceUnqueueBuffers(_source, 1, bufs);
+            }
+
             var alBuffer = (ALBuffer)buffer;
             AlNative.alSourceQueueBuffers(_source, 1, new uint[] { alBuffer.Buffer });
             ALEngine.checkAlError();

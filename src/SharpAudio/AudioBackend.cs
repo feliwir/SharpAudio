@@ -9,11 +9,11 @@ namespace SharpAudio
     /// </summary>
     public enum AudioBackend
     {
-        // <summary>
+        /// <summary>
         /// XAudio2
         /// </summary>
         XAudio2,
-        // <summary>
+        /// <summary>
         /// OpenAL
         /// </summary>
         OpenAL,

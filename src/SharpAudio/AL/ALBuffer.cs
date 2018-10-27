@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace SharpAudio.AL
 {
-    class ALBuffer : AudioBuffer
+    internal class ALBuffer : AudioBuffer
     {
         private uint _buffer;
 

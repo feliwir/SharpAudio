@@ -52,12 +52,15 @@ namespace SharpAudio.Util.Wave
             }
         }
 
+        public override bool IsFinished => _samplesLeft == 0;
+
         public override long GetSamples(int samples, out byte[] data)
         {
             long numSamples = Math.Min(samples, _samplesLeft);
             long byteSize = _audioFormat.BytesPerSample * numSamples;
+            long byteOffset = (_numSamples - _samplesLeft) * _audioFormat.BytesPerSample;
 
-            data = _decodedData.AsSpan<byte>().Slice((int)(_numSamples - _samplesLeft),(int)byteSize).ToArray();
+            data = _decodedData.AsSpan<byte>().Slice((int)(byteOffset),(int)byteSize).ToArray();
             _samplesLeft -= numSamples;
 
             return numSamples;

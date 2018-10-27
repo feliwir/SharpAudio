@@ -3,7 +3,7 @@ using System;
 
 namespace SharpAudio.AL
 {
-    class ALEngine : AudioEngine
+    internal class ALEngine : AudioEngine
     {
         private IntPtr _device;
         private IntPtr _context;

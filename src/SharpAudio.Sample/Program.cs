@@ -26,29 +26,44 @@ namespace SharpAudio.Sample
 
         private static void RunOptionsAndReturnExitCode(Options opts)
         {
-            var engine = AudioEngine.CreateDefault();
+            var engine = AudioEngine.CreateOpenAL();
+            var chain = new BufferChain(engine);
+            var source = engine.CreateSource();
 
             foreach (var file in opts.InputFiles)
             {
                 var soundStream = new SoundStream(File.OpenRead(file));
 
-                var data = soundStream.ReadSamples(TimeSpan.FromSeconds(5));
-
-                float duration = data.Length / (float)soundStream.Format.BytesPerSecond;
-
-                var buffer = engine.CreateBuffer();
-                buffer.BufferData(data, soundStream.Format, data.Length);
-
-                var source = engine.CreateSource();
+                var data = soundStream.ReadSamples(TimeSpan.FromSeconds(1));
+                var buffer = chain.BufferData(data, soundStream.Format, data.Length);
                 source.QueryBuffer(buffer);
+
+                data = soundStream.ReadSamples(TimeSpan.FromSeconds(1));
+                buffer = chain.BufferData(data, soundStream.Format, data.Length);
+                source.QueryBuffer(buffer);
+
                 source.Volume = opts.Volume / 100.0f;
 
                 source.Play();
 
                 while (source.IsPlaying())
                 {
+                    if(soundStream.IsFinished)
+                    {
+                        int a = 0;
+                    }
+
+                    if(source.BuffersQueued<3 && !soundStream.IsFinished)
+                    {
+                        data = soundStream.ReadSamples(TimeSpan.FromSeconds(1));
+                        buffer = chain.BufferData(data, soundStream.Format, data.Length);
+                        source.QueryBuffer(buffer);
+                    }
+
                     Thread.Sleep(100);
                 }
+
+                source.Flush();
             }
         }
     }

@@ -2,7 +2,7 @@
 
 namespace SharpAudio.XA2
 {
-    class XA2Buffer : AudioBuffer
+    internal class XA2Buffer : AudioBuffer
     {
         private DataStream _dataStream;
         private SharpDX.XAudio2.AudioBuffer _buffer;

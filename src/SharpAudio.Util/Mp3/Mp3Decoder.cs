@@ -17,6 +17,8 @@ namespace SharpAudio.Util.Mp3
             _audioFormat.SampleRate = _mp3Stream.Frequency;
         }
 
+        public override bool IsFinished => _mp3Stream.IsEOF;
+
         public override long GetSamples(int samples, out byte[] data)
         {
             int bytes = _audioFormat.BytesPerSample * samples;
