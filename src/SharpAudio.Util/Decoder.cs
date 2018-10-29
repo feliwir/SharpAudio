@@ -3,23 +3,25 @@ using System.IO;
 
 namespace SharpAudio.Util
 {
-    internal abstract class Decoder : IDisposable
+    public abstract class Decoder
     {
-        //protected Stream _stream;
         protected AudioFormat _audioFormat;
-
-        public AudioFormat Format => _audioFormat;
-
-        public abstract bool IsFinished { get; }
+        protected int _numSamples = 0;
 
         /// <summary>
-        /// Initializes a decoder
+        /// The format of the decoded data
         /// </summary>
-        /// <param name="s">the input stream</param>
-        //protected Decoder(Stream s)
-        //{
-        //    _stream = s;
-        //}
+        public AudioFormat Format => _audioFormat;
+
+        /// <summary>
+        /// Specifies the length of the decoded data. If not available returns 0
+        /// </summary>
+        public virtual TimeSpan Duration => TimeSpan.FromSeconds((float)_numSamples / ( _audioFormat.SampleRate * _audioFormat.Channels));
+
+        /// <summary>
+        /// Wether or not the decoder reached the end of data
+        /// </summary>
+        public abstract bool IsFinished { get; }
 
         /// <summary>
         /// Reads the specified amount of samples
@@ -30,15 +32,26 @@ namespace SharpAudio.Util
         public abstract long GetSamples(int samples, out byte[] data);
 
         /// <summary>
-        /// Reads all available samples
+        /// Reads the specified amount of samples
+        /// </summary>
+        /// <param name="span"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public long GetSamples(TimeSpan span, out byte[] data)
+        {
+            int numSamples = span.Seconds * Format.SampleRate * Format.Channels;
+
+            return GetSamples(numSamples, out data);
+        }
+
+        /// <summary>
+        /// Read all samples from this stream
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public abstract long GetSamples(out byte[] data);
-
-        public void Dispose()
+        public long GetSamples(out byte[] data)
         {
-            //_stream.Close();
+            return GetSamples(_numSamples, out data);
         }
     }
 }

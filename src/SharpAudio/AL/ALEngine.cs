@@ -7,6 +7,7 @@ namespace SharpAudio.AL
     {
         private IntPtr _device;
         private IntPtr _context;
+        private bool _floatSupport;
 
         public override AudioBackend BackendType => AudioBackend.OpenAL;
 
@@ -18,6 +19,7 @@ namespace SharpAudio.AL
             checkAlcError();
             AlNative.alcMakeContextCurrent(_context);
             checkAlcError();
+            _floatSupport = AlNative.alIsExtensionPresent("AL_EXT_FLOAT32");
         }
 
         internal static void checkAlError()

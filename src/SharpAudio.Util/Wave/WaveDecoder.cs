@@ -24,8 +24,7 @@ namespace SharpAudio.Util.Wave
         private WaveFormat _format;
         private WaveFact _fact;
         private WaveData _data;
-        private long _numSamples;
-        private long _samplesLeft;
+        private int _samplesLeft;
         private byte[] _decodedData;
 
         public WaveDecoder(Stream s) 
@@ -56,7 +55,7 @@ namespace SharpAudio.Util.Wave
 
         public override long GetSamples(int samples, out byte[] data)
         {
-            long numSamples = Math.Min(samples, _samplesLeft);
+            int numSamples = Math.Min(samples, _samplesLeft);
             long byteSize = _audioFormat.BytesPerSample * numSamples;
             long byteOffset = (_numSamples - _samplesLeft) * _audioFormat.BytesPerSample;
 
@@ -64,15 +63,6 @@ namespace SharpAudio.Util.Wave
             _samplesLeft -= numSamples;
 
             return numSamples;
-        }
-
-        public override long GetSamples(out byte[] data)
-        {
-            data = _decodedData;
-
-            long samples = _samplesLeft;
-            _samplesLeft = 0;
-            return samples;
         }
     }
 }

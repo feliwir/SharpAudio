@@ -141,10 +141,18 @@ namespace SharpAudio.ALBinding
         private delegate void AL_sourcef_t(uint source, int param, float value);
         private static AL_sourcef_t s_al_sourcef;
         public static void alSourcef(uint source, int param, float value) => s_al_sourcef(source, param, value);
-        
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate bool AL_isExtensionPresent_t(string extname);
+        private static AL_isExtensionPresent_t s_al_isExtensionPresent;
+        public static bool alIsExtensionPresent(string extname) => s_al_isExtensionPresent(extname);
+
+
         private static void LoadAl()
         {
             s_al_getError = LoadFunction<AL_getError_t>("alGetError");
+
+            s_al_isExtensionPresent = LoadFunction<AL_isExtensionPresent_t>("alIsExtensionPresent");
 
             s_al_genBuffers = LoadFunction<AL_genBuffers_t>("alGenBuffers");
             s_al_deleteBuffers = LoadFunction<AL_deleteBuffers_t>("alDeleteBuffers");

@@ -16,17 +16,16 @@ namespace SharpAudio.Tests
 
             var waveStream = typeof(FileFormats).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.bach.wav");
 
-            var soundStream = new SoundStream(waveStream);
+            var engine = AudioEngine.CreateDefault();
+            var soundStream = new SoundStream(waveStream, engine);
 
             Assert.True(soundStream.Format.BitsPerSample == 16);
             Assert.True(soundStream.Format.Channels == 2);
             Assert.True(soundStream.Format.SampleRate == 44100);
 
-            var data = soundStream.ReadAll();
+            var duration = soundStream.Duration;
 
-            float duration = data.Length / (float)soundStream.Format.BytesPerSecond;
-
-            Assert.True(MathF.Round(duration) == 54);
+            Assert.True(duration.Seconds == 54);
         }
 
         [Fact]
@@ -36,17 +35,16 @@ namespace SharpAudio.Tests
 
             var mp3Stream = typeof(FileFormats).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.test.mp3");
 
-            var soundStream = new SoundStream(mp3Stream);
+            var engine = AudioEngine.CreateDefault();
+            var soundStream = new SoundStream(mp3Stream, engine);
 
             Assert.True(soundStream.Format.BitsPerSample == 16);
             Assert.True(soundStream.Format.Channels == 2);
             Assert.True(soundStream.Format.SampleRate == 44100);
 
-            // var data = soundStream.ReadAll();
+            var duration = soundStream.Duration;
 
-            // float duration = data.Length / (float)soundStream.Format.BytesPerSecond;
-
-            // Assert.True(MathF.Round(duration) == 54);
+            Assert.True(duration.Seconds == 27);
         }
     }
 }
