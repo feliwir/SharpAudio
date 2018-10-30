@@ -7,6 +7,7 @@ namespace SharpAudio.Util
     {
         protected AudioFormat _audioFormat;
         protected int _numSamples = 0;
+        protected int _readSize;
 
         /// <summary>
         /// The format of the decoded data
@@ -29,7 +30,7 @@ namespace SharpAudio.Util
         /// <param name="samples"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public abstract long GetSamples(int samples, out byte[] data);
+        public abstract long GetSamples(int samples, ref byte[] data);
 
         /// <summary>
         /// Reads the specified amount of samples
@@ -37,11 +38,11 @@ namespace SharpAudio.Util
         /// <param name="span"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public long GetSamples(TimeSpan span, out byte[] data)
+        public long GetSamples(TimeSpan span, ref byte[] data)
         {
             int numSamples = span.Seconds * Format.SampleRate * Format.Channels;
 
-            return GetSamples(numSamples, out data);
+            return GetSamples(numSamples, ref data);
         }
 
         /// <summary>
@@ -49,9 +50,9 @@ namespace SharpAudio.Util
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public long GetSamples(out byte[] data)
+        public long GetSamples(ref byte[] data)
         {
-            return GetSamples(_numSamples, out data);
+            return GetSamples(_numSamples, ref data);
         }
     }
 }

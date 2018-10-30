@@ -47,10 +47,17 @@ namespace SharpAudio
         /// Creates a new <see cref="AudioEngine"/> using OpenAL.
         /// </summary>
         /// <param name="options">the settings for this audio engine</param>
-        /// <returns>A new <see cref="AudioEngine"/> using the openal API.</returns>
+        /// <returns>A new <see cref="AudioEngine"/> using the openal API. If not possible returns null</returns>
         public static AudioEngine CreateOpenAL(AudioEngineOptions options)
         {
-            return new AL.ALEngine(options);
+            try
+            {
+                return new AL.ALEngine(options);
+            }
+            catch (System.TypeInitializationException e)
+            {
+                return null;
+            }
         }
 
         /// <summary>

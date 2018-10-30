@@ -16,6 +16,7 @@ namespace SharpAudio.Util
         private BufferChain _chain;
         private AudioBuffer _buffer;
         private bool _streamed;
+        private byte[] _data;
 
         private static byte[] MakeFourCC(string magic)
         {
@@ -97,17 +98,17 @@ namespace SharpAudio.Util
             if (_streamed)
             {
                 _chain = new BufferChain(engine);
-                _decoder.GetSamples(TimeSpan.FromSeconds(1), out byte[] data);
-                _chain.QueryData(_source, data, _decoder.Format);
+                _decoder.GetSamples(TimeSpan.FromSeconds(1), ref _data);
+                _chain.QueryData(_source, _data, _decoder.Format);
 
-                _decoder.GetSamples(TimeSpan.FromSeconds(1), out data);
-                _chain.QueryData(_source, data, _decoder.Format);
+                _decoder.GetSamples(TimeSpan.FromSeconds(1), ref _data);
+                _chain.QueryData(_source, _data, _decoder.Format);
             }
             else
             {
                 _buffer = engine.CreateBuffer();
-                _decoder.GetSamples(out byte[] data);
-                _buffer.BufferData(data, _decoder.Format);
+                _decoder.GetSamples(ref _data);
+                _buffer.BufferData(_data, _decoder.Format);
                 _source.QueryBuffer(_buffer);
             }
         }
@@ -127,8 +128,8 @@ namespace SharpAudio.Util
                     {
                         if (_source.BuffersQueued < 3 && !_decoder.IsFinished)
                         {
-                            _decoder.GetSamples(TimeSpan.FromSeconds(1), out byte[] data);
-                            _chain.QueryData(_source, data, Format);
+                            _decoder.GetSamples(TimeSpan.FromSeconds(1), ref _data);
+                            _chain.QueryData(_source, _data, Format);
                         }
 
                         Thread.Sleep(100);

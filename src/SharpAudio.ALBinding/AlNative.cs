@@ -35,8 +35,6 @@ namespace SharpAudio.ALBinding
                 names = new[] { "openal" };
             }
 
-            Debug.WriteLine("Test");
-
             NativeLibrary lib = new NativeLibrary(names);
             return lib;
         }

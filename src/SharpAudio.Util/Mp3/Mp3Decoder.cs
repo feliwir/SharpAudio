@@ -22,10 +22,11 @@ namespace SharpAudio.Util.Mp3
 
         public override bool IsFinished => _mp3Stream.Position == _mp3Stream.Length;
 
-        public override long GetSamples(int samples, out byte[] data)
+        public override long GetSamples(int samples, ref byte[] data)
         {
             int bytes = _audioFormat.BytesPerSample * samples;
-            data = new byte[bytes];
+            Array.Resize(ref data, bytes);
+
             int read = _mp3Stream.ReadSamplesInt16(data, 0, 2 * bytes);
 
             return read;

@@ -9,6 +9,7 @@ namespace SharpAudio.Util.Vorbis
     internal class VorbisDecoder : Decoder
     {
         private VorbisReader _reader;
+        private float[] _readBuf;
 
         public override bool IsFinished => throw new NotImplementedException();
 
@@ -17,16 +18,42 @@ namespace SharpAudio.Util.Vorbis
             _reader = new VorbisReader(s, true);
 
             _audioFormat.Channels = _reader.Channels;
-            _audioFormat.BitsPerSample = 32;
+            _audioFormat.BitsPerSample = 16;
             _audioFormat.SampleRate = _reader.SampleRate;
 
             _numSamples = (int)_reader.TotalSamples;
         }
 
-        public override long GetSamples(int samples, out byte[] data)
+        private static void CastBuffer(float[] inBuffer, byte[] outBuffer, int length)
+        {
+            for (int i = 0; i < length; i++)
+            {
+                var temp = (int)(short.MaxValue * inBuffer[i]);
+
+                if (temp > short.MaxValue)
+                {
+                    temp = short.MaxValue;
+                }
+                else if (temp < short.MinValue)
+                {
+                    temp = short.MinValue;
+                }
+
+                outBuffer[2 * i] = (byte)(((short)temp) & 0xFF);
+                outBuffer[2 * i + 1] = (byte)(((short)temp) >> 8);
+            }
+        }
+
+        public override long GetSamples(int samples, ref byte[] data)
         {
             int bytes = _audioFormat.BytesPerSample * samples;
-            data = new byte[bytes];
+            Array.Resize(ref data, bytes);
+
+            Array.Resize(ref _readBuf, samples);
+            _reader.ReadSamples(_readBuf, 0, samples);
+
+            CastBuffer(_readBuf, data, samples);
+
             return samples;
         }
     }

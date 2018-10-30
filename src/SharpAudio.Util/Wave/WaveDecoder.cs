@@ -53,7 +53,7 @@ namespace SharpAudio.Util.Wave
 
         public override bool IsFinished => _samplesLeft == 0;
 
-        public override long GetSamples(int samples, out byte[] data)
+        public override long GetSamples(int samples, ref byte[] data)
         {
             int numSamples = Math.Min(samples, _samplesLeft);
             long byteSize = _audioFormat.BytesPerSample * numSamples;
