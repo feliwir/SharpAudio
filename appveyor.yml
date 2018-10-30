@@ -6,6 +6,7 @@ before_build:
 
 build_script:
 - cmd: dotnet build -c Release src\SharpAudio\SharpAudio.csproj
+- cmd: dotnet build -c Release src\SharpAudio.ALBinding\SharpAudio.ALBinding.csproj
 - cmd: dotnet build -c Release src\SharpAudio.Util\SharpAudio.Util.csproj
 
 artifacts:
