@@ -138,6 +138,11 @@ namespace SharpAudio.ALBinding
         public static void alSourceStop(uint source) => s_al_sourceStop(source);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void AL_sourcei_t(uint source, int param, int value);
+        private static AL_sourcei_t s_al_sourcei;
+        public static void alSourcei(uint source, int param, int value) => s_al_sourcei(source, param, value);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void AL_getSourcei_t(uint source, int param, out int value);
         private static AL_getSourcei_t s_al_getSourcei;
         public static void alGetSourcei(uint source, int param, out int value) => s_al_getSourcei(source, param, out value);
@@ -146,6 +151,11 @@ namespace SharpAudio.ALBinding
         private delegate void AL_sourcef_t(uint source, int param, float value);
         private static AL_sourcef_t s_al_sourcef;
         public static void alSourcef(uint source, int param, float value) => s_al_sourcef(source, param, value);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void AL_getSourcef_t(uint source, int param, out float value);
+        private static AL_getSourcef_t s_al_getSourcef;
+        public static void alGetSourcef(uint source, int param, out float value) => s_al_getSourcef(source, param, out value);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate bool AL_isExtensionPresent_t(string extname);
@@ -173,9 +183,11 @@ namespace SharpAudio.ALBinding
             s_al_sourceQueueBuffers = LoadFunction<AL_sourceQueueBuffers_t>("alSourceQueueBuffers");
             s_al_sourceUnqueueBuffers = LoadFunction<AL_sourceUnqueueBuffers_t>("alSourceUnqueueBuffers");
 
+            s_al_sourcei = LoadFunction<AL_sourcei_t>("alSourcei");
             s_al_getSourcei = LoadFunction<AL_getSourcei_t>("alGetSourcei");
 
             s_al_sourcef = LoadFunction<AL_sourcef_t>("alSourcef");
+            s_al_getSourcef = LoadFunction<AL_getSourcef_t>("alGetSourcef");
         }
     }
 }

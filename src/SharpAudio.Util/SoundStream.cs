@@ -2,6 +2,7 @@
 using SharpAudio.Util.Vorbis;
 using SharpAudio.Util.Wave;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -17,6 +18,7 @@ namespace SharpAudio.Util
         private AudioBuffer _buffer;
         private bool _streamed;
         private byte[] _data;
+        private Stopwatch _timer;
 
         private static byte[] MakeFourCC(string magic)
         {
@@ -59,6 +61,11 @@ namespace SharpAudio.Util
         /// Duration when provided by the decoder. Otherwise 0
         /// </summary>
         public TimeSpan Duration => _decoder.Duration;
+
+        /// <summary>
+        /// Current position inside the stream
+        /// </summary>
+        public TimeSpan Position => _timer.Elapsed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundStream"/> class.
@@ -119,6 +126,7 @@ namespace SharpAudio.Util
         public void Play()
         {
             _source.Play();
+            _timer.Start();
 
             if (_streamed)
             {
@@ -134,6 +142,7 @@ namespace SharpAudio.Util
 
                         Thread.Sleep(100);
                     }
+                    _timer.Stop();
                 });
             }
         }
@@ -144,6 +153,7 @@ namespace SharpAudio.Util
         public void Stop()
         {
             _source.Stop();
+            _timer.Stop();
         }
 
         public void Dispose()

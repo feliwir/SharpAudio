@@ -24,6 +24,12 @@ namespace SharpAudio.AL
             set { _volume = value; AlNative.alSourcef(_source, AlNative.AL_GAIN, value); }
         }
 
+        public override bool Looping
+        {
+            get { return _looping; }
+            set { _looping = value; AlNative.alSourcei(_source, AlNative.AL_LOOPING, value ? 1 : 0); }
+        }
+
         public ALSource()
         {
             var sources = new uint[1];

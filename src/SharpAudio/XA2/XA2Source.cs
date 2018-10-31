@@ -17,6 +17,7 @@ namespace SharpAudio.XA2
         {
             WaveFormat wFmt = new WaveFormat(format.SampleRate, format.BitsPerSample, format.Channels);
             _voice = new SourceVoice(_engine.Device, wFmt);
+            _voice.SetVolume(_volume);
         }
 
         public override int BuffersQueued => _voice.State.BuffersQueued;
@@ -24,7 +25,13 @@ namespace SharpAudio.XA2
         public override float Volume
         {
             get { return _volume; }
-            set { _volume = value; _voice.SetVolume(value); }
+            set { _volume = value; _voice?.SetVolume(value); }
+        }
+
+        public override bool Looping
+        {
+            get { return _looping; }
+            set { _looping = value;}
         }
 
         public override void Dispose()
@@ -56,6 +63,10 @@ namespace SharpAudio.XA2
             }
 
             var xaBuffer = (XA2Buffer)buffer;
+            if (_looping)
+            {
+                xaBuffer.Buffer.LoopCount = SharpDX.XAudio2.AudioBuffer.LoopInfinite;
+            }
             _voice.SubmitSourceBuffer(xaBuffer.Buffer, null);
         }
 
