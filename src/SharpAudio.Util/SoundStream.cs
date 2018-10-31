@@ -118,6 +118,8 @@ namespace SharpAudio.Util
                 _buffer.BufferData(_data, _decoder.Format);
                 _source.QueryBuffer(_buffer);
             }
+
+            _timer = new Stopwatch();
         }
 
         /// <summary>
