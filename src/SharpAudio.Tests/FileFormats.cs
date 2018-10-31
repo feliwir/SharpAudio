@@ -12,8 +12,6 @@ namespace SharpAudio.Tests
         [Fact]
         public void Wave()
         {
-            var files = typeof(FileFormats).Assembly.GetManifestResourceNames();
-
             var waveStream = typeof(FileFormats).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.bach.wav");
 
             var engine = AudioEngine.CreateDefault();
@@ -31,8 +29,6 @@ namespace SharpAudio.Tests
         [Fact]
         public void Mp3()
         {
-            var files = typeof(FileFormats).Assembly.GetManifestResourceNames();
-
             var mp3Stream = typeof(FileFormats).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.test.mp3");
 
             var engine = AudioEngine.CreateDefault();
@@ -45,6 +41,23 @@ namespace SharpAudio.Tests
             var duration = soundStream.Duration;
 
             Assert.True(duration.Seconds == 27);
+        }
+
+        [Fact]
+        public void Vorbis()
+        {
+            var vorbisStream = typeof(FileFormats).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.Example.ogg");
+
+            var engine = AudioEngine.CreateDefault();
+            var soundStream = new SoundStream(vorbisStream, engine);
+
+            Assert.True(soundStream.Format.BitsPerSample == 16);
+            Assert.True(soundStream.Format.Channels == 2);
+            Assert.True(soundStream.Format.SampleRate == 44100);
+
+            var duration = soundStream.Duration;
+
+            Assert.True(duration.Seconds == 3);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace SharpAudio.Util.Wave
         }
     }
 
-    internal class WaveDecoder : Decoder
+    public class WaveDecoder : Decoder
     {
         private RiffHeader _header;
         private WaveFormat _format;

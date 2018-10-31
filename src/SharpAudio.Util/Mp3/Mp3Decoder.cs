@@ -4,7 +4,7 @@ using System.IO;
 
 namespace SharpAudio.Util.Mp3
 {
-    internal class Mp3Decoder : Decoder
+    public class Mp3Decoder : Decoder
     {
         private MpegFile _mp3Stream;
         private int _index = 0;

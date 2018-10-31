@@ -48,10 +48,6 @@ namespace SharpAudio.AL
             AlNative.alGetSourcei(_source, AlNative.AL_SOURCE_STATE, out int state);
             bool playing = state == AlNative.AL_PLAYING;
 
-            if(!playing)
-            {
-                int a = 0;
-            }
             return playing;
         }
 
@@ -86,7 +82,8 @@ namespace SharpAudio.AL
 
         public override void Stop()
         {
-            throw new NotImplementedException();
+            AlNative.alSourceStop(_source);
+            ALEngine.checkAlError();
         }
     }
 }

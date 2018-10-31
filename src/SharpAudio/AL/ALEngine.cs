@@ -27,7 +27,7 @@ namespace SharpAudio.AL
             int error = AlNative.alGetError();
             if (error != AlNative.AL_NO_ERROR)
             {
-                throw new Exception("OpenAL Error: " + error);
+                throw new SharpAudioException("OpenAL Error: " + error);
             }
         }
 
@@ -36,7 +36,7 @@ namespace SharpAudio.AL
             int error = AlNative.alcGetError(_device);
             if (error != AlNative.ALC_NO_ERROR)
             {
-                throw new Exception("OpenAL Error: " + error);
+                throw new SharpAudioException("OpenAL Error: " + error);
             }
         }
 

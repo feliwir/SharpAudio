@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using NVorbis;
 using System.IO;
-using System.Text;
 
 namespace SharpAudio.Util.Vorbis
 {
-    internal class VorbisDecoder : Decoder
+    public class VorbisDecoder : Decoder
     {
         private VorbisReader _reader;
         private float[] _readBuf;
