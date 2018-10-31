@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SharpAudio
 {
-    public sealed class BufferChain : IDisposable
+    public sealed class BufferChain
     {
         private List<AudioBuffer> _buffers;
         private readonly int _numBuffers = 3;
@@ -36,12 +36,6 @@ namespace SharpAudio
         {
             var buf = BufferData(buffer, format);
             target.QueryBuffer(buf);
-        }
-
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
         }
     }
 }

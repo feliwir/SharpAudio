@@ -148,7 +148,6 @@ namespace SharpAudio.Util
 
         public void Dispose()
         {
-            _chain?.Dispose();
             _buffer?.Dispose();
             _source.Dispose();
         }
