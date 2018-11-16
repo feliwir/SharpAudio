@@ -9,8 +9,8 @@ namespace SharpAudio
     /// </summary>
     public abstract class AudioSource : IDisposable
     {
-        protected float _volume;
-        protected bool _looping;
+        protected float _volume = 1.0f;
+        protected bool _looping = false;
 
         /// <summary>
         /// Return the number of buffers that are currently buffered
