@@ -87,9 +87,7 @@ namespace SharpAudio.Util
             else if (fourcc.SequenceEqual(MakeFourCC("ID3\u0001")) ||
                     fourcc.SequenceEqual(MakeFourCC("ID3\u0002")) ||
                     fourcc.SequenceEqual(MakeFourCC("ID3\u0003")) ||
-                    fourcc.SequenceEqual(new byte[] { 0xFF, 0xFB, 0xE0, 0x64 }) ||
-                    fourcc.SequenceEqual(new byte[] { 0xFF, 0xFB, 0xB2, 0x00 }) ||
-                    fourcc.SequenceEqual(new byte[] { 0xFF, 0xFB, 0xB0, 0x00 }))
+                    fourcc.AsSpan(0,2).SequenceEqual(new byte[] { 0xFF, 0xFB }))
             {
                 _decoder = new Mp3Decoder(stream);
                 _streamed = true;
