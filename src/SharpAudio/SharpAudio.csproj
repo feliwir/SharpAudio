@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="SharpDX.XAudio2" Version="4.2.0" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="2.2.33" PrivateAssets="all" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="2.2.31" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
