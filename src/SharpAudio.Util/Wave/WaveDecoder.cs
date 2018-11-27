@@ -5,6 +5,8 @@ namespace SharpAudio.Util.Wave
 {
     internal abstract class WavParser
     {
+        public abstract int BitsPerSample { get; }
+
         public abstract byte[] Parse(BinaryReader reader, int size, WaveFormat format);
 
         public static WavParser GetParser(WaveFormatType type)
@@ -40,10 +42,11 @@ namespace SharpAudio.Util.Wave
                 }
 
                 _data = WaveData.Parse(br);
-                _decodedData = WavParser.GetParser(_format.AudioFormat)
-                                       .Parse(br, (int)_data.SubChunkSize, _format);
+                var variant = WavParser.GetParser(_format.AudioFormat);
 
-                _audioFormat.BitsPerSample = _format.BitsPerSample;
+                _decodedData = variant.Parse(br, (int)_data.SubChunkSize, _format);
+
+                _audioFormat.BitsPerSample = variant.BitsPerSample;
                 _audioFormat.Channels = _format.NumChannels;
                 _audioFormat.SampleRate = (int)_format.SampleRate;
 

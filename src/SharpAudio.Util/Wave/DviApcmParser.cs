@@ -28,6 +28,9 @@ namespace SharpAudio.Util.Wave
               15289, 16818, 18500, 20350, 22385, 24623, 27086, 29794, 32767
             };
 
+        //DviAdpcm is always 16 bits
+        public override int BitsPerSample => 16;
+
         private Int16 Int16FromLittleEndianBytes(byte[] packed)
         {
             // This is always little endian, unlike the C# builtin for unpacking a byte array.
