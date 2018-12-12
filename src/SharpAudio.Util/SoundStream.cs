@@ -1,4 +1,5 @@
-﻿using SharpAudio.Util.Mp3;
+﻿using SharpAudio.Util.Flac;
+using SharpAudio.Util.Mp3;
 using SharpAudio.Util.Vorbis;
 using SharpAudio.Util.Wave;
 using System;
@@ -97,9 +98,14 @@ namespace SharpAudio.Util
                 _decoder = new VorbisDecoder(stream);
                 _streamed = true;
             }
+            else if (fourcc.SequenceEqual(MakeFourCC("fLaC")))
+            {
+                 _decoder = new FlacDecoder(stream);
+                _streamed = true;
+            }
             else
             {
-                throw new InvalidDataException("Unknown format: " + fourcc);
+                 throw new InvalidDataException("Unknown format: " + fourcc);
             }
 
             _source = engine.CreateSource();
