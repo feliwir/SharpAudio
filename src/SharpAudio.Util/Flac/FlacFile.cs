@@ -40,7 +40,7 @@ namespace SharpAudio.Util.Flac
         /// <summary>
         ///     Gets the output <see cref="CSCore.WaveFormat" /> of the decoder.
         /// </summary>
-        public AudioFormat WaveFormat
+        public AudioFormat AudioFormat
         {
             get { return _waveFormat; }
         }
@@ -345,11 +345,11 @@ namespace SharpAudio.Util.Flac
                 lock (_bufferLock)
                 {
                     value = Math.Max(Math.Min(value, Length), 0);
-                    value -= (value % WaveFormat.BlockAlign);
+                    value -= (value % AudioFormat.BlockAlign);
 
                     for (int i = 0; i < _scan.Frames.Count; i++)
                     {
-                        if ((value / WaveFormat.BlockAlign) <= _scan.Frames[i].SampleOffset)
+                        if ((value / AudioFormat.BlockAlign) <= _scan.Frames[i].SampleOffset)
                         {
                             if (i != 0)
                                 i--;
@@ -359,13 +359,13 @@ namespace SharpAudio.Util.Flac
                             if (_stream.Position >= _stream.Length)
                                 throw new EndOfStreamException("Stream got EOF.");
 #if DIAGNOSTICS
-                            _position = _scan.Frames[i].SampleOffset * WaveFormat.BlockAlign;
+                            _position = _scan.Frames[i].SampleOffset * AudioFormat.BlockAlign;
 #endif
                             _overflowCount = 0;
                             _overflowOffset = 0;
 
                             int diff = (int)(value - Position);
-                            diff -= (diff % WaveFormat.BlockAlign);
+                            diff -= (diff % AudioFormat.BlockAlign);
                             if (diff > 0)
                             {
                                 ReadBytes(_stream, diff);
@@ -388,7 +388,7 @@ namespace SharpAudio.Util.Flac
                 if (_disposed)
                     return 0;
                 if (CanSeek)
-                    return _scan.TotalSamples * WaveFormat.BlockAlign;
+                    return _scan.TotalSamples * AudioFormat.BlockAlign;
                 return -1;
             }
         }

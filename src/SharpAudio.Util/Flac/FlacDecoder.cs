@@ -12,7 +12,7 @@ namespace SharpAudio.Util.Flac
         public FlacDecoder(Stream s)
         {
             _flacStream = new FlacFile(s);
-            _audioFormat = _flacStream.WaveFormat;
+            _audioFormat = _flacStream.AudioFormat;
             _numSamples = (int)_flacStream.Length / sizeof(float);
         }
 
