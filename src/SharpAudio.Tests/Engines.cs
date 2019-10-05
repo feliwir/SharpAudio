@@ -38,7 +38,7 @@ namespace SharpAudio.Tests
 
             buffer.BufferData(samples, format);
 
-            source.QueryBuffer(buffer);
+            source.QueueBuffer(buffer);
 
             source.Play();
 

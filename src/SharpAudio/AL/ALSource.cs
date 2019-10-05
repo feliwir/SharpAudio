@@ -77,7 +77,7 @@ namespace SharpAudio.AL
             }
         }
 
-        public override void QueryBuffer(AudioBuffer buffer)
+        public override void QueueBuffer(AudioBuffer buffer)
         {
             RemoveProcessed();
 

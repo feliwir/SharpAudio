@@ -32,10 +32,10 @@ namespace SharpAudio
             return buf;
         }
 
-        public void QueryData<T>(AudioSource target, T[] buffer, AudioFormat format) where T : unmanaged
+        public void QueueData<T>(AudioSource target, T[] buffer, AudioFormat format) where T : unmanaged
         {
             var buf = BufferData(buffer, format);
-            target.QueryBuffer(buf);
+            target.QueueBuffer(buf);
         }
     }
 }

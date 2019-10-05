@@ -55,7 +55,7 @@ namespace SharpAudio.XA2
             _voice?.Stop();
         }
 
-        public override void QueryBuffer(AudioBuffer buffer)
+        public override void QueueBuffer(AudioBuffer buffer)
         {
             if (_voice == null)
             {

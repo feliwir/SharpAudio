@@ -31,7 +31,7 @@ namespace SharpAudio
         /// Queries to buffer to the playback queue
         /// </summary>
         /// <param name="buffer">the buffer to submit</param>
-        public abstract void QueryBuffer(AudioBuffer buffer);
+        public abstract void QueueBuffer(AudioBuffer buffer);
 
         /// <summary>
         /// Checks if this source is still playing

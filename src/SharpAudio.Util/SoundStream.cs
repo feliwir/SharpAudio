@@ -108,17 +108,17 @@ namespace SharpAudio.Util
             {
                 _chain = new BufferChain(engine);
                 _decoder.GetSamples(TimeSpan.FromSeconds(1), ref _data);
-                _chain.QueryData(_source, _data, _decoder.Format);
+                _chain.QueueData(_source, _data, _decoder.Format);
 
                 _decoder.GetSamples(TimeSpan.FromSeconds(1), ref _data);
-                _chain.QueryData(_source, _data, _decoder.Format);
+                _chain.QueueData(_source, _data, _decoder.Format);
             }
             else
             {
                 _buffer = engine.CreateBuffer();
                 _decoder.GetSamples(ref _data);
                 _buffer.BufferData(_data, _decoder.Format);
-                _source.QueryBuffer(_buffer);
+                _source.QueueBuffer(_buffer);
             }
 
             _timer = new Stopwatch();
@@ -141,7 +141,7 @@ namespace SharpAudio.Util
                         if (_source.BuffersQueued < 3 && !_decoder.IsFinished)
                         {
                             _decoder.GetSamples(TimeSpan.FromSeconds(1), ref _data);
-                            _chain.QueryData(_source, _data, Format);
+                            _chain.QueueData(_source, _data, Format);
                         }
 
                         Thread.Sleep(100);

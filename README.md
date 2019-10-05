@@ -34,7 +34,7 @@ SharpAudio provides a low-level interface that wraps audio sources & buffers:
 
     buffer.BufferData(samples, format);
 
-    source.QueryBuffer(buffer);
+    source.QueueBuffer(buffer);
 
     source.Play();
 ```
