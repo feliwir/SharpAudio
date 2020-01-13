@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2041
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpAudio", "SharpAudio\SharpAudio.csproj", "{AD19351A-0D24-444D-BD1D-6E341751AD37}"
 EndProject
@@ -10,11 +10,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpAudio.Tests", "SharpAu
 		{AD19351A-0D24-444D-BD1D-6E341751AD37} = {AD19351A-0D24-444D-BD1D-6E341751AD37}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpAudio.Util", "SharpAudio.Util\SharpAudio.Util.csproj", "{5986D531-84E3-4AD2-9401-6DAAC0B99A72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpAudio.Codec", "SharpAudio.Codec\SharpAudio.Codec.csproj", "{5986D531-84E3-4AD2-9401-6DAAC0B99A72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpAudio.Sample", "SharpAudio.Sample\SharpAudio.Sample.csproj", "{47471B24-824D-4F9F-8544-4628B9754232}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpAudio.Sample", "SharpAudio.Sample\SharpAudio.Sample.csproj", "{47471B24-824D-4F9F-8544-4628B9754232}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpAudio.ALBinding", "SharpAudio.ALBinding\SharpAudio.ALBinding.csproj", "{F81E95D5-F38D-4CC9-B7D3-749273EF3F2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpAudio.ALBinding", "SharpAudio.ALBinding\SharpAudio.ALBinding.csproj", "{F81E95D5-F38D-4CC9-B7D3-749273EF3F2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

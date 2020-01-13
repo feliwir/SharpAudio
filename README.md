@@ -39,7 +39,7 @@ SharpAudio provides a low-level interface that wraps audio sources & buffers:
     source.Play();
 ```
 
-A high level interface that can load and play sound files is provided in the SharpAudio.Util package:
+A high level interface that can load and play sound files is provided in the SharpAudio.Codec package:
 ```csharp
     var engine = AudioEngine.CreateDefault();
     var soundStream = new SoundStream(File.OpenRead("test.mp3"), engine);

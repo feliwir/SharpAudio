@@ -2,7 +2,7 @@
 using NVorbis;
 using System.IO;
 
-namespace SharpAudio.Util.Vorbis
+namespace SharpAudio.Codec.Vorbis
 {
     public class VorbisDecoder : Decoder
     {

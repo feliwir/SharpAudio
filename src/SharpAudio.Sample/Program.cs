@@ -1,4 +1,4 @@
-﻿using SharpAudio.Util;
+﻿using SharpAudio.Codec;
 using System;
 using System.IO;
 using System.Threading;

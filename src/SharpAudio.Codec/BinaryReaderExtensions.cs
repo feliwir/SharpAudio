@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace SharpAudio.Util
+namespace SharpAudio.Codec
 {
     internal static class BinaryReaderExtensions
     {

@@ -4,13 +4,12 @@ using System.Runtime.InteropServices;
 
 namespace SharpAudio.XA2
 {
-    internal class XA2Engine : AudioEngine
+    internal sealed class XA2Engine : AudioEngine
     {
-        private XAudio2 _device;
         private MasteringVoice _master;
 
         public override AudioBackend BackendType => AudioBackend.XAudio2;
-        public XAudio2 Device => _device;
+        public XAudio2 Device { get; }
 
         private const uint S_OK = 0;
         private const uint S_FALSE = 1;
@@ -33,15 +32,15 @@ namespace SharpAudio.XA2
         public XA2Engine(AudioEngineOptions options)
         {
             
-            _device = new XAudio2(XAudio2Flags.DebugEngine,ProcessorSpecifier.AnyProcessor);
+            Device = new XAudio2(XAudio2Flags.DebugEngine,ProcessorSpecifier.AnyProcessor);
 
-            _master = new MasteringVoice(_device,options.SampleChannels,options.SampleRate);
+            _master = new MasteringVoice(Device,options.SampleChannels,options.SampleRate);
         }
 
         protected override void PlatformDispose()
         {
             _master.Dispose();
-            _device.Dispose();
+            Device.Dispose();
         }
 
         public override AudioBuffer CreateBuffer()

@@ -6,11 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommandLineParser" Version="2.3.0" />
+    <PackageReference Include="CommandLineParser" Version="2.7.82" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SharpAudio.Util\SharpAudio.Util.csproj" />
+    <ProjectReference Include="..\SharpAudio.Codec\SharpAudio.Codec.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <PackageLicenseUrl>https://raw.githubusercontent.com/feliwir/SharpAudio/master/LICENSE</PackageLicenseUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Copyright>Copyright 2018 (c) Stephan Vedder. All rights reserved.</Copyright>
+    <Copyright>Copyright 2020 (c) Stephan Vedder. All rights reserved.</Copyright>
     <Authors>Stephan Vedder</Authors>
     <RepositoryUrl>https://github.com/feliwir/SharpAudio</RepositoryUrl>
   </PropertyGroup>

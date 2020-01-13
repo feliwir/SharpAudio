@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - master
+    tags:
+    - v*
+  pull_request:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+        include:
+        - os: windows-latest
+          runtime: win-x64
+        - os: ubuntu-latest
+          runtime: linux-x64
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.0.100
+
+    - name: Build
+      run: dotnet build src --configuration Release
+
+    - name: Test
+      run: dotnet test src --configuration Release --filter Category!=Interactive
+
+  publish:
+    needs: build
+
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Publish NuGet Packages
+      run: |
+           for f in ./src/*/bin/Release/*.nupkg
+           do
+             curl -vX PUT -u "feliwir:${{ secrets.GHPackagesToken }}" -F package=@$f https://nuget.pkg.github.com/feliwir/
+           done
+      shell: bash

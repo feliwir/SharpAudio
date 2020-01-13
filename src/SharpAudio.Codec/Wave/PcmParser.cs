@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace SharpAudio.Util.Wave
+namespace SharpAudio.Codec.Wave
 {
     internal class PcmParser : WavParser
     {

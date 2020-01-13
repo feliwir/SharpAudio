@@ -3,7 +3,7 @@ using System;
 
 namespace SharpAudio.AL
 {
-    internal class ALSource : AudioSource
+    internal sealed class ALSource : AudioSource
     {
         private uint _source;
 

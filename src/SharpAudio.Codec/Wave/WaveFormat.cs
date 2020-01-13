@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace SharpAudio.Util.Wave
+namespace SharpAudio.Codec.Wave
 {
     enum WaveFormatType : UInt16
     {

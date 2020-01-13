@@ -2,19 +2,18 @@
 
 namespace SharpAudio.XA2
 {
-    internal class XA2Buffer : AudioBuffer
+    internal sealed class XA2Buffer : AudioBuffer
     {
         private DataStream _dataStream;
-        private SharpDX.XAudio2.AudioBuffer _buffer;
 
-        public SharpDX.XAudio2.AudioBuffer Buffer => _buffer;
+        public SharpDX.XAudio2.AudioBuffer Buffer { get; }
 
         public int SizeInBytes { get; private set; }
         public int TotalSamples => SizeInBytes / Format.BytesPerSample;
 
         public XA2Buffer()
         {
-            _buffer = new SharpDX.XAudio2.AudioBuffer();
+            Buffer = new SharpDX.XAudio2.AudioBuffer();
         }
 
         public override unsafe void BufferData<T>(T[] buffer, AudioFormat format)
@@ -28,8 +27,8 @@ namespace SharpAudio.XA2
 
             _format = format;
             SizeInBytes = sizeInBytes;
-            _buffer.AudioDataPointer = _dataStream.PositionPointer;
-            _buffer.AudioBytes = SizeInBytes;
+            Buffer.AudioDataPointer = _dataStream.PositionPointer;
+            Buffer.AudioBytes = SizeInBytes;
         }
 
         public override void Dispose()

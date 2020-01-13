@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace SharpAudio.Util.Mp3
+namespace SharpAudio.Codec.Mp3
 {
     public class Mp3Decoder : Decoder
     {

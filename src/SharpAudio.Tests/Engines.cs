@@ -6,13 +6,13 @@ namespace SharpAudio.Tests
 {
     public class Engines
     {
-        [Fact]
+        [BackendFact(AudioBackend.XAudio2)]
         public void CreateXAudio()
         {
             TestEngine(AudioEngine.CreateXAudio());
         }
 
-        [Fact]
+        [BackendFact(AudioBackend.OpenAL)]
         public void CreateOpenAL()
         {
             TestEngine(AudioEngine.CreateOpenAL());

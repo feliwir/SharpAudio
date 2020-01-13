@@ -1,7 +1,6 @@
 ﻿using System;
-using System.IO;
 
-namespace SharpAudio.Util
+namespace SharpAudio.Codec
 {
     public abstract class Decoder
     {
@@ -54,5 +53,7 @@ namespace SharpAudio.Util
         {
             return GetSamples(_numSamples, ref data);
         }
+
+        public bool Probe(ref byte[] fourcc) => false;
     }
 }

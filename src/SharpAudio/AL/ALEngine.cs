@@ -3,11 +3,11 @@ using System;
 
 namespace SharpAudio.AL
 {
-    internal class ALEngine : AudioEngine
+    internal sealed class ALEngine : AudioEngine
     {
         private IntPtr _device;
         private IntPtr _context;
-        private bool _floatSupport;
+        private readonly bool _floatSupport;
 
         public override AudioBackend BackendType => AudioBackend.OpenAL;
 

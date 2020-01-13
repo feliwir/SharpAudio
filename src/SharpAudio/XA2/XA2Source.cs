@@ -3,7 +3,7 @@ using SharpDX.XAudio2;
 
 namespace SharpAudio.XA2
 {
-    internal class XA2Source : AudioSource
+    internal sealed class XA2Source : AudioSource
     {
         private readonly XA2Engine _engine;
         private SourceVoice _voice;
