@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.48" PrivateAssets="all" />
     <PackageReference Include="NativeLibraryLoader" Version="1.0.12" />
   </ItemGroup>
 

@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.48" PrivateAssets="all" />
     <PackageReference Include="NLayer.Core" Version="1.15.0" />
     <PackageReference Include="NVorbis" Version="0.9.0" />
     <PackageReference Include="System.Memory" Version="4.5.3" />
