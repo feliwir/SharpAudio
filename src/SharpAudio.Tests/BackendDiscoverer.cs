@@ -52,7 +52,11 @@ namespace SharpAudio.Tests
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                AvailableBackends.Add(AudioBackend.OpenAL);
+                var engine = AudioEngine.CreateOpenAL();
+                if (engine != null)
+                {
+                    AvailableBackends.Add(AudioBackend.OpenAL);
+                }
             }
         }
     }

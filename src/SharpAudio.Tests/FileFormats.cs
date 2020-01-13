@@ -9,7 +9,7 @@ namespace SharpAudio.Tests
 {
     public class FileFormats
     {
-        [Fact]
+        [BackendFact(AudioBackend.OpenAL, AudioBackend.XAudio2)]
         public void Wave()
         {
             var waveStream = typeof(FileFormats).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.bach.wav");
@@ -26,7 +26,7 @@ namespace SharpAudio.Tests
             Assert.True(duration.Seconds == 54);
         }
 
-        [Fact]
+        [BackendFact(AudioBackend.OpenAL, AudioBackend.XAudio2)]
         public void Mp3()
         {
             var mp3Stream = typeof(FileFormats).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.test.mp3");
@@ -43,7 +43,7 @@ namespace SharpAudio.Tests
             Assert.True(duration.Seconds == 27);
         }
 
-        [Fact]
+        [BackendFact(AudioBackend.OpenAL, AudioBackend.XAudio2)]
         public void Vorbis()
         {
             var vorbisStream = typeof(FileFormats).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.Example.ogg");
