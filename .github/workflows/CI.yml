@@ -22,9 +22,8 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      uses: aarnott/nbgv@master
+    - uses: actions/checkout@v2
+    - uses: aarnott/nbgv@master
 
     - name: Install .NET Core
       uses: actions/setup-dotnet@v1
