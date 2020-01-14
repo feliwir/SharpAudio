@@ -8,7 +8,7 @@ Supported backends:
 
 # Build status
 
-[![Build status](https://ci.appveyor.com/api/projects/status/c3e98wk0mwcsje00?svg=true)](https://ci.appveyor.com/project/feliwir/sharpaudio)
+[![Build Status](https://github.com/feliwir/SharpAudio/workflows/CI/badge.svg)](https://github.com/feliwir/SharpAudio/actions)
 [![MyGet Badge](https://buildstats.info/myget/feliwir/SharpAudio)](https://www.myget.org/feed/feliwir/package/nuget/SharpAudio)
 
 # Example
@@ -29,7 +29,7 @@ SharpAudio provides a low-level interface that wraps audio sources & buffers:
 
     for (int i = 0; i < size; i++)
     {
-    samples[i] = (short)(32760 * Math.Sin((2 * Math.PI * freq) / size * i));
+        samples[i] = (short)(32760 * Math.Sin((2 * Math.PI * freq) / size * i));
     }
 
     buffer.BufferData(samples, format);
@@ -44,7 +44,7 @@ A high level interface that can load and play sound files is provided in the Sha
     var engine = AudioEngine.CreateDefault();
     var soundStream = new SoundStream(File.OpenRead("test.mp3"), engine);
 
-    soundStream.Volume = 50.0f
+    soundStream.Volume = 50.0f;
     soundStream.Play();
 ```
 

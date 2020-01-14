@@ -48,7 +48,7 @@ jobs:
     steps:
     - name: Publish NuGet Packages
       run: |
-           for f in ./src/*/bin/Release/*.nupkg
+           for f in ./src/SharpAudio/bin/Release/*.nupkg
            do
              curl -vX PUT -u "feliwir:${{ secrets.GHPackagesToken }}" -F package=@$f https://nuget.pkg.github.com/feliwir/
            done
