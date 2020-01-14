@@ -62,7 +62,7 @@ jobs:
 
     - name: Upload NuGet packages
       run: |
-           for f in ./build/artifacts/*.nupkg
+           for f in ./*.nupkg
            do
              curl -vX PUT -u "feliwir:${{ secrets.GITHUB_TOKEN }}" -F package=@$f https://nuget.pkg.github.com/feliwir/
            done
