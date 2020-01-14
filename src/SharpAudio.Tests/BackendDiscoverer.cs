@@ -48,7 +48,11 @@ namespace SharpAudio.Tests
             AvailableBackends = new HashSet<AudioBackend>();
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                AvailableBackends.Add(AudioBackend.XAudio2);
+                var engine = AudioEngine.CreateXAudio();
+                if (engine != null)
+                {
+                    AvailableBackends.Add(AudioBackend.XAudio2);
+                }
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {

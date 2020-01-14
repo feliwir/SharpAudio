@@ -31,7 +31,14 @@ namespace SharpAudio
         /// <returns>A new <see cref="AudioEngine"/> using the XAudio 2 API.</returns>
         public static AudioEngine CreateXAudio(AudioEngineOptions options)
         {
-            return new XA2.XA2Engine(options);
+            try
+            {
+                return new XA2.XA2Engine(options);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -54,7 +61,7 @@ namespace SharpAudio
             {
                 return new AL.ALEngine(options);
             }
-            catch (System.TypeInitializationException e)
+            catch (TypeInitializationException)
             {
                 return null;
             }
