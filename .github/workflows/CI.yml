@@ -38,6 +38,15 @@ jobs:
     - name: Test
       run: dotnet test src --configuration Release --filter Category!=Interactive
 
+    - name: Pack
+      run: dotnet pack src --configuration Release --output build/artifacts/${{ matrix.runtime }}
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: ${{ matrix.runtime }}
+        path: build/artifacts/${{ matrix.runtime }}
+
   publish:
     needs: build
 
@@ -46,7 +55,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Publish NuGet Packages
-      run: ./publish.sh
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Download Artifacts linux-x64
+      uses: actions/download-artifact@v1
+      with:
+        name: linux-x64
+
+    - name: Upload NuGet packages
+      run: |
+      for f in ./build/artifacts/*.nupkg
+      do
+        curl -vX PUT -u "feliwir:$GITHUB_TOKEN" -F package=@$f https://nuget.pkg.github.com/feliwir/
+      done
+    shell: bash
