@@ -19,6 +19,7 @@ SharpAudio provides a low-level interface that wraps audio sources & buffers:
     var buffer = engine.CreateBuffer();
     var source = engine.CreateSource();
 
+    // Play a 1s long sound at 440hz
     AudioFormat format;
     format.BitsPerSample = 16;
     format.Channels = 1;
