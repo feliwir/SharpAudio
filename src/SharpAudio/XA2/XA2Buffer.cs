@@ -1,4 +1,6 @@
-﻿using SharpDX;
+﻿using System;
+using System.Runtime.InteropServices;
+using SharpDX;
 
 namespace SharpAudio.XA2
 {
@@ -20,9 +22,30 @@ namespace SharpAudio.XA2
         {
             int sizeInBytes = sizeof(T) * buffer.Length;
 
+            var handle = GCHandle.Alloc(buffer);
+            IntPtr ptr = Marshal.UnsafeAddrOfPinnedArrayElement(buffer, 0);
+
+            BufferData(ptr, sizeInBytes, format);
+
+            handle.Free();
+        }
+
+        public override unsafe void BufferData<T>(Span<T> buffer, AudioFormat format)
+        {
+            int sizeInBytes = sizeof(T) * buffer.Length;
+
+            fixed (T* ptr = buffer)
+            {
+                BufferData((IntPtr) ptr, sizeInBytes, format);
+            }
+        }
+
+        public override void BufferData(IntPtr buffer, int sizeInBytes, AudioFormat format)
+        {
             _dataStream?.Dispose();
             _dataStream = new DataStream(sizeInBytes, true, true);
-            _dataStream.WriteRange(buffer, 0, buffer.Length);
+
+            _dataStream.WriteRange(buffer, sizeInBytes);
             _dataStream.Position = 0;
 
             _format = format;
@@ -34,6 +57,6 @@ namespace SharpAudio.XA2
         public override void Dispose()
         {
             _dataStream?.Dispose();
-         }
+        }
     }
 }

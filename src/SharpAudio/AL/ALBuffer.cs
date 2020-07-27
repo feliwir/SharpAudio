@@ -16,24 +16,41 @@ namespace SharpAudio.AL
             Buffer = buffers[0];
         }
 
-        public override unsafe void BufferData<T>(T[] buffer, AudioFormat format)
+        public override unsafe void BufferData(IntPtr ptr, int sizeInBytes, AudioFormat format)
         {
-            int fmt = (format.Channels==2) ? AlNative.AL_FORMAT_STEREO8 : AlNative.AL_FORMAT_MONO8;
-            int sizeInBytes = sizeof(T) * buffer.Length;
+            int fmt = (format.Channels == 2) ? AlNative.AL_FORMAT_STEREO8 : AlNative.AL_FORMAT_MONO8;
 
-            if (format.BitsPerSample==16)
+            if (format.BitsPerSample == 16)
             {
                 fmt++;
             }
 
-            var handle = GCHandle.Alloc(buffer);
-            IntPtr ptr = Marshal.UnsafeAddrOfPinnedArrayElement(buffer, 0);
-
             AlNative.alBufferData(Buffer, fmt, ptr, sizeInBytes, format.SampleRate);
             ALEngine.checkAlError();
 
-            handle.Free();
             _format = format;
+        }
+
+        public override unsafe void BufferData<T>(T[] buffer, AudioFormat format)
+        {
+            int sizeInBytes = sizeof(T) * buffer.Length;
+
+            var handle = GCHandle.Alloc(buffer);
+            IntPtr ptr = Marshal.UnsafeAddrOfPinnedArrayElement(buffer, 0);
+
+            BufferData(ptr, sizeInBytes, format);
+
+            handle.Free();
+        }
+
+        public override unsafe void BufferData<T>(Span<T> buffer, AudioFormat format)
+        {
+            int sizeInBytes = sizeof(T) * buffer.Length;
+
+            fixed (T* ptr = buffer)
+            {
+                BufferData((IntPtr) ptr, sizeInBytes, format);
+            }
         }
 
         public override void Dispose()

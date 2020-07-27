@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SharpAudio
 {
@@ -17,6 +15,9 @@ namespace SharpAudio
         public AudioFormat Format => _format;
 
         public abstract void BufferData<T>(T[] buffer, AudioFormat format) where T : unmanaged;
+        public abstract void BufferData<T>(Span<T> buffer, AudioFormat format) where T : unmanaged;
+        public abstract void BufferData(IntPtr buffer, int sizeInBytes, AudioFormat format);
+
         public abstract void Dispose();
     }
 }

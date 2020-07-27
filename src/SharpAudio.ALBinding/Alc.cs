@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+#pragma warning disable CS1591
+
 namespace SharpAudio.ALBinding
 {
     public static unsafe partial class AlNative
