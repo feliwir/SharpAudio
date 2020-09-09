@@ -2,7 +2,7 @@
 
 namespace SharpAudio.Codec
 {
-    public abstract class Decoder
+    public abstract class Decoder : IDisposable
     {
         protected AudioFormat _audioFormat;
         protected int _numSamples = 0;
@@ -55,5 +55,13 @@ namespace SharpAudio.Codec
         }
 
         public bool Probe(ref byte[] fourcc) => false;
+
+        public virtual void Dispose()
+        {  }
+
+        public virtual bool TrySeek(TimeSpan time)
+        { 
+            return false;
+        }
     }
 }
