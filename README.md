@@ -9,7 +9,6 @@ Supported backends:
 # Build status
 
 ![Build Status](https://github.com/feliwir/SharpAudio/workflows/CI/badge.svg?branch=master&event=push)
-[![MyGet Badge](https://buildstats.info/myget/feliwir/SharpAudio)](https://www.myget.org/feed/feliwir/package/nuget/SharpAudio)
 
 # Example
 
