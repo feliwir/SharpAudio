@@ -25,7 +25,7 @@ namespace SharpAudio
         /// Gives the number of bytes per sample
         /// </summary>
         public int BytesPerSample => BitsPerSample / 8;
- 
+
         /// <summary>
         /// Gives the number of bytes that is processed per second
         /// </summary>

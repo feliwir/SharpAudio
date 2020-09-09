@@ -54,7 +54,7 @@ namespace SharpAudio.Codec.Wave
                 throw new InvalidDataException("Invalid or missing .wav file format chunk!");
             }
             format.SubChunkSize = reader.ReadUInt32();
-            format.AudioFormat = (WaveFormatType)reader.ReadUInt16();
+            format.AudioFormat = (WaveFormatType) reader.ReadUInt16();
             format.NumChannels = reader.ReadUInt16();
             format.SampleRate = reader.ReadUInt32();
             format.ByteRate = reader.ReadUInt32();

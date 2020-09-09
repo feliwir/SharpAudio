@@ -14,15 +14,15 @@ namespace SharpAudio.ALBinding
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                names = new[] 
-                { 
+                names = new[]
+                {
                     "OpenAL32.dll",
-                    "soft_oal.dll" 
+                    "soft_oal.dll"
                 };
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                names = new[] 
+                names = new[]
                 {
                     "libopenal.so",
                     "libopenal.so.1"
@@ -30,10 +30,10 @@ namespace SharpAudio.ALBinding
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                names = new[] 
-                { 
+                names = new[]
+                {
                     "libopenal.dylib",
-                    "soft_oal.so" 
+                    "soft_oal.so"
                 };
             }
             else

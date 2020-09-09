@@ -1,6 +1,6 @@
-﻿using SharpDX.XAudio2;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
+using SharpDX.XAudio2;
 
 namespace SharpAudio.XA2
 {
@@ -18,7 +18,7 @@ namespace SharpAudio.XA2
         private const uint COINIT_APARTMENTTHREADED = 0x2;
 
         [DllImport("ole32.dll", SetLastError = true, CallingConvention = CallingConvention.StdCall)]
-        private static extern uint CoInitializeEx([In, Optional] IntPtr pvReserved, [In]uint dwCoInit);
+        private static extern uint CoInitializeEx([In, Optional] IntPtr pvReserved, [In] uint dwCoInit);
 
         static XA2Engine()
         {
@@ -31,10 +31,10 @@ namespace SharpAudio.XA2
 
         public XA2Engine(AudioEngineOptions options)
         {
-            
-            Device = new XAudio2(XAudio2Flags.DebugEngine,ProcessorSpecifier.AnyProcessor);
 
-            _master = new MasteringVoice(Device,options.SampleChannels,options.SampleRate);
+            Device = new XAudio2(XAudio2Flags.DebugEngine, ProcessorSpecifier.AnyProcessor);
+
+            _master = new MasteringVoice(Device, options.SampleChannels, options.SampleRate);
         }
 
         protected override void PlatformDispose()

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using Xunit;
 
@@ -33,7 +33,7 @@ namespace SharpAudio.Tests
 
             for (int i = 0; i < size; i++)
             {
-                samples[i] = (short)(32760 * Math.Sin((2 * Math.PI * freq) / size * i));
+                samples[i] = (short) (32760 * Math.Sin((2 * Math.PI * freq) / size * i));
             }
 
             buffer.BufferData(samples, format);

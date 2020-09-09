@@ -1,8 +1,8 @@
-﻿using SharpAudio.Codec;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using SharpAudio.Codec;
 using Xunit;
 
 namespace SharpAudio.Tests

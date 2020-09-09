@@ -1,6 +1,6 @@
-﻿using SharpAudio.ALBinding;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
+using SharpAudio.ALBinding;
 
 namespace SharpAudio.AL
 {

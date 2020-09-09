@@ -31,7 +31,7 @@ namespace SharpAudio.XA2
         public override bool Looping
         {
             get { return _looping; }
-            set { _looping = value;}
+            set { _looping = value; }
         }
 
         public override void Dispose()
@@ -42,7 +42,7 @@ namespace SharpAudio.XA2
 
         public override bool IsPlaying()
         {
-            return _voice?.State.BuffersQueued>0;
+            return _voice?.State.BuffersQueued > 0;
         }
 
         public override void Play()
@@ -62,7 +62,7 @@ namespace SharpAudio.XA2
                 SetupVoice(buffer.Format);
             }
 
-            var xaBuffer = (XA2Buffer)buffer;
+            var xaBuffer = (XA2Buffer) buffer;
             if (_looping)
             {
                 xaBuffer.Buffer.LoopCount = SharpDX.XAudio2.AudioBuffer.LoopInfinite;

@@ -20,7 +20,7 @@ namespace SharpAudio
         /// <summary>
         /// Set the volume of this source. Ranges for 0 to 1.
         /// </summary>
-        public abstract float Volume { get ; set; }
+        public abstract float Volume { get; set; }
 
         /// <summary>
         /// Set the volume of this source. Ranges for 0 to 1.

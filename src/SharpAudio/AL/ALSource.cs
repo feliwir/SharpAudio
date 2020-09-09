@@ -1,5 +1,5 @@
-﻿using SharpAudio.ALBinding;
-using System;
+﻿using System;
+using SharpAudio.ALBinding;
 
 namespace SharpAudio.AL
 {
@@ -81,7 +81,7 @@ namespace SharpAudio.AL
         {
             RemoveProcessed();
 
-            var alBuffer = (ALBuffer)buffer;
+            var alBuffer = (ALBuffer) buffer;
             AlNative.alSourceQueueBuffers(_source, 1, new uint[] { alBuffer.Buffer });
             ALEngine.checkAlError();
         }

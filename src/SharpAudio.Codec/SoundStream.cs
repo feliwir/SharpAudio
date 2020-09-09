@@ -1,13 +1,13 @@
-﻿using SharpAudio.Codec.Mp3;
-using SharpAudio.Codec.Vorbis;
-using SharpAudio.Codec.Wave;
-using SharpAudio.Codec.FFmpeg;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using SharpAudio.Codec.FFmpeg;
+using SharpAudio.Codec.Mp3;
+using SharpAudio.Codec.Vorbis;
+using SharpAudio.Codec.Wave;
 
 namespace SharpAudio.Codec
 {
@@ -87,7 +87,7 @@ namespace SharpAudio.Codec
             else if (fourcc.SequenceEqual(MakeFourCC("ID3\u0001")) ||
                     fourcc.SequenceEqual(MakeFourCC("ID3\u0002")) ||
                     fourcc.SequenceEqual(MakeFourCC("ID3\u0003")) ||
-                    fourcc.AsSpan(0,2).SequenceEqual(new byte[] { 0xFF, 0xFB }))
+                    fourcc.AsSpan(0, 2).SequenceEqual(new byte[] { 0xFF, 0xFB }))
             {
                 _decoder = new Mp3Decoder(stream);
                 IsStreamed = true;

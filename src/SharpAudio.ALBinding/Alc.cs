@@ -42,9 +42,9 @@ namespace SharpAudio.ALBinding
         public static int alcGetError(IntPtr device) => s_alc_getError(device);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate IntPtr ALC_createContext_t(IntPtr device,int[] attribs);
+        private delegate IntPtr ALC_createContext_t(IntPtr device, int[] attribs);
         private static ALC_createContext_t s_alc_createContext;
-        public static IntPtr alcCreateContext(IntPtr device, int[] attribs) => s_alc_createContext(device,attribs);
+        public static IntPtr alcCreateContext(IntPtr device, int[] attribs) => s_alc_createContext(device, attribs);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void ALC_makeContextCurrent_t(IntPtr context);

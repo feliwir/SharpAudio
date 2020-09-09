@@ -21,10 +21,10 @@ namespace SharpAudio.Codec
     {
         public static byte[] ReadFourCc(this Stream reader, bool bigEndian = false)
         {
-            byte a = (byte)reader.ReadByte();
-            byte b = (byte)reader.ReadByte();
-            byte c = (byte)reader.ReadByte();
-            byte d = (byte)reader.ReadByte();
+            byte a = (byte) reader.ReadByte();
+            byte b = (byte) reader.ReadByte();
+            byte c = (byte) reader.ReadByte();
+            byte d = (byte) reader.ReadByte();
 
             return new[] { a, b, c, d };
         }

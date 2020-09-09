@@ -14,7 +14,7 @@ namespace SharpAudio
         {
             _buffers = new List<AudioBuffer>();
 
-            for (int i=0;i<_numBuffers;i++)
+            for (int i = 0; i < _numBuffers; i++)
             {
                 _buffers.Add(engine.CreateBuffer());
             }
