@@ -350,13 +350,16 @@ namespace SharpAudio.Codec.FFmpeg
             }
         }
 
-        public override void TrySeek(TimeSpan time)
+        public override bool TrySeek(TimeSpan time)
         {
             if (!doSeek & targetStream.CanSeek)
             {
                 doSeek = true;
                 seekTimeTarget = time;
+                return true;
             }
+
+            return false;
         }
 
         public override void Dispose()

@@ -1,6 +1,7 @@
 ﻿using SharpAudio.Codec.Mp3;
 using SharpAudio.Codec.Vorbis;
 using SharpAudio.Codec.Wave;
+using SharpAudio.Codec.FFmpeg;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -98,7 +99,8 @@ namespace SharpAudio.Codec
             }
             else
             {
-                throw new InvalidDataException("Unknown format: " + fourcc);
+                _decoder = new FFmpegDecoder(stream);
+                IsStreamed = true;
             }
 
             Source = engine.CreateSource();
