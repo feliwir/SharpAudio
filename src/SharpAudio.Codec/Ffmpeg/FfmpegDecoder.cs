@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -106,7 +106,7 @@ namespace SharpAudio.Codec.FFmpeg
                 var readCount = targetStream.Read(ffmpegFSBuf, 0, ffmpegFSBuf.Length);
 
                 if (readCount > 0)
-                    Marshal.Copy(ffmpegFSBuf, 0, (IntPtr)targetBuffer, readCount);
+                    Marshal.Copy(ffmpegFSBuf, 0, (IntPtr) targetBuffer, readCount);
                 else
                     return ffmpeg.AVERROR_EOF; // fixes Invalid return value 0 for stream protocol.
                                                // related problem: https://trac.mplayerhq.hu/ticket/2335
@@ -130,7 +130,7 @@ namespace SharpAudio.Codec.FFmpeg
                 case 0:
                 case 1:
                 case 2:
-                    origin = (SeekOrigin)whence;
+                    origin = (SeekOrigin) whence;
                     break;
                 default:
                     return ffmpeg.AVERROR_EOF;
@@ -142,14 +142,14 @@ namespace SharpAudio.Codec.FFmpeg
 
         private unsafe void Ffmpeg_Initialize()
         {
-            var inputBuffer = (byte*)ffmpeg.av_malloc(fsStreamSize);
+            var inputBuffer = (byte*) ffmpeg.av_malloc(fsStreamSize);
 
             avioRead = Read;
             avioSeek = Seek;
 
             ff.ioContext = ffmpeg.avio_alloc_context(inputBuffer, fsStreamSize, 0, null, avioRead, null, avioSeek);
 
-            if ((int)ff.ioContext == 0) throw new FormatException("FFMPEG: Unable to allocate IO stream context.");
+            if ((int) ff.ioContext == 0) throw new FormatException("FFMPEG: Unable to allocate IO stream context.");
 
             ff.format_context = ffmpeg.avformat_alloc_context();
             ff.format_context->pb = ff.ioContext;
@@ -185,7 +185,7 @@ namespace SharpAudio.Codec.FFmpeg
 
             // Fixes SWR @ 0x2192200] Input channel count and layout are unset error.
             if (ff.av_codec->channel_layout == 0)
-                ff.av_codec->channel_layout = (ulong)ffmpeg.av_get_default_channel_layout(ff.av_codec->channels);
+                ff.av_codec->channel_layout = (ulong) ffmpeg.av_get_default_channel_layout(ff.av_codec->channels);
 
             // ff.av_codec->request_channel_layout = (ulong)ffmpeg.av_get_default_channel_layout(ff.av_codec->channels);
             // ff.av_codec->request_sample_fmt = _DESIRED_SAMPLE_FORMAT;
@@ -196,7 +196,7 @@ namespace SharpAudio.Codec.FFmpeg
                 ffmpeg.av_get_default_channel_layout(_DESIRED_CHANNEL_COUNT),
                 _DESIRED_SAMPLE_FORMAT,
                 _DESIRED_SAMPLE_RATE,
-                (long)ff.av_codec->channel_layout,
+                (long) ff.av_codec->channel_layout,
                 ff.av_codec->sample_fmt,
                 ff.av_codec->sample_rate,
                 0,
@@ -223,7 +223,7 @@ namespace SharpAudio.Codec.FFmpeg
             _audioFormat.SampleRate = _DESIRED_SAMPLE_RATE;
             _audioFormat.Channels = _DESIRED_CHANNEL_COUNT;
             _audioFormat.BitsPerSample = 16;
-            _numSamples = (int)(ff.format_context->duration / (float)ffmpeg.AV_TIME_BASE * _DESIRED_SAMPLE_RATE *
+            _numSamples = (int) (ff.format_context->duration / (float) ffmpeg.AV_TIME_BASE * _DESIRED_SAMPLE_RATE *
                                  _DESIRED_CHANNEL_COUNT);
         }
 
@@ -246,7 +246,7 @@ namespace SharpAudio.Codec.FFmpeg
                 {
                     if (doSeek)
                     {
-                        var seek = (long)(seekTimeTarget.TotalSeconds / ffmpeg.av_q2d(ff.av_stream->time_base));
+                        var seek = (long) (seekTimeTarget.TotalSeconds / ffmpeg.av_q2d(ff.av_stream->time_base));
                         ffmpeg.av_seek_frame(ff.format_context, stream_index, seek, ffmpeg.AVSEEK_FLAG_BACKWARD);
                         ffmpeg.avcodec_flush_buffers(ff.av_stream->codec);
                         ff.av_packet = ffmpeg.av_packet_alloc();
@@ -273,7 +273,7 @@ namespace SharpAudio.Codec.FFmpeg
                             if (anchorNewPos)
                             {
                                 double pts = ff.av_src_frame->pts;
-                                pts *= ff.av_stream->time_base.num / (double)ff.av_stream->time_base.den;
+                                pts *= ff.av_stream->time_base.num / (double) ff.av_stream->time_base.den;
                                 curPos = TimeSpan.FromSeconds(pts);
                                 anchorNewPos = false;
                             }
@@ -306,7 +306,7 @@ namespace SharpAudio.Codec.FFmpeg
 
             if (res > 0)
             {
-                var x = res / (double)sampleByteSize;
+                var x = res / (double) sampleByteSize;
                 curPos += TimeSpan.FromSeconds(x);
 
                 if (data.Length != res)
@@ -323,16 +323,16 @@ namespace SharpAudio.Codec.FFmpeg
         {
             ff.av_dst_frame = ffmpeg.av_frame_alloc();
             ff.av_dst_frame->sample_rate = _DESIRED_SAMPLE_RATE;
-            ff.av_dst_frame->format = (int)_DESIRED_SAMPLE_FORMAT;
+            ff.av_dst_frame->format = (int) _DESIRED_SAMPLE_FORMAT;
             ff.av_dst_frame->channels = _DESIRED_CHANNEL_COUNT;
-            ff.av_dst_frame->channel_layout = (ulong)ffmpeg.av_get_default_channel_layout(ff.av_dst_frame->channels);
+            ff.av_dst_frame->channel_layout = (ulong) ffmpeg.av_get_default_channel_layout(ff.av_dst_frame->channels);
 
             ffmpeg.swr_convert_frame(ff.swr_context, ff.av_dst_frame, ff.av_src_frame);
 
             var bufferSize = ffmpeg.av_samples_get_buffer_size(null,
                 ff.av_dst_frame->channels,
                 ff.av_dst_frame->nb_samples,
-                (AVSampleFormat)ff.av_dst_frame->format,
+                (AVSampleFormat) ff.av_dst_frame->format,
                 1);
 
             if (bufferSize <= 0) throw new Exception($"ffmpeg returned an invalid buffer size {bufferSize}");

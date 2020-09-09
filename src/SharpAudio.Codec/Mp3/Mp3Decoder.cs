@@ -1,6 +1,6 @@
-﻿using NLayer;
-using System;
+﻿using System;
 using System.IO;
+using NLayer;
 
 namespace SharpAudio.Codec.Mp3
 {
@@ -17,7 +17,7 @@ namespace SharpAudio.Codec.Mp3
             _audioFormat.BitsPerSample = 16;
             _audioFormat.SampleRate = _mp3Stream.SampleRate;
 
-            _numSamples = (int)_mp3Stream.Length / sizeof(float);
+            _numSamples = (int) _mp3Stream.Length / sizeof(float);
         }
 
         public override bool IsFinished => _mp3Stream.Position == _mp3Stream.Length;

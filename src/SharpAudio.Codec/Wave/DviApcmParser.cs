@@ -34,7 +34,7 @@ namespace SharpAudio.Codec.Wave
         private Int16 Int16FromLittleEndianBytes(byte[] packed)
         {
             // This is always little endian, unlike the C# builtin for unpacking a byte array.
-            return (short)(packed[1] << 8 | packed[0]);
+            return (short) (packed[1] << 8 | packed[0]);
         }
 
         public override byte[] Parse(BinaryReader reader, int size, WaveFormat format)

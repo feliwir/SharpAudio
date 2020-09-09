@@ -29,7 +29,7 @@ namespace SharpAudio.Codec.Wave
         private int _samplesLeft;
         private byte[] _decodedData;
 
-        public WaveDecoder(Stream s) 
+        public WaveDecoder(Stream s)
         {
             using (BinaryReader br = new BinaryReader(s))
             {
@@ -44,11 +44,11 @@ namespace SharpAudio.Codec.Wave
                 _data = WaveData.Parse(br);
                 var variant = WavParser.GetParser(_format.AudioFormat);
 
-                _decodedData = variant.Parse(br, (int)_data.SubChunkSize, _format);
+                _decodedData = variant.Parse(br, (int) _data.SubChunkSize, _format);
 
                 _audioFormat.BitsPerSample = variant.BitsPerSample;
                 _audioFormat.Channels = _format.NumChannels;
-                _audioFormat.SampleRate = (int)_format.SampleRate;
+                _audioFormat.SampleRate = (int) _format.SampleRate;
 
                 _numSamples = _samplesLeft = _decodedData.Length / _audioFormat.BytesPerSample;
             }
@@ -62,7 +62,7 @@ namespace SharpAudio.Codec.Wave
             long byteSize = _audioFormat.BytesPerSample * numSamples;
             long byteOffset = (_numSamples - _samplesLeft) * _audioFormat.BytesPerSample;
 
-            data = _decodedData.AsSpan<byte>().Slice((int)(byteOffset),(int)byteSize).ToArray();
+            data = _decodedData.AsSpan<byte>().Slice((int) (byteOffset), (int) byteSize).ToArray();
             _samplesLeft -= numSamples;
 
             return numSamples;

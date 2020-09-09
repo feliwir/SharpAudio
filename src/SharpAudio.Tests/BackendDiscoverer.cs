@@ -21,8 +21,8 @@ namespace SharpAudio.Tests
         public IEnumerable<IXunitTestCase> Discover(ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo factAttribute)
         {
             var arguments = factAttribute.GetConstructorArguments().ToList();
-            var backend = (AudioBackend)arguments[0];
-            var otherBackends = (AudioBackend[])arguments[1];
+            var backend = (AudioBackend) arguments[0];
+            var otherBackends = (AudioBackend[]) arguments[1];
 
             var backends = new[] { backend }.Union(otherBackends).ToArray();
 
