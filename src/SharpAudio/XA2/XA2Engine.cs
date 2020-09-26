@@ -6,7 +6,7 @@ namespace SharpAudio.XA2
 {
     internal sealed class XA2Engine : AudioEngine
     {
-        private MasteringVoice _master;
+        internal MasteringVoice MasterVoice { get; }
 
         public override AudioBackend BackendType => AudioBackend.XAudio2;
         public XAudio2 Device { get; }
@@ -31,15 +31,13 @@ namespace SharpAudio.XA2
 
         public XA2Engine(AudioEngineOptions options)
         {
-
             Device = new XAudio2(XAudio2Flags.DebugEngine, ProcessorSpecifier.AnyProcessor);
-
-            _master = new MasteringVoice(Device, options.SampleChannels, options.SampleRate);
+            MasterVoice = new MasteringVoice(Device, options.SampleChannels, options.SampleRate);
         }
 
         protected override void PlatformDispose()
         {
-            _master.Dispose();
+            MasterVoice.Dispose();
             Device.Dispose();
         }
 
@@ -51,6 +49,11 @@ namespace SharpAudio.XA2
         public override AudioSource CreateSource()
         {
             return new XA2Source(this);
+        }
+
+        public override Audio3DEngine Create3DEngine()
+        {
+            return new XA23DEngine(this);
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SharpAudio
+﻿namespace SharpAudio
 {
     /// <summary>
     /// The specific graphics API used by the <see cref="AudioEngine"/>.

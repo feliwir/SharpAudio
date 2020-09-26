@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace SharpAudio
 {
@@ -95,7 +93,17 @@ namespace SharpAudio
         /// <returns>A new <see cref="AudioBuffer"/></returns>
         public abstract AudioBuffer CreateBuffer();
 
+        /// <summary>
+        /// Creates a new <see cref="AudioSource"/> with this engine.
+        /// </summary>
+        /// <returns>A new <see cref="AudioSource"/></returns>
         public abstract AudioSource CreateSource();
+
+        /// <summary>
+        /// Creates a new <see cref="Audio3DEngine"/> with this engine.
+        /// </summary>
+        /// <returns>A new <see cref="Audio3DEngine"/></returns>
+        public abstract Audio3DEngine Create3DEngine();
 
 
         /// <summary>

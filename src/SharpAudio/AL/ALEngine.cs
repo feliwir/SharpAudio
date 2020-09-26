@@ -55,5 +55,10 @@ namespace SharpAudio.AL
             AlNative.alcDestroyContext(_context);
             AlNative.alcCloseDevice(_device);
         }
+
+        public override Audio3DEngine Create3DEngine()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using Xunit;
 
 namespace SharpAudio.Tests
 {
@@ -23,18 +22,7 @@ namespace SharpAudio.Tests
             var buffer = engine.CreateBuffer();
             var source = engine.CreateSource();
 
-            AudioFormat format;
-            format.BitsPerSample = 16;
-            format.Channels = 1;
-            format.SampleRate = 44100;
-            float freq = 440.0f;
-            var size = format.SampleRate;
-            var samples = new short[size];
-
-            for (int i = 0; i < size; i++)
-            {
-                samples[i] = (short) (32760 * Math.Sin((2 * Math.PI * freq) / size * i));
-            }
+            var samples = TestUtil.CreateBeep(440.0f, TimeSpan.FromSeconds(1), out var format);
 
             buffer.BufferData(samples, format);
 
