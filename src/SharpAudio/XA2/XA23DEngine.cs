@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Numerics;
 using SharpDX.X3DAudio;
 using SharpDX.Mathematics.Interop;
-using SharpDX.XAudio2;
 using SharpDX.Multimedia;
 
 namespace SharpAudio.XA2
 {
-    class XA23DEngine : Audio3DEngine
+    internal sealed class XA23DEngine : Audio3DEngine
     {
         X3DAudio _x3DAudio;
         Listener _x3DListener;
@@ -27,10 +25,6 @@ namespace SharpAudio.XA2
             _x3DEmitters = new Dictionary<AudioSource, Emitter>();
         }
 
-        public override void Dispose()
-        {
-        }
-
         public override void SetListenerPosition(Vector3 position)
         {
             _x3DListener.Position = new RawVector3(position.X, position.Y, position.Z);
@@ -43,7 +37,7 @@ namespace SharpAudio.XA2
             if (!_x3DEmitters.TryGetValue(source, out var emitter))
             {
                 emitter = new Emitter();
-                emitter.CurveDistanceScaler = 10.0f;
+                emitter.CurveDistanceScaler = float.MinValue;
                 emitter.OrientTop = new RawVector3(0, 0, 1);
                 emitter.OrientFront = new RawVector3(0, 1, 0);
 
@@ -59,6 +53,12 @@ namespace SharpAudio.XA2
 
             _x3DAudio.Calculate(_x3DListener, emitter, CalculateFlags.Matrix, dspSettings);
             xa2Source.SourceVoice.SetOutputMatrix(_engine.MasterVoice, 1, outChannels, dspSettings.MatrixCoefficients);
+        }
+
+        public override void SetListenerOrientation(Vector3 top, Vector3 front)
+        {
+            _x3DListener.OrientTop = new RawVector3(top.X, top.Y, top.Z);
+            _x3DListener.OrientFront = new RawVector3(front.X, front.Y, front.Z);
         }
     }
 }

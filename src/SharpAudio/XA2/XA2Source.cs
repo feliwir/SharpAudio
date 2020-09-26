@@ -6,18 +6,28 @@ namespace SharpAudio.XA2
     internal sealed class XA2Source : AudioSource
     {
         private readonly XA2Engine _engine;
+        private readonly XA2Submixer _submixer;
 
         internal SourceVoice SourceVoice { get; private set; }
 
-        public XA2Source(XA2Engine engine)
+        public XA2Source(XA2Engine engine, XA2Submixer submixer)
         {
             _engine = engine;
+            _submixer = submixer;
         }
 
         private void SetupVoice(AudioFormat format)
         {
+
             WaveFormat wFmt = new WaveFormat(format.SampleRate, format.BitsPerSample, format.Channels);
             SourceVoice = new SourceVoice(_engine.Device, wFmt);
+
+            if (_submixer != null)
+            {
+                var vsDesc = new VoiceSendDescriptor(_submixer.SubMixerVoice);
+                SourceVoice.SetOutputVoices(new VoiceSendDescriptor[] { vsDesc });
+            }
+
             SourceVoice.SetVolume(_volume);
         }
 

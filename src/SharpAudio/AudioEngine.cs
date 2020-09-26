@@ -96,8 +96,9 @@ namespace SharpAudio
         /// <summary>
         /// Creates a new <see cref="AudioSource"/> with this engine.
         /// </summary>
+        /// <param name="mixer">The mixer this sound will be added to</param>
         /// <returns>A new <see cref="AudioSource"/></returns>
-        public abstract AudioSource CreateSource();
+        public abstract AudioSource CreateSource(Submixer mixer = null);
 
         /// <summary>
         /// Creates a new <see cref="Audio3DEngine"/> with this engine.
@@ -105,6 +106,11 @@ namespace SharpAudio
         /// <returns>A new <see cref="Audio3DEngine"/></returns>
         public abstract Audio3DEngine Create3DEngine();
 
+        /// <summary>
+        /// Creates a new <see cref="Submixer"/> with this engine.
+        /// </summary>
+        /// <returns>A new <see cref="Submixer"/></returns>
+        public abstract Submixer CreateSubmixer();
 
         /// <summary>
         /// Performs API-specific disposal of resources controlled by this instance.

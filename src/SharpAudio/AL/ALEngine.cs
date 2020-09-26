@@ -45,11 +45,6 @@ namespace SharpAudio.AL
             return new ALBuffer();
         }
 
-        public override AudioSource CreateSource()
-        {
-            return new ALSource();
-        }
-
         protected override void PlatformDispose()
         {
             AlNative.alcDestroyContext(_context);
@@ -57,6 +52,16 @@ namespace SharpAudio.AL
         }
 
         public override Audio3DEngine Create3DEngine()
+        {
+            return new AL3DEngine();
+        }
+
+        public override AudioSource CreateSource(Submixer mixer = null)
+        {
+            return new ALSource();
+        }
+
+        public override Submixer CreateSubmixer()
         {
             throw new NotImplementedException();
         }

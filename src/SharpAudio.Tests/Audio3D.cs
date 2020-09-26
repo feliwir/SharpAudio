@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Numerics;
-using System.Text;
 using System.Threading;
 
 namespace SharpAudio.Tests
@@ -36,8 +34,8 @@ namespace SharpAudio.Tests
             leftSource.QueueBuffer(buffer);
             rightSource.QueueBuffer(buffer);
 
-            audio3d.SetSourcePosition(leftSource, Vector3.UnitY * -10);
-            audio3d.SetSourcePosition(rightSource, Vector3.UnitY * 10);
+            audio3d.SetSourcePosition(leftSource, Vector3.UnitX * -10);
+            audio3d.SetSourcePosition(rightSource, Vector3.UnitX * 10);
 
             leftSource.Play();
 
