@@ -18,6 +18,7 @@ namespace SharpAudio.Codec
         private AudioBuffer _buffer;
         private byte[] _data;
         private Stopwatch _timer;
+        private Task _playTask;
 
         private static byte[] MakeFourCC(string magic)
         {
@@ -71,7 +72,7 @@ namespace SharpAudio.Codec
         /// </summary>
         /// <param name="stream">The sound stream.</param>
         /// <param name="engine">The audio engine</param>
-        public SoundStream(Stream stream, AudioEngine engine)
+        public SoundStream(Stream stream, AudioEngine engine, Submixer mixer = null)
         {
             if (stream == null)
                 throw new ArgumentNullException("Stream cannot be null!");
@@ -103,7 +104,7 @@ namespace SharpAudio.Codec
                 IsStreamed = true;
             }
 
-            Source = engine.CreateSource();
+            Source = engine.CreateSource(mixer);
 
             if (IsStreamed)
             {
@@ -135,7 +136,7 @@ namespace SharpAudio.Codec
 
             if (IsStreamed)
             {
-                var t = Task.Run(() =>
+                _playTask = Task.Run(() =>
                 {
                     while (Source.IsPlaying())
                     {
@@ -163,6 +164,8 @@ namespace SharpAudio.Codec
 
         public void Dispose()
         {
+            Stop();
+            _playTask.Wait();
             _buffer?.Dispose();
             Source.Dispose();
         }
