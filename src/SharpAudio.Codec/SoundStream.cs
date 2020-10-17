@@ -19,6 +19,7 @@ namespace SharpAudio.Codec
         private byte[] _data;
         private Stopwatch _timer;
         private Task _playTask;
+        private CancellationTokenSource _cancelToken;
 
         private static byte[] MakeFourCC(string magic)
         {
@@ -124,6 +125,7 @@ namespace SharpAudio.Codec
             }
 
             _timer = new Stopwatch();
+            _cancelToken = new CancellationTokenSource();
         }
 
         /// <summary>
@@ -146,10 +148,15 @@ namespace SharpAudio.Codec
                             _chain.QueueData(Source, _data, Format);
                         }
 
+                        if (_cancelToken.IsCancellationRequested)
+                        {
+                            break;
+                        }
+
                         Thread.Sleep(100);
                     }
                     _timer.Stop();
-                });
+                }, _cancelToken.Token);
             }
         }
 
@@ -164,8 +171,8 @@ namespace SharpAudio.Codec
 
         public void Dispose()
         {
-            Stop();
-            _playTask.Wait();
+            _cancelToken.Cancel();
+            _playTask?.Wait();
             _buffer?.Dispose();
             Source.Dispose();
         }
