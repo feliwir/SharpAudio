@@ -1,6 +1,4 @@
-﻿using FFmpeg.AutoGen;
-
-namespace SharpAudio.Codec.FFmpeg
+﻿namespace SharpAudio.Codec.FFmpeg
 {
     internal unsafe struct FFmpegPointers
     {

@@ -12,8 +12,8 @@ namespace SharpAudio.Codec
             var d = reader.ReadChar();
 
             return bigEndian
-                ? new string(new[] { d, c, b, a })
-                : new string(new[] { a, b, c, d });
+                ? new string(new[] {d, c, b, a})
+                : new string(new[] {a, b, c, d});
         }
     }
 
@@ -21,12 +21,12 @@ namespace SharpAudio.Codec
     {
         public static byte[] ReadFourCc(this Stream reader, bool bigEndian = false)
         {
-            byte a = (byte) reader.ReadByte();
-            byte b = (byte) reader.ReadByte();
-            byte c = (byte) reader.ReadByte();
-            byte d = (byte) reader.ReadByte();
+            var a = (byte) reader.ReadByte();
+            var b = (byte) reader.ReadByte();
+            var c = (byte) reader.ReadByte();
+            var d = (byte) reader.ReadByte();
 
-            return new[] { a, b, c, d };
+            return new[] {a, b, c, d};
         }
     }
 }

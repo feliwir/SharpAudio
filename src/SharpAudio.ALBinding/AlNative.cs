@@ -1,12 +1,19 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
-using NativeLibraryLoader;
 
 namespace SharpAudio.ALBinding
 {
-    public static unsafe partial class AlNative
+    public static partial class AlNative
     {
         private static readonly NativeLibrary m_alLibrary;
+
+        static AlNative()
+        {
+            m_alLibrary = LoadOpenAL();
+
+            LoadAlc();
+            LoadAl();
+        }
 
         private static NativeLibrary LoadOpenAL()
         {
@@ -39,7 +46,7 @@ namespace SharpAudio.ALBinding
             else
             {
                 Debug.WriteLine("Unknown OpenAL platform. Attempting to load \"openal\"");
-                names = new[] { "openal" };
+                names = new[] {"openal"};
             }
 
             NativeLibrary lib = new NativeLibrary(names);
@@ -49,14 +56,6 @@ namespace SharpAudio.ALBinding
         private static T LoadFunction<T>(string name)
         {
             return m_alLibrary.LoadFunction<T>(name);
-        }
-
-        static AlNative()
-        {
-            m_alLibrary = LoadOpenAL();
-
-            LoadAlc();
-            LoadAl();
         }
     }
 }

@@ -22,24 +22,21 @@ namespace SharpAudio.Codec.Wave
 
     public class WaveDecoder : Decoder
     {
-        private RiffHeader _header;
-        private WaveFormat _format;
+        private readonly WaveData _data;
+        private readonly byte[] _decodedData;
         private WaveFact _fact;
-        private WaveData _data;
+        private readonly WaveFormat _format;
+        private RiffHeader _header;
         private int _samplesLeft;
-        private byte[] _decodedData;
 
         public WaveDecoder(Stream s)
         {
-            using (BinaryReader br = new BinaryReader(s))
+            using (var br = new BinaryReader(s))
             {
                 _header = RiffHeader.Parse(br);
                 _format = WaveFormat.Parse(br);
 
-                if (_format.AudioFormat != WaveFormatType.Pcm)
-                {
-                    _fact = WaveFact.Parse(br);
-                }
+                if (_format.AudioFormat != WaveFormatType.Pcm) _fact = WaveFact.Parse(br);
 
                 _data = WaveData.Parse(br);
                 var variant = WavParser.GetParser(_format.AudioFormat);
@@ -58,11 +55,11 @@ namespace SharpAudio.Codec.Wave
 
         public override long GetSamples(int samples, ref byte[] data)
         {
-            int numSamples = Math.Min(samples, _samplesLeft);
+            var numSamples = Math.Min(samples, _samplesLeft);
             long byteSize = _audioFormat.BytesPerSample * numSamples;
             long byteOffset = (_numSamples - _samplesLeft) * _audioFormat.BytesPerSample;
 
-            data = _decodedData.AsSpan<byte>().Slice((int) (byteOffset), (int) byteSize).ToArray();
+            data = _decodedData.AsSpan().Slice((int) byteOffset, (int) byteSize).ToArray();
             _samplesLeft -= numSamples;
 
             return numSamples;

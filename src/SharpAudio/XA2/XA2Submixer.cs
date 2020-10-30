@@ -1,13 +1,8 @@
-﻿using SharpDX.XAudio2;
-
-namespace SharpAudio.XA2
+﻿namespace SharpAudio.XA2
 {
     internal sealed class XA2Submixer : Submixer
     {
-
         private readonly XA2Engine _engine;
-
-        internal SubmixVoice SubMixerVoice { get; }
 
         public XA2Submixer(XA2Engine engine)
         {
@@ -15,10 +10,16 @@ namespace SharpAudio.XA2
             SubMixerVoice = new SubmixVoice(_engine.Device);
         }
 
+        internal SubmixVoice SubMixerVoice { get; }
+
         public override float Volume
         {
-            get { return _volume; }
-            set { _volume = value; SubMixerVoice?.SetVolume(value); }
+            get => _volume;
+            set
+            {
+                _volume = value;
+                SubMixerVoice?.SetVolume(value);
+            }
         }
 
         public override void Dispose()

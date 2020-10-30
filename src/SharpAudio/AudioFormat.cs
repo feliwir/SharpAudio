@@ -1,33 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SharpAudio
+﻿namespace SharpAudio
 {
     public struct AudioFormat
     {
         /// <summary>
-        /// The sample rate that is used for most input sounds. Will downsample to the actual supported rate. 
+        ///     The sample rate that is used for most input sounds. Will downsample to the actual supported rate.
         /// </summary>
         public int SampleRate;
 
         /// <summary>
-        /// The number of channels of the input
+        ///     The number of channels of the input
         /// </summary>
         public int Channels;
 
         /// <summary>
-        /// Bits per sample. Can either be 8 or 16
+        ///     Bits per sample. Can either be 8 or 16
         /// </summary>
         public int BitsPerSample;
 
         /// <summary>
-        /// Gives the number of bytes per sample
+        ///     Gives the number of bytes per sample
         /// </summary>
         public int BytesPerSample => BitsPerSample / 8;
 
         /// <summary>
-        /// Gives the number of bytes that is processed per second
+        ///     Gives the number of bytes that is processed per second
         /// </summary>
         public int BytesPerSecond => BytesPerSample * SampleRate * Channels;
     }

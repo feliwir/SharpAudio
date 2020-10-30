@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 
 namespace SharpAudio.Tests
@@ -19,7 +17,7 @@ namespace SharpAudio.Tests
             TestSubMixing(AudioEngine.CreateOpenAL());
         }
 
-        void TestSubMixing(AudioEngine engine)
+        private void TestSubMixing(AudioEngine engine)
         {
             var buffer = engine.CreateBuffer();
             var source = engine.CreateSource();

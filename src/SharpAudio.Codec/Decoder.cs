@@ -9,22 +9,27 @@ namespace SharpAudio.Codec
         protected int _readSize;
 
         /// <summary>
-        /// The format of the decoded data
+        ///     The format of the decoded data
         /// </summary>
         public AudioFormat Format => _audioFormat;
 
         /// <summary>
-        /// Specifies the length of the decoded data. If not available returns 0
+        ///     Specifies the length of the decoded data. If not available returns 0
         /// </summary>
-        public virtual TimeSpan Duration => TimeSpan.FromSeconds((float) _numSamples / (_audioFormat.SampleRate * _audioFormat.Channels));
+        public virtual TimeSpan Duration =>
+            TimeSpan.FromSeconds((float) _numSamples / (_audioFormat.SampleRate * _audioFormat.Channels));
 
         /// <summary>
-        /// Wether or not the decoder reached the end of data
+        ///     Wether or not the decoder reached the end of data
         /// </summary>
         public abstract bool IsFinished { get; }
 
+        public virtual void Dispose()
+        {
+        }
+
         /// <summary>
-        /// Reads the specified amount of samples
+        ///     Reads the specified amount of samples
         /// </summary>
         /// <param name="samples"></param>
         /// <param name="data"></param>
@@ -32,20 +37,20 @@ namespace SharpAudio.Codec
         public abstract long GetSamples(int samples, ref byte[] data);
 
         /// <summary>
-        /// Reads the specified amount of samples
+        ///     Reads the specified amount of samples
         /// </summary>
         /// <param name="span"></param>
         /// <param name="data"></param>
         /// <returns></returns>
         public long GetSamples(TimeSpan span, ref byte[] data)
         {
-            int numSamples = span.Seconds * Format.SampleRate * Format.Channels;
+            var numSamples = span.Seconds * Format.SampleRate * Format.Channels;
 
             return GetSamples(numSamples, ref data);
         }
 
         /// <summary>
-        /// Read all samples from this stream
+        ///     Read all samples from this stream
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
@@ -54,10 +59,10 @@ namespace SharpAudio.Codec
             return GetSamples(_numSamples, ref data);
         }
 
-        public bool Probe(ref byte[] fourcc) => false;
-
-        public virtual void Dispose()
-        { }
+        public bool Probe(ref byte[] fourcc)
+        {
+            return false;
+        }
 
         public virtual bool TrySeek(TimeSpan time)
         {

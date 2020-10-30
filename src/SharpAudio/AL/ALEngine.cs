@@ -5,11 +5,9 @@ namespace SharpAudio.AL
 {
     internal sealed class ALEngine : AudioEngine
     {
-        private IntPtr _device;
-        private IntPtr _context;
         private readonly bool _floatSupport;
-
-        public override AudioBackend BackendType => AudioBackend.OpenAL;
+        private readonly IntPtr _context;
+        private readonly IntPtr _device;
 
         public ALEngine(AudioEngineOptions options)
         {
@@ -22,22 +20,18 @@ namespace SharpAudio.AL
             _floatSupport = AlNative.alIsExtensionPresent("AL_EXT_FLOAT32");
         }
 
+        public override AudioBackend BackendType => AudioBackend.OpenAL;
+
         internal static void checkAlError()
         {
-            int error = AlNative.alGetError();
-            if (error != AlNative.AL_NO_ERROR)
-            {
-                throw new SharpAudioException("OpenAL Error: " + error);
-            }
+            var error = AlNative.alGetError();
+            if (error != AlNative.AL_NO_ERROR) throw new SharpAudioException("OpenAL Error: " + error);
         }
 
         private void checkAlcError()
         {
-            int error = AlNative.alcGetError(_device);
-            if (error != AlNative.ALC_NO_ERROR)
-            {
-                throw new SharpAudioException("OpenAL Error: " + error);
-            }
+            var error = AlNative.alcGetError(_device);
+            if (error != AlNative.ALC_NO_ERROR) throw new SharpAudioException("OpenAL Error: " + error);
         }
 
         public override AudioBuffer CreateBuffer()

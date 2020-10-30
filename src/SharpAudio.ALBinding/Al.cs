@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace SharpAudio.ALBinding
 {
-    public static unsafe partial class AlNative
+    public static partial class AlNative
     {
         /* typedef int ALenum; */
         public const int AL_NONE = 0x0000;
@@ -71,96 +71,109 @@ namespace SharpAudio.ALBinding
         public const int AL_EXTENSIONS = 0xB004;
 
         public const int AL_DOPPLER_FACTOR = 0xC000;
+
         /* Deprecated! */
         public const int AL_DOPPLER_VELOCITY = 0xC001;
 
         public const int AL_DISTANCE_MODEL = 0xD000;
         public const int AL_INVERSE_DISTANCE = 0xD001;
         public const int AL_INVERSE_DISTANCE_CLAMPED = 0xD002;
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate int AL_getError_t();
         private static AL_getError_t s_al_getError;
-        public static int alGetError() => s_al_getError();
-
-        /* n refers to an ALsizei */
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void AL_genBuffers_t(int n, uint[] buffers);
         private static AL_genBuffers_t s_al_genBuffers;
-        public static void alGenBuffers(int n, uint[] buffers) => s_al_genBuffers(n, buffers);
-
-        /* n refers to an ALsizei */
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void AL_deleteBuffers_t(int n, uint[] buffers);
         private static AL_deleteBuffers_t s_al_deleteBuffers;
-        public static void alDeleteBuffers(int n, uint[] buffers) => s_al_deleteBuffers(n, buffers);
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate bool AL_isBuffer_t(uint buffer);
         private static AL_isBuffer_t s_al_isBuffer;
-        public static bool alIsBuffer(uint buffer) => s_al_isBuffer(buffer);
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate bool AL_bufferData_t(uint buffer, int format, IntPtr data, int size, int freq);
         private static AL_bufferData_t s_al_bufferData;
-        public static bool alBufferData(uint buffer, int format, IntPtr data, int size, int freq) => s_al_bufferData(buffer, format, data, size, freq);
-
-        /* n refers to an ALsizei */
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void AL_genSources_t(int n, uint[] sources);
         private static AL_genSources_t s_al_genSources;
-        public static void alGenSources(int n, uint[] sources) => s_al_genSources(n, sources);
-
-        /* n refers to an ALsizei */
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void AL_deleteSources_t(int n, uint[] sources);
         private static AL_deleteSources_t s_al_deleteSources;
-        public static void alDeleteSources(int n, uint[] sources) => s_al_deleteSources(n, sources);
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void AL_sourceQueueBuffers_t(uint source, int n, uint[] buffers);
         private static AL_sourceQueueBuffers_t s_al_sourceQueueBuffers;
-        public static void alSourceQueueBuffers(uint source, int n, uint[] sources) => s_al_sourceQueueBuffers(source, n, sources);
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void AL_sourceUnqueueBuffers_t(uint source, int n, uint[] buffers);
         private static AL_sourceUnqueueBuffers_t s_al_sourceUnqueueBuffers;
-        public static void alSourceUnqueueBuffers(uint source, int n, uint[] sources) => s_al_sourceUnqueueBuffers(source, n, sources);
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void AL_sourcePlay_t(uint source);
         private static AL_sourcePlay_t s_al_sourcePlay;
-        public static void alSourcePlay(uint source) => s_al_sourcePlay(source);
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void AL_sourceStop_t(uint source);
         private static AL_sourceStop_t s_al_sourceStop;
-        public static void alSourceStop(uint source) => s_al_sourceStop(source);
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void AL_sourcei_t(uint source, int param, int value);
         private static AL_sourcei_t s_al_sourcei;
-        public static void alSourcei(uint source, int param, int value) => s_al_sourcei(source, param, value);
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void AL_getSourcei_t(uint source, int param, out int value);
         private static AL_getSourcei_t s_al_getSourcei;
-        public static void alGetSourcei(uint source, int param, out int value) => s_al_getSourcei(source, param, out value);
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void AL_sourcef_t(uint source, int param, float value);
         private static AL_sourcef_t s_al_sourcef;
-        public static void alSourcef(uint source, int param, float value) => s_al_sourcef(source, param, value);
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void AL_getSourcef_t(uint source, int param, out float value);
         private static AL_getSourcef_t s_al_getSourcef;
-        public static void alGetSourcef(uint source, int param, out float value) => s_al_getSourcef(source, param, out value);
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate bool AL_isExtensionPresent_t(string extname);
         private static AL_isExtensionPresent_t s_al_isExtensionPresent;
-        public static bool alIsExtensionPresent(string extname) => s_al_isExtensionPresent(extname);
+
+        public static int alGetError()
+        {
+            return s_al_getError();
+        }
+
+        public static void alGenBuffers(int n, uint[] buffers)
+        {
+            s_al_genBuffers(n, buffers);
+        }
+
+        public static void alDeleteBuffers(int n, uint[] buffers)
+        {
+            s_al_deleteBuffers(n, buffers);
+        }
+
+        public static bool alIsBuffer(uint buffer)
+        {
+            return s_al_isBuffer(buffer);
+        }
+
+        public static bool alBufferData(uint buffer, int format, IntPtr data, int size, int freq)
+        {
+            return s_al_bufferData(buffer, format, data, size, freq);
+        }
+
+        public static void alGenSources(int n, uint[] sources)
+        {
+            s_al_genSources(n, sources);
+        }
+
+        public static void alDeleteSources(int n, uint[] sources)
+        {
+            s_al_deleteSources(n, sources);
+        }
+
+        public static void alSourceQueueBuffers(uint source, int n, uint[] sources)
+        {
+            s_al_sourceQueueBuffers(source, n, sources);
+        }
+
+        public static void alSourceUnqueueBuffers(uint source, int n, uint[] sources)
+        {
+            s_al_sourceUnqueueBuffers(source, n, sources);
+        }
+
+        public static void alSourcePlay(uint source)
+        {
+            s_al_sourcePlay(source);
+        }
+
+        public static void alSourceStop(uint source)
+        {
+            s_al_sourceStop(source);
+        }
+
+        public static void alSourcei(uint source, int param, int value)
+        {
+            s_al_sourcei(source, param, value);
+        }
+
+        public static void alGetSourcei(uint source, int param, out int value)
+        {
+            s_al_getSourcei(source, param, out value);
+        }
+
+        public static void alSourcef(uint source, int param, float value)
+        {
+            s_al_sourcef(source, param, value);
+        }
+
+        public static void alGetSourcef(uint source, int param, out float value)
+        {
+            s_al_getSourcef(source, param, out value);
+        }
+
+        public static bool alIsExtensionPresent(string extname)
+        {
+            return s_al_isExtensionPresent(extname);
+        }
 
 
         private static void LoadAl()
@@ -189,5 +202,57 @@ namespace SharpAudio.ALBinding
             s_al_sourcef = LoadFunction<AL_sourcef_t>("alSourcef");
             s_al_getSourcef = LoadFunction<AL_getSourcef_t>("alGetSourcef");
         }
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate int AL_getError_t();
+
+        /* n refers to an ALsizei */
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void AL_genBuffers_t(int n, uint[] buffers);
+
+        /* n refers to an ALsizei */
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void AL_deleteBuffers_t(int n, uint[] buffers);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate bool AL_isBuffer_t(uint buffer);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate bool AL_bufferData_t(uint buffer, int format, IntPtr data, int size, int freq);
+
+        /* n refers to an ALsizei */
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void AL_genSources_t(int n, uint[] sources);
+
+        /* n refers to an ALsizei */
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void AL_deleteSources_t(int n, uint[] sources);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void AL_sourceQueueBuffers_t(uint source, int n, uint[] buffers);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void AL_sourceUnqueueBuffers_t(uint source, int n, uint[] buffers);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void AL_sourcePlay_t(uint source);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void AL_sourceStop_t(uint source);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void AL_sourcei_t(uint source, int param, int value);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void AL_getSourcei_t(uint source, int param, out int value);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void AL_sourcef_t(uint source, int param, float value);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void AL_getSourcef_t(uint source, int param, out float value);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate bool AL_isExtensionPresent_t(string extname);
     }
 }

@@ -13,63 +13,16 @@ namespace SharpAudio.Codec
 {
     public sealed class SoundStream : IDisposable
     {
-        private Decoder _decoder;
-        private BufferChain _chain;
-        private AudioBuffer _buffer;
+        private readonly AudioBuffer _buffer;
+        private readonly CancellationTokenSource _cancelToken;
+        private readonly BufferChain _chain;
         private byte[] _data;
-        private Stopwatch _timer;
+        private readonly Decoder _decoder;
         private Task _playTask;
-        private CancellationTokenSource _cancelToken;
-
-        private static byte[] MakeFourCC(string magic)
-        {
-            return new[] {  (byte)magic[0],
-                            (byte)magic[1],
-                            (byte)magic[2],
-                            (byte)magic[3]};
-        }
+        private readonly Stopwatch _timer;
 
         /// <summary>
-        /// The audio format of this stream
-        /// </summary>
-        public AudioFormat Format => _decoder.Format;
-
-        /// <summary>
-        /// The underlying source
-        /// </summary>
-        public AudioSource Source { get; }
-
-        /// <summary>
-        /// Wether or not the audio is finished
-        /// </summary>
-        public bool IsPlaying => Source.IsPlaying();
-
-        /// <summary>
-        /// Wether or not the audio is streamed
-        /// </summary>
-        public bool IsStreamed { get; }
-
-        /// <summary>
-        /// The volume of the source
-        /// </summary>
-        public float Volume
-        {
-            get => Source.Volume;
-            set => Source.Volume = value;
-        }
-
-        /// <summary>
-        /// Duration when provided by the decoder. Otherwise 0
-        /// </summary>
-        public TimeSpan Duration => _decoder.Duration;
-
-        /// <summary>
-        /// Current position inside the stream
-        /// </summary>
-        public TimeSpan Position => _timer.Elapsed;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SoundStream"/> class.
+        ///     Initializes a new instance of the <see cref="SoundStream" /> class.
         /// </summary>
         /// <param name="stream">The sound stream.</param>
         /// <param name="engine">The audio engine</param>
@@ -87,9 +40,9 @@ namespace SharpAudio.Codec
                 _decoder = new WaveDecoder(stream);
             }
             else if (fourcc.SequenceEqual(MakeFourCC("ID3\u0001")) ||
-                    fourcc.SequenceEqual(MakeFourCC("ID3\u0002")) ||
-                    fourcc.SequenceEqual(MakeFourCC("ID3\u0003")) ||
-                    fourcc.AsSpan(0, 2).SequenceEqual(new byte[] { 0xFF, 0xFB }))
+                     fourcc.SequenceEqual(MakeFourCC("ID3\u0002")) ||
+                     fourcc.SequenceEqual(MakeFourCC("ID3\u0003")) ||
+                     fourcc.AsSpan(0, 2).SequenceEqual(new byte[] {0xFF, 0xFB}))
             {
                 _decoder = new Mp3Decoder(stream);
                 IsStreamed = true;
@@ -129,7 +82,65 @@ namespace SharpAudio.Codec
         }
 
         /// <summary>
-        /// Start playing the soundstream 
+        ///     The audio format of this stream
+        /// </summary>
+        public AudioFormat Format => _decoder.Format;
+
+        /// <summary>
+        ///     The underlying source
+        /// </summary>
+        public AudioSource Source { get; }
+
+        /// <summary>
+        ///     Wether or not the audio is finished
+        /// </summary>
+        public bool IsPlaying => Source.IsPlaying();
+
+        /// <summary>
+        ///     Wether or not the audio is streamed
+        /// </summary>
+        public bool IsStreamed { get; }
+
+        /// <summary>
+        ///     The volume of the source
+        /// </summary>
+        public float Volume
+        {
+            get => Source.Volume;
+            set => Source.Volume = value;
+        }
+
+        /// <summary>
+        ///     Duration when provided by the decoder. Otherwise 0
+        /// </summary>
+        public TimeSpan Duration => _decoder.Duration;
+
+        /// <summary>
+        ///     Current position inside the stream
+        /// </summary>
+        public TimeSpan Position => _timer.Elapsed;
+
+        public void Dispose()
+        {
+            _cancelToken.Cancel();
+            _playTask?.Wait();
+            _buffer?.Dispose();
+            Source.Dispose();
+        }
+
+        private static byte[] MakeFourCC(string magic)
+        {
+            return new[]
+            {
+                (byte) magic[0],
+                (byte) magic[1],
+                (byte) magic[2],
+                (byte) magic[3]
+            };
+        }
+
+        /// <summary>
+        ///     Start playing the soundstream
         /// </summary>
         public void Play()
         {
@@ -137,7 +148,6 @@ namespace SharpAudio.Codec
             _timer.Start();
 
             if (IsStreamed)
-            {
                 _playTask = Task.Run(() =>
                 {
                     while (Source.IsPlaying())
@@ -148,33 +158,22 @@ namespace SharpAudio.Codec
                             _chain.QueueData(Source, _data, Format);
                         }
 
-                        if (_cancelToken.IsCancellationRequested)
-                        {
-                            break;
-                        }
+                        if (_cancelToken.IsCancellationRequested) break;
 
                         Thread.Sleep(100);
                     }
+
                     _timer.Stop();
                 }, _cancelToken.Token);
-            }
         }
 
         /// <summary>
-        /// Stop the soundstream
+        ///     Stop the soundstream
         /// </summary>
         public void Stop()
         {
             Source.Stop();
             _timer.Stop();
-        }
-
-        public void Dispose()
-        {
-            _cancelToken.Cancel();
-            _playTask?.Wait();
-            _buffer?.Dispose();
-            Source.Dispose();
         }
     }
 }

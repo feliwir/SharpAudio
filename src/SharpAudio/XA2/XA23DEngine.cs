@@ -1,17 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
-using SharpDX.X3DAudio;
-using SharpDX.Mathematics.Interop;
-using SharpDX.Multimedia;
 
 namespace SharpAudio.XA2
 {
     internal sealed class XA23DEngine : Audio3DEngine
     {
-        X3DAudio _x3DAudio;
-        Listener _x3DListener;
-        Dictionary<AudioSource, Emitter> _x3DEmitters;
         private readonly XA2Engine _engine;
+        private X3DAudio _x3DAudio;
+        private readonly Dictionary<AudioSource, Emitter> _x3DEmitters;
+        private Listener _x3DListener;
 
         public XA23DEngine(XA2Engine engine)
         {
@@ -32,7 +29,7 @@ namespace SharpAudio.XA2
 
         public override void SetSourcePosition(AudioSource source, Vector3 position)
         {
-            XA2Source xa2Source = (XA2Source) source;
+            var xa2Source = (XA2Source) source;
 
             if (!_x3DEmitters.TryGetValue(source, out var emitter))
             {

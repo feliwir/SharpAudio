@@ -17,7 +17,7 @@ namespace SharpAudio.Tests
             TestEngine(AudioEngine.CreateOpenAL());
         }
 
-        void TestEngine(AudioEngine engine)
+        private void TestEngine(AudioEngine engine)
         {
             var buffer = engine.CreateBuffer();
             var source = engine.CreateSource();

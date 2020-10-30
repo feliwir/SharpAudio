@@ -1,37 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
-using CommandLine;
-using SharpAudio.Codec;
+﻿using SharpAudio.Codec;
 
 namespace SharpAudio.Sample
 {
-    class Program
+    internal class Program
     {
-        public class Options
-        {
-            [Option('i', "input", Required = true, HelpText = "Specify the file(s) that should be played")]
-            public IEnumerable<string> InputFiles { get; set; }
-
-            [Option('v', "volume", Required = false, HelpText = "Set the output volume (0-100).", Default = 100)]
-            public int Volume { get; set; }
-        }
-
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             CommandLine.Parser.Default.ParseArguments<Options>(args)
-              .WithParsed<Options>(opts => RunOptionsAndReturnExitCode(opts));
+                .WithParsed<Options>(opts => RunOptionsAndReturnExitCode(opts));
         }
 
         private static void RunOptionsAndReturnExitCode(Options opts)
         {
             var engine = AudioEngine.CreateDefault();
 
-            if (engine == null)
-            {
-                Console.WriteLine("Failed to create an audio backend!");
-            }
+            if (engine == null) Console.WriteLine("Failed to create an audio backend!");
 
             foreach (var file in opts.InputFiles)
             {
@@ -43,11 +26,17 @@ namespace SharpAudio.Sample
 
                 Console.WriteLine("Playing file with duration: " + soundStream.Duration);
 
-                while (soundStream.IsPlaying)
-                {
-                    Thread.Sleep(100);
-                }
+                while (soundStream.IsPlaying) Thread.Sleep(100);
             }
+        }
+
+        public class Options
+        {
+            [Option('i', "input", Required = true, HelpText = "Specify the file(s) that should be played")]
+            public IEnumerable<string> InputFiles { get; set; }
+
+            [Option('v', "volume", Required = false, HelpText = "Set the output volume (0-100).", Default = 100)]
+            public int Volume { get; set; }
         }
     }
 }

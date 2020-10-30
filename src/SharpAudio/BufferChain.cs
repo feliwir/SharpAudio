@@ -4,18 +4,15 @@ namespace SharpAudio
 {
     public sealed class BufferChain
     {
-        private List<AudioBuffer> _buffers;
         private readonly int _numBuffers = 3;
-        private int _currentBuffer = 0;
+        private readonly List<AudioBuffer> _buffers;
+        private int _currentBuffer;
 
         public BufferChain(AudioEngine engine)
         {
             _buffers = new List<AudioBuffer>();
 
-            for (int i = 0; i < _numBuffers; i++)
-            {
-                _buffers.Add(engine.CreateBuffer());
-            }
+            for (var i = 0; i < _numBuffers; i++) _buffers.Add(engine.CreateBuffer());
         }
 
         public AudioBuffer BufferData<T>(T[] buffer, AudioFormat format) where T : unmanaged

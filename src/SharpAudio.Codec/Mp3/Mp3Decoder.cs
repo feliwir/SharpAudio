@@ -1,13 +1,12 @@
 ﻿using System;
 using System.IO;
-using NLayer;
 
 namespace SharpAudio.Codec.Mp3
 {
     public class Mp3Decoder : Decoder
     {
-        private MpegFile _mp3Stream;
         private int _index = 0;
+        private MpegFile _mp3Stream;
 
         public Mp3Decoder(Stream s)
         {
@@ -24,7 +23,7 @@ namespace SharpAudio.Codec.Mp3
 
         public override long GetSamples(int samples, ref byte[] data)
         {
-            int bytes = _audioFormat.BytesPerSample * samples;
+            var bytes = _audioFormat.BytesPerSample * samples;
             Array.Resize(ref data, bytes);
 
             int read = _mp3Stream.ReadSamplesInt16(data, 0, 2 * bytes);

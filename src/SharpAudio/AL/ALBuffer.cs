@@ -6,8 +6,6 @@ namespace SharpAudio.AL
 {
     internal sealed class ALBuffer : AudioBuffer
     {
-        public uint Buffer { get; }
-
         public ALBuffer()
         {
             var buffers = new uint[1];
@@ -16,14 +14,13 @@ namespace SharpAudio.AL
             Buffer = buffers[0];
         }
 
-        public override unsafe void BufferData(IntPtr ptr, int sizeInBytes, AudioFormat format)
-        {
-            int fmt = (format.Channels == 2) ? AlNative.AL_FORMAT_STEREO8 : AlNative.AL_FORMAT_MONO8;
+        public uint Buffer { get; }
 
-            if (format.BitsPerSample == 16)
-            {
-                fmt++;
-            }
+        public override void BufferData(IntPtr ptr, int sizeInBytes, AudioFormat format)
+        {
+            var fmt = format.Channels == 2 ? AlNative.AL_FORMAT_STEREO8 : AlNative.AL_FORMAT_MONO8;
+
+            if (format.BitsPerSample == 16) fmt++;
 
             AlNative.alBufferData(Buffer, fmt, ptr, sizeInBytes, format.SampleRate);
             ALEngine.checkAlError();
@@ -33,10 +30,10 @@ namespace SharpAudio.AL
 
         public override unsafe void BufferData<T>(T[] buffer, AudioFormat format)
         {
-            int sizeInBytes = sizeof(T) * buffer.Length;
+            var sizeInBytes = sizeof(T) * buffer.Length;
 
             var handle = GCHandle.Alloc(buffer);
-            IntPtr ptr = Marshal.UnsafeAddrOfPinnedArrayElement(buffer, 0);
+            var ptr = Marshal.UnsafeAddrOfPinnedArrayElement(buffer, 0);
 
             BufferData(ptr, sizeInBytes, format);
 
@@ -45,7 +42,7 @@ namespace SharpAudio.AL
 
         public override unsafe void BufferData<T>(Span<T> buffer, AudioFormat format)
         {
-            int sizeInBytes = sizeof(T) * buffer.Length;
+            var sizeInBytes = sizeof(T) * buffer.Length;
 
             fixed (T* ptr = buffer)
             {
@@ -55,7 +52,7 @@ namespace SharpAudio.AL
 
         public override void Dispose()
         {
-            AlNative.alDeleteBuffers(1, new uint[] { Buffer });
+            AlNative.alDeleteBuffers(1, new[] {Buffer});
         }
     }
 }

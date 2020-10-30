@@ -3,8 +3,6 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
-using FFmpeg.AutoGen;
 
 namespace SharpAudio.Codec.FFmpeg
 {
@@ -18,23 +16,35 @@ namespace SharpAudio.Codec.FFmpeg
         private readonly int sampleByteSize;
         private readonly Stream targetStream;
         private volatile bool _isDecoderFinished;
+        private volatile bool _isDisposed;
         private bool _isFinished;
         private CircularBuffer _slidestream;
         private bool anchorNewPos;
         private avio_alloc_context_read_packet avioRead;
         private avio_alloc_context_seek avioSeek;
-        private TimeSpan curPos;
         private volatile bool doSeek;
         private FFmpegPointers ff;
         private TimeSpan seekTimeTarget;
         private int stream_index;
         private byte[] tempSampleBuf;
-        private volatile bool _isDisposed;
 
         static FFmpegDecoder()
         {
             DoLibraryRuntimePathDetection();
         }
+
+        public FFmpegDecoder(Stream src)
+        {
+            targetStream = src;
+            sampleByteSize = _DESIRED_SAMPLE_RATE * _DESIRED_CHANNEL_COUNT * sizeof(ushort);
+
+            Ffmpeg_Initialize();
+        }
+
+        public override bool IsFinished => _isFinished;
+        public TimeSpan Position { get; private set; }
+
+        public override TimeSpan Duration => base.Duration;
 
         private static void DoLibraryRuntimePathDetection()
         {
@@ -77,24 +87,9 @@ namespace SharpAudio.Codec.FFmpeg
             else
             {
                 var singleRuntimeFolder = Path.Combine(curPath, "runtime");
-                if (Directory.Exists(singleRuntimeFolder))
-                {
-                    ffmpeg.RootPath = singleRuntimeFolder;
-                }
+                if (Directory.Exists(singleRuntimeFolder)) ffmpeg.RootPath = singleRuntimeFolder;
             }
         }
-
-        public FFmpegDecoder(Stream src)
-        {
-            targetStream = src;
-            sampleByteSize = _DESIRED_SAMPLE_RATE * _DESIRED_CHANNEL_COUNT * sizeof(ushort);
-
-            Ffmpeg_Initialize();
-        }
-
-        public override bool IsFinished => _isFinished;
-        public TimeSpan Position => curPos;
-        public override TimeSpan Duration => base.Duration;
 
         private unsafe int Read(void* opaque, byte* targetBuffer, int targetBufferLength)
         {
@@ -109,7 +104,7 @@ namespace SharpAudio.Codec.FFmpeg
                     Marshal.Copy(ffmpegFSBuf, 0, (IntPtr) targetBuffer, readCount);
                 else
                     return ffmpeg.AVERROR_EOF; // fixes Invalid return value 0 for stream protocol.
-                                               // related problem: https://trac.mplayerhq.hu/ticket/2335
+                // related problem: https://trac.mplayerhq.hu/ticket/2335
 
                 return readCount;
             }
@@ -215,7 +210,6 @@ namespace SharpAudio.Codec.FFmpeg
 
             var decoderThread = new Thread(MainLoop);
             decoderThread.Start();
-
         }
 
         private unsafe void SetAudioFormat()
@@ -274,7 +268,7 @@ namespace SharpAudio.Codec.FFmpeg
                             {
                                 double pts = ff.av_src_frame->pts;
                                 pts *= ff.av_stream->time_base.num / (double) ff.av_stream->time_base.den;
-                                curPos = TimeSpan.FromSeconds(pts);
+                                Position = TimeSpan.FromSeconds(pts);
                                 anchorNewPos = false;
                             }
 
@@ -307,10 +301,10 @@ namespace SharpAudio.Codec.FFmpeg
             if (res > 0)
             {
                 var x = res / (double) sampleByteSize;
-                curPos += TimeSpan.FromSeconds(x);
+                Position += TimeSpan.FromSeconds(x);
 
                 if (data.Length != res)
-                    data = data[0..res];
+                    data = data[..res];
 
                 return res;
             }

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Xunit;
-using Xunit.Sdk;
 
 namespace SharpAudio.Tests
 {
@@ -13,7 +11,7 @@ namespace SharpAudio.Tests
 
         public BackendFactAttribute(AudioBackend backend, params AudioBackend[] otherBackends)
         {
-            Backends = new[] { backend }.Union(otherBackends).ToArray();
+            Backends = new[] {backend}.Union(otherBackends).ToArray();
         }
     }
 }

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 
 namespace SharpAudio
 {
     /// <summary>
-    /// Represents an abstract 3d audio engine
+    ///     Represents an abstract 3d audio engine
     /// </summary>
     public abstract class Audio3DEngine
     {

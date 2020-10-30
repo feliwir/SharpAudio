@@ -1,5 +1,4 @@
 ﻿using SharpAudio.Codec;
-using Xunit;
 
 namespace SharpAudio.Tests
 {
@@ -42,7 +41,8 @@ namespace SharpAudio.Tests
         [BackendFact(AudioBackend.OpenAL, AudioBackend.XAudio2)]
         public void Vorbis()
         {
-            var vorbisStream = typeof(FileFormats).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.Example.ogg");
+            var vorbisStream =
+                typeof(FileFormats).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.Example.ogg");
 
             var engine = AudioEngine.CreateDefault();
             var soundStream = new SoundStream(vorbisStream, engine);
@@ -59,7 +59,8 @@ namespace SharpAudio.Tests
         [BackendFact(AudioBackend.OpenAL, AudioBackend.XAudio2)]
         public void Ffmpeg()
         {
-            var ffmpegStream = typeof(FileFormats).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.sample.flac");
+            var ffmpegStream =
+                typeof(FileFormats).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.sample.flac");
 
             var engine = AudioEngine.CreateDefault();
             var soundStream = new SoundStream(ffmpegStream, engine);
