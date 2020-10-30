@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using NVorbis;
 
 namespace SharpAudio.Codec.Vorbis
 {

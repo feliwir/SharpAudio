@@ -25,8 +25,5 @@
   <PropertyGroup>
     <NerdbankGitVersioningVersion>3.2.31</NerdbankGitVersioningVersion>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="$(NerdbankGitVersioningVersion)" PrivateAssets="all" />
-  </ItemGroup>
+ 
 </Project>

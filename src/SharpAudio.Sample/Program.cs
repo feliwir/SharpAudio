@@ -1,4 +1,9 @@
-﻿using SharpAudio.Codec;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading;
+using CommandLine;
+using SharpAudio.Codec;
 
 namespace SharpAudio.Sample
 {

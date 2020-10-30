@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using SharpDX.XAudio2;
 
 namespace SharpAudio.XA2
 {

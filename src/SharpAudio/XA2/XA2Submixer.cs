@@ -1,4 +1,6 @@
-﻿namespace SharpAudio.XA2
+﻿using SharpDX.XAudio2;
+
+namespace SharpAudio.XA2
 {
     internal sealed class XA2Submixer : Submixer
     {

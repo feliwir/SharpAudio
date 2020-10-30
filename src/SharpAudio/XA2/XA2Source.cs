@@ -1,4 +1,7 @@
-﻿namespace SharpAudio.XA2
+﻿using SharpDX.Multimedia;
+using SharpDX.XAudio2;
+
+namespace SharpAudio.XA2
 {
     internal sealed class XA2Source : AudioSource
     {

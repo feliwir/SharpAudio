@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using NLayer;
 
 namespace SharpAudio.Codec.Mp3
 {
