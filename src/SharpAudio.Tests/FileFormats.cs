@@ -1,4 +1,5 @@
 ﻿using SharpAudio.Codec;
+using Xunit;
 
 namespace SharpAudio.Tests
 {
