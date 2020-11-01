@@ -21,7 +21,7 @@ namespace SharpAudio.Tests
         void TestSpatial(AudioEngine engine)
         {
             var audio3d = engine.Create3DEngine();
-            audio3d.SetListenerPosition(new Vector3(0,0,0));
+            audio3d.SetListenerPosition(new Vector3(0, 0, 0));
 
             var buffer = engine.CreateBuffer();
             var leftSource = engine.CreateSource();

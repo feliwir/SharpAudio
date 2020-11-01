@@ -46,7 +46,7 @@ namespace SharpAudio.XA2
 
         public override AudioSource CreateSource(Submixer mixer = null)
         {
-            return new XA2Source(this, (XA2Submixer)mixer);
+            return new XA2Source(this, (XA2Submixer) mixer);
         }
 
         public override Audio3DEngine Create3DEngine()
