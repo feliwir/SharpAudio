@@ -1,39 +1,44 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using SharpAudio.Codec.FFmpeg;
 using SharpAudio.Codec.Mp3;
 using SharpAudio.Codec.Vorbis;
 using SharpAudio.Codec.Wave;
-using SharpDX.Multimedia;
 
 namespace SharpAudio.Codec
 {
     public sealed class SoundStream : IDisposable, INotifyPropertyChanged
     {
         private byte[] _data;
-        private Decoder _decoder;
+        private readonly Decoder _decoder;
         private readonly SoundSink _soundSink;
-        private SoundStreamState _state = SoundStreamState.Paused;
         private static readonly TimeSpan SampleQuantum = TimeSpan.FromSeconds(0.05);
+        private SoundStreamState _state = SoundStreamState.Paused;
+
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="SharpDX.Multimedia.SoundStream" /> class.
+        ///     Initializes a new instance of the <see cref="SharpAudio.Codec.SoundStream" /> class.
         /// </summary>
-        /// <param name="stream">The sound stream.</param>
-        /// <param name="engine">The audio engine</param>
+        /// <param name="stream">The file stream of the target music file.</param>
+        /// <param name="engine">The target <see cref="AudioEngine"/></param>
+        /// <param name="mixer">The <see cref="Submixer"/> to use</param>
+        public SoundStream(Stream stream, AudioEngine engine, Submixer mixer = null) : this(stream, new SoundSink(engine, mixer))
+        {
+
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="SharpAudio.Codec.SoundStream" /> class.
+        /// </summary>
+        /// <param name="stream">The file stream of the target music file.</param>
+        /// <param name="sink">The target <see cref="SoundSink"/> to play on.</param>
+        /// <param name="autoDisposeSink">Dispose the <see cref="SoundSink"/> when finished.</param>
         public SoundStream(Stream stream, SoundSink sink, bool autoDisposeSink = true)
         {
-            if (stream == null)
-            {
-                throw new ArgumentNullException("Stream cannot be null!");
-            }
-
-            _targetStream = stream;
+            _targetStream = stream ?? throw new ArgumentNullException(nameof(stream));
             _autoDisposeSink = autoDisposeSink;
             _soundSink = sink;
 
@@ -79,6 +84,7 @@ namespace SharpAudio.Codec
             streamThread.Start();
         }
 
+        /// <inheritdoc />
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
