@@ -93,6 +93,7 @@ namespace SharpAudio.Codec.FFmpeg
         }
 
         public override bool IsFinished => _isFinished;
+
         public TimeSpan Position => curPos;
         public override TimeSpan Duration => base.Duration;
 
@@ -108,8 +109,7 @@ namespace SharpAudio.Codec.FFmpeg
                 if (readCount > 0)
                     Marshal.Copy(ffmpegFSBuf, 0, (IntPtr) targetBuffer, readCount);
                 else
-                    return ffmpeg.AVERROR_EOF; // fixes Invalid return value 0 for stream protocol.
-                                               // related problem: https://trac.mplayerhq.hu/ticket/2335
+                    return ffmpeg.AVERROR_EOF; // fixes Invalid return value 0 for stream protocol. related problem: https://trac.mplayerhq.hu/ticket/2335
 
                 return readCount;
             }
