@@ -10,7 +10,7 @@ namespace SharpAudio.Tests
             var mp3Stream = typeof(SoundStreams).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.test.mp3");
 
             var engine = AudioEngine.CreateDefault();
-            using (var soundStream = new SoundStream(mp3Stream, engine))
+            using (var soundStream = new SoundStream(mp3Stream, new SoundSink(engine)))
             {
                 soundStream.Play();
             }

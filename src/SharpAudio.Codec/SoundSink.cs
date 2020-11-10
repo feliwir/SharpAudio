@@ -49,7 +49,6 @@ namespace SharpAudio.Codec
             Source?.Dispose();
             Source = Engine.CreateSource(_submixer);
             _chain.QueueData(Source, _silenceData, _format);
-                    Console.WriteLine("_silenceData");
             Source.Play();
         }
 
@@ -65,7 +64,6 @@ namespace SharpAudio.Codec
                 {
                     Thread.Sleep(TimeSpan.FromSeconds(0.5));
                     InitializeSource();
-                    Console.WriteLine("re-initializing");
                     continue;
                 }
 
@@ -82,7 +80,6 @@ namespace SharpAudio.Codec
                     _circBuffer.Read(_tempBuf, 0, _tempBuf.Length);
                     _chain.QueueData(Source, _tempBuf, _format);
                     _receiver?.Receive(_tempBuf);
-                    Console.WriteLine("Queued");
                 }
                 else if ((cL < tL) & (cL > 0))
                 {
@@ -92,11 +89,9 @@ namespace SharpAudio.Codec
                     Buffer.BlockCopy(remainingSamples, 0, _tempBuf, 0, remainingSamples.Length);
                     _chain.QueueData(Source, _tempBuf, _format);
                     _receiver?.Receive(_tempBuf);
-                    Console.WriteLine("Queued");
                 }
                 else
                 {
-                    Console.WriteLine("_silenceData");
                     _chain.QueueData(Source, _silenceData, _format);
                 }
             }

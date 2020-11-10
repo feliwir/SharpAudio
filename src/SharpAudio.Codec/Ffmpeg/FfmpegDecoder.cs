@@ -94,7 +94,7 @@ namespace SharpAudio.Codec.FFmpeg
 
         public override bool IsFinished => _isFinished;
 
-        public TimeSpan Position => curPos;
+        public override TimeSpan Position => curPos;
         public override TimeSpan Duration => base.Duration;
 
         private unsafe int Read(void* opaque, byte* targetBuffer, int targetBufferLength)
