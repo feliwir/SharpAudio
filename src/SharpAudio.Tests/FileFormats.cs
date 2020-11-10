@@ -11,7 +11,7 @@ namespace SharpAudio.Tests
             var waveStream = typeof(FileFormats).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.bach.wav");
 
             var engine = AudioEngine.CreateDefault();
-            var soundStream = new SoundStream(waveStream, engine);
+            var soundStream = new SoundStream(waveStream, new SoundSink(engine));
 
             Assert.True(soundStream.Format.BitsPerSample == 16);
             Assert.True(soundStream.Format.Channels == 2);
@@ -28,7 +28,7 @@ namespace SharpAudio.Tests
             var mp3Stream = typeof(FileFormats).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.test.mp3");
 
             var engine = AudioEngine.CreateDefault();
-            var soundStream = new SoundStream(mp3Stream, engine);
+            var soundStream = new SoundStream(mp3Stream, new SoundSink(engine));
 
             Assert.True(soundStream.Format.BitsPerSample == 16);
             Assert.True(soundStream.Format.Channels == 2);
@@ -45,7 +45,7 @@ namespace SharpAudio.Tests
             var vorbisStream = typeof(FileFormats).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.Example.ogg");
 
             var engine = AudioEngine.CreateDefault();
-            var soundStream = new SoundStream(vorbisStream, engine);
+            var soundStream = new SoundStream(vorbisStream, new SoundSink(engine));
 
             Assert.True(soundStream.Format.BitsPerSample == 16);
             Assert.True(soundStream.Format.Channels == 2);
@@ -62,7 +62,7 @@ namespace SharpAudio.Tests
             var ffmpegStream = typeof(FileFormats).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.sample.flac");
 
             var engine = AudioEngine.CreateDefault();
-            var soundStream = new SoundStream(ffmpegStream, engine);
+            var soundStream = new SoundStream(ffmpegStream, new SoundSink(engine));
 
             Assert.True(soundStream.Format.BitsPerSample == 16);
             Assert.True(soundStream.Format.Channels == 2);
