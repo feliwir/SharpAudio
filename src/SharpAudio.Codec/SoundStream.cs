@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -8,173 +9,223 @@ using SharpAudio.Codec.FFmpeg;
 using SharpAudio.Codec.Mp3;
 using SharpAudio.Codec.Vorbis;
 using SharpAudio.Codec.Wave;
+using SharpDX.Multimedia;
 
 namespace SharpAudio.Codec
 {
-    public sealed class SoundStream : IDisposable
+    public sealed class SoundStream : IDisposable, INotifyPropertyChanged
     {
-        private Decoder _decoder;
-        private BufferChain _chain;
-        private AudioBuffer _buffer;
         private byte[] _data;
-        private Stopwatch _timer;
-        private Task _playTask;
-        private CancellationTokenSource _cancelToken;
+        private Decoder _decoder;
+        private readonly SoundSink _soundSink;
+        private SoundStreamState _state = SoundStreamState.Paused;
+        private static readonly TimeSpan SampleQuantum = TimeSpan.FromSeconds(0.05);
 
-        private static byte[] MakeFourCC(string magic)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="SharpDX.Multimedia.SoundStream" /> class.
+        /// </summary>
+        /// <param name="stream">The sound stream.</param>
+        /// <param name="engine">The audio engine</param>
+        public SoundStream(Stream stream, SoundSink sink)
         {
-            return new[] {  (byte)magic[0],
-                            (byte)magic[1],
-                            (byte)magic[2],
-                            (byte)magic[3]};
+            if (stream == null)
+            {
+                throw new ArgumentNullException("Stream cannot be null!");
+            }
+
+            IsStreamed = !stream.CanSeek;
+
+            _targetStream = stream;
+
+            _soundSink = sink;
+
+            if (stream == null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            // var fourcc = stream.ReadFourCc();
+            // stream.Seek(0, SeekOrigin.Begin);
+
+            // if (fourcc.SequenceEqual(MakeFourCC("RIFF")))
+            // {
+            //     _decoder = new WaveDecoder(stream);
+            // }
+            // else if (fourcc.SequenceEqual(MakeFourCC("ID3\u0001")) ||
+            //          fourcc.SequenceEqual(MakeFourCC("ID3\u0002")) ||
+            //          fourcc.SequenceEqual(MakeFourCC("ID3\u0003")) ||
+            //          fourcc.AsSpan(0, 2).SequenceEqual(new byte[] { 0xFF, 0xFB }))
+            // {
+            //     _decoder = new Mp3Decoder(stream);
+            // }
+            // else if (fourcc.SequenceEqual(MakeFourCC("OggS")))
+            // {
+            //     _decoder = new VorbisDecoder(stream);
+            // }
+            // else
+            // {
+            _decoder = new FFmpegDecoder(stream);
+            // }
+
+            // stream.Seek(0, SeekOrigin.Begin);
+            var streamThread = new Thread(MainLoop);
+
+            streamThread.Start();
         }
 
-        /// <summary>
-        /// The audio format of this stream
-        /// </summary>
-        public AudioFormat Format => _decoder.Format;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// The underlying source
+        ///     Whether or not the audio is finished
         /// </summary>
-        public AudioSource Source { get; }
+        public bool IsPlaying => State == SoundStreamState.Playing;
 
         /// <summary>
-        /// Wether or not the audio is finished
-        /// </summary>
-        public bool IsPlaying => Source.IsPlaying();
-
-        /// <summary>
-        /// Wether or not the audio is streamed
+        ///     Whether or not the audio is streamed
         /// </summary>
         public bool IsStreamed { get; }
 
+        public AudioFormat Format => _decoder.Format;
+
+        private readonly Stream _targetStream;
+
         /// <summary>
-        /// The volume of the source
+        ///     The volume of the source
         /// </summary>
         public float Volume
         {
-            get => Source.Volume;
-            set => Source.Volume = value;
+            get => _soundSink?.Source.Volume ?? 0;
+            set => _soundSink.Source.Volume = value;
         }
 
         /// <summary>
-        /// Duration when provided by the decoder. Otherwise 0
+        ///     Duration when provided by the decoder. Otherwise 0
         /// </summary>
         public TimeSpan Duration => _decoder.Duration;
 
         /// <summary>
-        /// Current position inside the stream
+        ///     Current position inside the stream
         /// </summary>
-        public TimeSpan Position => _timer.Elapsed;
+        public TimeSpan Position => _decoder.Position;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SoundStream"/> class.
-        /// </summary>
-        /// <param name="stream">The sound stream.</param>
-        /// <param name="engine">The audio engine</param>
-        public SoundStream(Stream stream, AudioEngine engine, Submixer mixer = null)
+        public static object stateLock = new object();
+
+        public SoundStreamState State
         {
-            if (stream == null)
-                throw new ArgumentNullException("Stream cannot be null!");
-
-            IsStreamed = false;
-            var fourcc = stream.ReadFourCc();
-            stream.Seek(0, SeekOrigin.Begin);
-
-            if (fourcc.SequenceEqual(MakeFourCC("RIFF")))
+            set
             {
-                _decoder = new WaveDecoder(stream);
-            }
-            else if (fourcc.SequenceEqual(MakeFourCC("ID3\u0001")) ||
-                    fourcc.SequenceEqual(MakeFourCC("ID3\u0002")) ||
-                    fourcc.SequenceEqual(MakeFourCC("ID3\u0003")) ||
-                    fourcc.AsSpan(0, 2).SequenceEqual(new byte[] { 0xFF, 0xFB }))
-            {
-                _decoder = new Mp3Decoder(stream);
-                IsStreamed = true;
-            }
-            else if (fourcc.SequenceEqual(MakeFourCC("OggS")))
-            {
-                _decoder = new VorbisDecoder(stream);
-                IsStreamed = true;
-            }
-            else
-            {
-                _decoder = new FFmpegDecoder(stream);
-                IsStreamed = true;
-            }
-
-            Source = engine.CreateSource(mixer);
-
-            if (IsStreamed)
-            {
-                _chain = new BufferChain(engine);
-                _decoder.GetSamples(TimeSpan.FromSeconds(1), ref _data);
-                _chain.QueueData(Source, _data, _decoder.Format);
-
-                _decoder.GetSamples(TimeSpan.FromSeconds(1), ref _data);
-                _chain.QueueData(Source, _data, _decoder.Format);
-            }
-            else
-            {
-                _buffer = engine.CreateBuffer();
-                _decoder.GetSamples(ref _data);
-                _buffer.BufferData(_data, _decoder.Format);
-                Source.QueueBuffer(_buffer);
-            }
-
-            _timer = new Stopwatch();
-            _cancelToken = new CancellationTokenSource();
-        }
-
-        /// <summary>
-        /// Start playing the soundstream 
-        /// </summary>
-        public void Play()
-        {
-            Source.Play();
-            _timer.Start();
-
-            if (IsStreamed)
-            {
-                _playTask = Task.Run(() =>
+                lock (stateLock)
                 {
-                    while (Source.IsPlaying())
-                    {
-                        if (Source.BuffersQueued < 3 && !_decoder.IsFinished)
-                        {
-                            _decoder.GetSamples(TimeSpan.FromSeconds(1), ref _data);
-                            _chain.QueueData(Source, _data, Format);
-                        }
-
-                        if (_cancelToken.IsCancellationRequested)
-                        {
-                            break;
-                        }
-
-                        Thread.Sleep(100);
-                    }
-                    _timer.Stop();
-                }, _cancelToken.Token);
+                    _state = value;
+                }
             }
-        }
-
-        /// <summary>
-        /// Stop the soundstream
-        /// </summary>
-        public void Stop()
-        {
-            Source.Stop();
-            _timer.Stop();
+            get
+            {
+                lock (stateLock)
+                {
+                    return _state;
+                }
+            }
         }
 
         public void Dispose()
         {
-            _cancelToken.Cancel();
-            _playTask?.Wait();
-            _buffer?.Dispose();
-            Source.Dispose();
+            State = SoundStreamState.Stop;
+        }
+
+        public void TrySeek(TimeSpan seek)
+        {
+            _soundSink.ClearBuffers();
+            _decoder.TrySeek(seek);
+        }
+
+        /// <summary>
+        ///     Start playing the soundstream
+        /// </summary>
+        public void Play()
+        {
+            switch (State)
+            {
+                case SoundStreamState.Idle:
+                    State = SoundStreamState.PreparePlay;
+                    break;
+
+                case SoundStreamState.PreparePlay:
+                case SoundStreamState.Playing:
+                    State = SoundStreamState.Paused;
+                    break;
+
+                case SoundStreamState.Paused:
+                    State = SoundStreamState.Playing;
+                    break;
+            }
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(State)));
+        }
+
+        private void MainLoop()
+        {
+            while (State != SoundStreamState.Stop & State != SoundStreamState.TrackFinished)
+            {
+                switch (State)
+                {
+                    case SoundStreamState.PreparePlay:
+                        State = SoundStreamState.Paused;
+                        break;
+
+                    case SoundStreamState.Playing:
+                        if (_soundSink.NeedsNewSample)
+                        {
+                            var res = _decoder.GetSamples(SampleQuantum, ref _data);
+
+                            if (res == 0)
+                            {
+                                continue;
+                            }
+
+                            if (res == -1)
+                            {
+                                State = SoundStreamState.TrackFinished;
+                                continue;
+                            }
+
+                            _soundSink.Send(_data);
+                            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Position)));
+                        }
+
+                        if (_decoder.IsFinished)
+                        {
+                            State = SoundStreamState.TrackFinished;
+                            continue;
+                        }
+
+                        break;
+                }
+
+                Thread.Sleep(2);
+            }
+
+            _decoder.Dispose();
+            _targetStream.Dispose();
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Position)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(State)));
+        }
+
+        /// <summary>
+        ///     Stop the soundstream
+        /// </summary>
+        public void Stop()
+        {
+            State = SoundStreamState.Stop;
+        }
+
+        private static byte[] MakeFourCC(string magic)
+        {
+            return new[] {  (byte)magic[0],
+                (byte)magic[1],
+                (byte)magic[2],
+                (byte)magic[3]};
         }
     }
 }

@@ -17,6 +17,7 @@ namespace SharpAudio.Codec
         /// Specifies the length of the decoded data. If not available returns 0
         /// </summary>
         public virtual TimeSpan Duration => TimeSpan.FromSeconds((float) _numSamples / (_audioFormat.SampleRate * _audioFormat.Channels));
+        public virtual TimeSpan Position => TimeSpan.Zero;
 
         /// <summary>
         /// Wether or not the decoder reached the end of data
