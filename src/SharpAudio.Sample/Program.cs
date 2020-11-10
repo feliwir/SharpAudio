@@ -35,7 +35,7 @@ namespace SharpAudio.Sample
 
             foreach (var file in opts.InputFiles)
             {
-                var soundStream = new SoundStream(File.OpenRead(file), new SoundSink(engine));
+                var soundStream = new SoundStream(File.OpenRead(file), engine);
 
                 soundStream.Volume = opts.Volume / 100.0f;
 
