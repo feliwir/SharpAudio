@@ -18,7 +18,6 @@ namespace SharpAudio.Codec
         private static readonly TimeSpan SampleQuantum = TimeSpan.FromSeconds(0.05);
         private SoundStreamState _state = SoundStreamState.Paused;
 
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="SharpAudio.Codec.SoundStream" /> class.
         /// </summary>
