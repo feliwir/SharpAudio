@@ -10,7 +10,10 @@ namespace SharpAudio.Codec.Vorbis
         private float[] _readBuf;
 
         public override bool IsFinished => throw new NotImplementedException();
-        public override TimeSpan Position => TimeSpan.Zero;
+
+        public override TimeSpan Position => TimeSpan.MinValue;
+
+        public override bool HasPosition { get; } = false;
 
         public VorbisDecoder(Stream s)
         {

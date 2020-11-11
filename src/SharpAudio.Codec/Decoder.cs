@@ -17,12 +17,16 @@ namespace SharpAudio.Codec
         /// Specifies the length of the decoded data. If not available returns 0
         /// </summary>
         public virtual TimeSpan Duration => TimeSpan.FromSeconds((float) _numSamples / (_audioFormat.SampleRate * _audioFormat.Channels));
-        
-        
+
         /// <summary>
         /// Specifies the current position of the decoded data. If not available returns 0
         /// </summary>
         public abstract TimeSpan Position { get; }
+
+        /// <summary>
+        /// Specifies if the decoder can return track position data or not.
+        /// </summary>
+        public abstract bool HasPosition { get; }
 
         /// <summary>
         /// Wether or not the decoder reached the end of data
@@ -49,7 +53,7 @@ namespace SharpAudio.Codec
 
             return GetSamples(numSamples, ref data);
         }
- 
+
         public bool Probe(ref byte[] fourcc) => false;
 
         public virtual void Dispose()

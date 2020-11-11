@@ -56,8 +56,10 @@ namespace SharpAudio.Codec.Wave
 
         public override bool IsFinished => _samplesLeft == 0;
 
-        public override TimeSpan Position => TimeSpan.Zero;
-        
+        public override TimeSpan Position => TimeSpan.MinValue;
+
+        public override bool HasPosition { get; } = false;
+
         public override long GetSamples(int samples, ref byte[] data)
         {
             int numSamples = Math.Min(samples, _samplesLeft);

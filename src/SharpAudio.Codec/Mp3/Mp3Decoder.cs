@@ -21,7 +21,10 @@ namespace SharpAudio.Codec.Mp3
         }
 
         public override bool IsFinished => _mp3Stream.Position == _mp3Stream.Length;
-        public override TimeSpan Position => TimeSpan.Zero;
+
+        public override TimeSpan Position => TimeSpan.FromSeconds((_mp3Stream.Position / _mp3Stream.Length) * _audioFormat.SampleRate);
+
+        public override bool HasPosition { get; } = true;
 
         public override long GetSamples(int samples, ref byte[] data)
         {
