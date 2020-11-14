@@ -19,7 +19,7 @@ namespace SharpAudio.Codec
         private SoundStreamState _state = SoundStreamState.Paused;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="SharpAudio.Codec.SoundStream" /> class.
+        /// Initializes a new instance of the <see cref="SharpAudio.Codec.SoundStream" /> class.
         /// </summary>
         /// <param name="stream">The file stream of the target music file.</param>
         /// <param name="engine">The target <see cref="AudioEngine"/></param>
@@ -30,7 +30,7 @@ namespace SharpAudio.Codec
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="SharpAudio.Codec.SoundStream" /> class.
+        /// Initializes a new instance of the <see cref="SharpAudio.Codec.SoundStream" /> class.
         /// </summary>
         /// <param name="stream">The file stream of the target music file.</param>
         /// <param name="sink">The target <see cref="SoundSink"/> to play on.</param>
@@ -87,12 +87,12 @@ namespace SharpAudio.Codec
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        ///     Whether or not the audio is finished
+        /// Whether or not the audio is finished
         /// </summary>
         public bool IsPlaying => State == SoundStreamState.Playing;
 
         /// <summary>
-        ///     Whether or not the audio is streamed
+        /// Whether or not the audio is streamed
         /// </summary>
         public bool IsStreamed { get; }
 
@@ -101,7 +101,7 @@ namespace SharpAudio.Codec
         private readonly Stream _targetStream;
 
         /// <summary>
-        ///     The volume of the source
+        /// The volume of the source
         /// </summary>
         public float Volume
         {
@@ -110,12 +110,12 @@ namespace SharpAudio.Codec
         }
 
         /// <summary>
-        ///     Duration when provided by the decoder. Otherwise 0
+        /// Duration when provided by the decoder. Otherwise 0
         /// </summary>
         public TimeSpan Duration => _decoder.Duration;
 
         /// <summary>
-        ///     Current position inside the stream
+        /// Current position inside the stream
         /// </summary>
         public TimeSpan Position => _decoder.Position;
 
@@ -152,7 +152,7 @@ namespace SharpAudio.Codec
         }
 
         /// <summary>
-        ///     Start playing the soundstream
+        /// Start playing the soundstream
         /// </summary>
         public void Play()
         {
@@ -229,7 +229,7 @@ namespace SharpAudio.Codec
         }
 
         /// <summary>
-        ///     Stop the soundstream
+        /// Stop the soundstream
         /// </summary>
         public void Stop()
         {
