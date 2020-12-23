@@ -31,6 +31,7 @@ namespace SharpAudio.Codec
             _tempBuf = new byte[_silenceData.Length];
             _submixer = submixer;
             _sinkThread = new Thread(MainLoop);
+            _sinkThread.Name = "SoundSink";
             _sinkThread.Start();
         }
 

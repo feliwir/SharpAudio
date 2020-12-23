@@ -15,6 +15,7 @@ namespace SharpAudio.Codec
         private byte[] _data;
         private readonly Decoder _decoder;
         private readonly SoundSink _soundSink;
+        private Thread _streamThread;
         private static readonly TimeSpan SampleQuantum = TimeSpan.FromSeconds(0.05);
         private SoundStreamState _state = SoundStreamState.Paused;
 
@@ -81,9 +82,9 @@ namespace SharpAudio.Codec
                 }
             }
 
-            var streamThread = new Thread(MainLoop);
-
-            streamThread.Start();
+            _streamThread = new Thread(MainLoop);
+            _streamThread.Name = "SoundStream";
+            _streamThread.Start();
         }
 
         /// <inheritdoc />
@@ -146,6 +147,7 @@ namespace SharpAudio.Codec
         public void Dispose()
         {
             State = SoundStreamState.Stop;
+            _streamThread.Join();
         }
 
         public void TrySeek(TimeSpan seek)
@@ -180,7 +182,7 @@ namespace SharpAudio.Codec
 
         private void MainLoop()
         {
-            while (State != SoundStreamState.Stop & State != SoundStreamState.TrackFinished)
+            while (State != SoundStreamState.Stop && State != SoundStreamState.TrackFinished)
             {
                 switch (State)
                 {
