@@ -41,6 +41,16 @@ namespace SharpAudio.Codec
         /// <returns></returns>
         public abstract long GetSamples(int samples, ref byte[] data);
 
+        /// <summary>	
+        /// Read all samples from this stream	
+        /// </summary>	
+        /// <param name="data"></param>	
+        /// <returns></returns>	
+        public long GetSamples(ref byte[] data)
+        {
+            return GetSamples(_numSamples, ref data);
+        }
+
         /// <summary>
         /// Reads the specified amount of samples
         /// </summary>

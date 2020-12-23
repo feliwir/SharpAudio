@@ -46,11 +46,10 @@ namespace SharpAudio.Codec
                 throw new ArgumentNullException(nameof(stream));
             }
 
-            IsStreamed = !stream.CanSeek;
-
-            if (!IsStreamed)
+            if (!stream.CanSeek)
             {
                 _decoder = new FFmpegDecoder(stream);
+                IsStreamed = true;
             }
             else
             {
@@ -60,6 +59,7 @@ namespace SharpAudio.Codec
                 if (fourcc.SequenceEqual(MakeFourCC("RIFF")))
                 {
                     _decoder = new WaveDecoder(stream);
+                    IsStreamed = false;
                 }
                 else if (fourcc.SequenceEqual(MakeFourCC("ID3\u0001")) ||
                          fourcc.SequenceEqual(MakeFourCC("ID3\u0002")) ||
@@ -67,14 +67,17 @@ namespace SharpAudio.Codec
                          fourcc.AsSpan(0, 2).SequenceEqual(new byte[] { 0xFF, 0xFB }))
                 {
                     _decoder = new Mp3Decoder(stream);
+                    IsStreamed = true;
                 }
                 else if (fourcc.SequenceEqual(MakeFourCC("OggS")))
                 {
                     _decoder = new VorbisDecoder(stream);
+                    IsStreamed = true;
                 }
                 else
                 {
                     _decoder = new FFmpegDecoder(stream);
+                    IsStreamed = true;
                 }
             }
 

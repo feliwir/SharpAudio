@@ -13,6 +13,7 @@ namespace SharpAudio.Codec
         private readonly ISoundSinkReceiver _receiver;
         private readonly byte[] _tempBuf;
         private volatile bool _isDisposed;
+        private Thread _sinkThread;
         private Submixer _submixer;
 
         public SoundSink(AudioEngine audioEngine, Submixer submixer = null, ISoundSinkReceiver receiver = null)
@@ -29,8 +30,8 @@ namespace SharpAudio.Codec
             _circBuffer = new CircularBuffer(_silenceData.Length);
             _tempBuf = new byte[_silenceData.Length];
             _submixer = submixer;
-            var sinkThread = new Thread(MainLoop);
-            sinkThread.Start();
+            _sinkThread = new Thread(MainLoop);
+            _sinkThread.Start();
         }
 
         public AudioEngine Engine { get; }
@@ -42,6 +43,7 @@ namespace SharpAudio.Codec
         public void Dispose()
         {
             _isDisposed = true;
+            _sinkThread.Join();
         }
 
         private void InitializeSource()
@@ -58,8 +60,6 @@ namespace SharpAudio.Codec
 
             while (!_isDisposed)
             {
-                Thread.Sleep(1);
-
                 if (Source is null || !Source.IsPlaying())
                 {
                     Thread.Sleep(TimeSpan.FromSeconds(0.5));
