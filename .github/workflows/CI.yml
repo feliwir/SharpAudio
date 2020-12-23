@@ -67,3 +67,5 @@ jobs:
              curl -vX PUT -u "feliwir:${{ secrets.GITHUB_TOKEN }}" -F package=@$f https://nuget.pkg.github.com/feliwir/
            done
       shell: bash
+      env:
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
