@@ -39,9 +39,13 @@ jobs:
 
     - name: Test
       run: dotnet test src --configuration Release --filter Category!=Interactive
+      env:
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
 
     - name: Pack
       run: dotnet pack src --configuration Release --output build/artifacts/${{ matrix.runtime }}
+      env:
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v1
