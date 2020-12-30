@@ -8,13 +8,13 @@ namespace SharpAudio.AL
     {
         public override void SetListenerOrientation(Vector3 top, Vector3 front)
         {
-			float[] listenerOri = new float[] { front.X, front.Y, front.Z, top.X, top.Y, top.Z };
-			AlNative.alListenerfv(AlNative.AL_ORIENTATION, ref listenerOri);
+            float[] listenerOri = new float[] { front.X, front.Y, front.Z, top.X, top.Y, top.Z };
+            AlNative.alListenerfv(AlNative.AL_ORIENTATION, ref listenerOri);
         }
 
         public override void SetListenerPosition(Vector3 position)
         {
-			AlNative.alListener3f(AlNative.AL_POSITION, position.X, position.Y, position.Z);
+            AlNative.alListener3f(AlNative.AL_POSITION, position.X, position.Y, position.Z);
         }
 
         public override void SetSourcePosition(AudioSource source, Vector3 position)
