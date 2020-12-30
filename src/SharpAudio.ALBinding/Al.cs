@@ -153,6 +153,11 @@ namespace SharpAudio.ALBinding
         public static void alSourcef(uint source, int param, float value) => s_al_sourcef(source, param, value);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void AL_sourcefv_t(uint source, int param, ref float[] value);
+        private static AL_sourcefv_t s_al_sourcefv;
+        public static void alSourcefv(uint source, int param, ref float[] value) => s_al_sourcefv(source, param, ref value);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void AL_getSourcef_t(uint source, int param, out float value);
         private static AL_getSourcef_t s_al_getSourcef;
         public static void alGetSourcef(uint source, int param, out float value) => s_al_getSourcef(source, param, out value);
@@ -162,8 +167,17 @@ namespace SharpAudio.ALBinding
         private static AL_isExtensionPresent_t s_al_isExtensionPresent;
         public static bool alIsExtensionPresent(string extname) => s_al_isExtensionPresent(extname);
 
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+		private delegate void AL_Listenerfv_t(int param, ref float[] value3);
+		private static AL_Listenerfv_t s_al_Listenerfv;
+		public static void alListenerfv(int param, ref float[] value3) => s_al_Listenerfv(param, ref value3);
 
-        private static void LoadAl()
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+		private delegate void AL_Listener3f_t(int param, float value1, float value2, float value3);
+		private static AL_Listener3f_t s_al_Listener3f;
+		public static void alListener3f(int param, float value1, float value2, float value3) => s_al_Listener3f(param, value1, value2, value3);
+
+		private static void LoadAl()
         {
             s_al_getError = LoadFunction<AL_getError_t>("alGetError");
 
@@ -188,6 +202,11 @@ namespace SharpAudio.ALBinding
 
             s_al_sourcef = LoadFunction<AL_sourcef_t>("alSourcef");
             s_al_getSourcef = LoadFunction<AL_getSourcef_t>("alGetSourcef");
-        }
+
+            s_al_sourcefv = LoadFunction<AL_sourcefv_t>("alSourcefv");
+
+			s_al_Listenerfv = LoadFunction<AL_Listenerfv_t>("alListenerfv");
+			s_al_Listener3f = LoadFunction<AL_Listener3f_t>("alListener3f");
+		}
     }
 }
