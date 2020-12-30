@@ -167,17 +167,17 @@ namespace SharpAudio.ALBinding
         private static AL_isExtensionPresent_t s_al_isExtensionPresent;
         public static bool alIsExtensionPresent(string extname) => s_al_isExtensionPresent(extname);
 
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		private delegate void AL_Listenerfv_t(int param, ref float[] value3);
-		private static AL_Listenerfv_t s_al_Listenerfv;
-		public static void alListenerfv(int param, ref float[] value3) => s_al_Listenerfv(param, ref value3);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void AL_Listenerfv_t(int param, ref float[] value3);
+        private static AL_Listenerfv_t s_al_Listenerfv;
+        public static void alListenerfv(int param, ref float[] value3) => s_al_Listenerfv(param, ref value3);
 
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		private delegate void AL_Listener3f_t(int param, float value1, float value2, float value3);
-		private static AL_Listener3f_t s_al_Listener3f;
-		public static void alListener3f(int param, float value1, float value2, float value3) => s_al_Listener3f(param, value1, value2, value3);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void AL_Listener3f_t(int param, float value1, float value2, float value3);
+        private static AL_Listener3f_t s_al_Listener3f;
+        public static void alListener3f(int param, float value1, float value2, float value3) => s_al_Listener3f(param, value1, value2, value3);
 
-		private static void LoadAl()
+        private static void LoadAl()
         {
             s_al_getError = LoadFunction<AL_getError_t>("alGetError");
 
@@ -205,8 +205,8 @@ namespace SharpAudio.ALBinding
 
             s_al_sourcefv = LoadFunction<AL_sourcefv_t>("alSourcefv");
 
-			s_al_Listenerfv = LoadFunction<AL_Listenerfv_t>("alListenerfv");
-			s_al_Listener3f = LoadFunction<AL_Listener3f_t>("alListener3f");
-		}
+            s_al_Listenerfv = LoadFunction<AL_Listenerfv_t>("alListenerfv");
+            s_al_Listener3f = LoadFunction<AL_Listener3f_t>("alListener3f");
+        }
     }
 }
