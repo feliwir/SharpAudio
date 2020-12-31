@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Numerics;
 using SharpAudio.ALBinding;
 
@@ -19,7 +19,8 @@ namespace SharpAudio.AL
 
         public override void SetSourcePosition(AudioSource source, Vector3 position)
         {
-            throw new NotImplementedException();
+            ALSource alSource = (ALSource) source;
+            AlNative.alSource3f(alSource._source, AlNative.AL_POSITION, position.X, position.Y, position.Z);
         }
     }
 }

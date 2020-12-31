@@ -153,6 +153,11 @@ namespace SharpAudio.ALBinding
         public static void alSourcef(uint source, int param, float value) => s_al_sourcef(source, param, value);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void AL_source3f_t(uint source, int param, float value1, float value2, float value3);
+        private static AL_source3f_t s_al_source3f;
+        public static void alSource3f(uint source, int param, float value1, float value2, float value3) => s_al_source3f(source, param, value1, value2, value3);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void AL_sourcefv_t(uint source, int param, ref float[] value);
         private static AL_sourcefv_t s_al_sourcefv;
         public static void alSourcefv(uint source, int param, ref float[] value) => s_al_sourcefv(source, param, ref value);
@@ -204,6 +209,7 @@ namespace SharpAudio.ALBinding
             s_al_getSourcef = LoadFunction<AL_getSourcef_t>("alGetSourcef");
 
             s_al_sourcefv = LoadFunction<AL_sourcefv_t>("alSourcefv");
+            s_al_source3f = LoadFunction<AL_source3f_t>("alSource3f");
 
             s_al_Listenerfv = LoadFunction<AL_Listenerfv_t>("alListenerfv");
             s_al_Listener3f = LoadFunction<AL_Listener3f_t>("alListener3f");
