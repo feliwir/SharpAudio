@@ -63,7 +63,7 @@ namespace SharpAudio.AL
 
         public override Submixer CreateSubmixer()
         {
-            throw new NotImplementedException();
+            return new ALSubmixer(this);
         }
     }
 }
