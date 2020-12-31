@@ -5,7 +5,7 @@ namespace SharpAudio.AL
 {
     internal sealed class ALSource : AudioSource
     {
-        private uint _source;
+        internal uint _source;
 
         public override int BuffersQueued
         {
