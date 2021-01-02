@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using SharpAudio.ALBinding;
 
 namespace SharpAudio.AL
@@ -14,6 +14,7 @@ namespace SharpAudio.AL
                 RemoveProcessed();
 
                 AlNative.alGetSourcei(_source, AlNative.AL_BUFFERS_QUEUED, out int bufs);
+                ALEngine.checkAlError();
                 return bufs;
             }
         }
@@ -40,6 +41,7 @@ namespace SharpAudio.AL
 
         public override void Dispose()
         {
+            ALEngine.checkAlError();
             AlNative.alDeleteSources(1, new uint[] { _source });
             ALEngine.checkAlError();
         }
@@ -52,6 +54,7 @@ namespace SharpAudio.AL
         public override bool IsPlaying()
         {
             AlNative.alGetSourcei(_source, AlNative.AL_SOURCE_STATE, out int state);
+            ALEngine.checkAlError();
             bool playing = state == AlNative.AL_PLAYING;
 
             return playing;
@@ -73,6 +76,7 @@ namespace SharpAudio.AL
             {
                 var bufs = new uint[] { 1 };
                 AlNative.alSourceUnqueueBuffers(_source, 1, bufs);
+                ALEngine.checkAlError();
                 processed--;
             }
         }
