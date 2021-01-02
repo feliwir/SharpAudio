@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Numerics;
 using SharpAudio.ALBinding;
 
@@ -9,7 +9,7 @@ namespace SharpAudio.AL
         public override void SetListenerOrientation(Vector3 top, Vector3 front)
         {
             float[] listenerOri = new float[] { front.X, front.Y, front.Z, top.X, top.Y, top.Z };
-            AlNative.alListenerfv(AlNative.AL_ORIENTATION, ref listenerOri);
+            AlNative.alListenerfv(AlNative.AL_ORIENTATION, listenerOri);
         }
 
         public override void SetListenerPosition(Vector3 position)

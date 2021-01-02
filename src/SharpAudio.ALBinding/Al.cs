@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 
 #pragma warning disable CS1591
@@ -158,9 +158,9 @@ namespace SharpAudio.ALBinding
         public static void alSource3f(uint source, int param, float value1, float value2, float value3) => s_al_source3f(source, param, value1, value2, value3);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void AL_sourcefv_t(uint source, int param, ref float[] value);
+        private delegate void AL_sourcefv_t(uint source, int param, float[] values);
         private static AL_sourcefv_t s_al_sourcefv;
-        public static void alSourcefv(uint source, int param, ref float[] value) => s_al_sourcefv(source, param, ref value);
+        public static void alSourcefv(uint source, int param, float[] values) => s_al_sourcefv(source, param, values);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void AL_getSourcef_t(uint source, int param, out float value);
@@ -173,9 +173,9 @@ namespace SharpAudio.ALBinding
         public static bool alIsExtensionPresent(string extname) => s_al_isExtensionPresent(extname);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void AL_Listenerfv_t(int param, ref float[] value3);
+        private delegate void AL_Listenerfv_t(int param, float[] values);
         private static AL_Listenerfv_t s_al_Listenerfv;
-        public static void alListenerfv(int param, ref float[] value3) => s_al_Listenerfv(param, ref value3);
+        public static void alListenerfv(int param, float[] values) => s_al_Listenerfv(param, values);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void AL_Listener3f_t(int param, float value1, float value2, float value3);
