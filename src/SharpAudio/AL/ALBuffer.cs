@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using SharpAudio.ALBinding;
 
@@ -56,6 +56,7 @@ namespace SharpAudio.AL
         public override void Dispose()
         {
             AlNative.alDeleteBuffers(1, new uint[] { Buffer });
+            ALEngine.checkAlError();
         }
     }
 }

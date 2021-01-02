@@ -20,6 +20,8 @@ namespace SharpAudio.AL
             AlNative.alcMakeContextCurrent(_context);
             checkAlcError();
             _floatSupport = AlNative.alIsExtensionPresent("AL_EXT_FLOAT32");
+            checkAlcError();
+        }
 
         private static String openAlErrorToString(int err)
         {
@@ -68,7 +70,9 @@ namespace SharpAudio.AL
         protected override void PlatformDispose()
         {
             AlNative.alcDestroyContext(_context);
+            checkAlcError();
             AlNative.alcCloseDevice(_device);
+            checkAlcError();
         }
 
         public override Audio3DEngine Create3DEngine()
