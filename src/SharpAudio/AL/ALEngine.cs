@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using SharpAudio.ALBinding;
 
 namespace SharpAudio.AL
@@ -20,6 +20,26 @@ namespace SharpAudio.AL
             AlNative.alcMakeContextCurrent(_context);
             checkAlcError();
             _floatSupport = AlNative.alIsExtensionPresent("AL_EXT_FLOAT32");
+
+        private static String openAlErrorToString(int err)
+        {
+            switch (err)
+            {
+            case AlNative.AL_NO_ERROR:
+                return "AL_NO_ERROR";
+            case AlNative.AL_INVALID_NAME:
+                return "AL_INVALID_NAME";
+            case AlNative.AL_INVALID_ENUM:
+                return "AL_INVALID_ENUM";
+            case AlNative.AL_INVALID_VALUE:
+                return "AL_INVALID_VALUE";
+            case AlNative.AL_INVALID_OPERATION:
+                return "AL_INVALID_OPERATION";
+            case AlNative.AL_OUT_OF_MEMORY:
+                return "AL_OUT_OF_MEMORY";
+            default:
+                return "Unknown error code";
+            }
         }
 
         internal static void checkAlError()
@@ -27,7 +47,7 @@ namespace SharpAudio.AL
             int error = AlNative.alGetError();
             if (error != AlNative.AL_NO_ERROR)
             {
-                throw new SharpAudioException("OpenAL Error: " + error);
+                throw new SharpAudioException("OpenAL Error: " + openAlErrorToString(error));
             }
         }
 
