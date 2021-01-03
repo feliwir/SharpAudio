@@ -69,6 +69,8 @@ namespace SharpAudio.AL
 
         protected override void PlatformDispose()
         {
+            AlNative.alcMakeContextCurrent((IntPtr)0);
+            checkAlcError();
             AlNative.alcDestroyContext(_context);
             checkAlcError();
             AlNative.alcCloseDevice(_device);
