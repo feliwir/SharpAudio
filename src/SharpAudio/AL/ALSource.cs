@@ -41,7 +41,6 @@ namespace SharpAudio.AL
 
         public override void Dispose()
         {
-            ALEngine.checkAlError();
             AlNative.alDeleteSources(1, new uint[] { _source });
             ALEngine.checkAlError();
         }
