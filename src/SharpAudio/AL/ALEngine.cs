@@ -20,7 +20,7 @@ namespace SharpAudio.AL
             AlNative.alcMakeContextCurrent(_context);
             checkAlcError();
             _floatSupport = AlNative.alIsExtensionPresent("AL_EXT_FLOAT32");
-            checkAlcError();
+            checkAlError();
         }
 
         private static String openAlErrorToString(int err)
