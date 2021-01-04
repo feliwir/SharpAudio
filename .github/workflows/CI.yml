@@ -32,6 +32,9 @@ jobs:
       with:
         dotnet-version: '3.1.x'
 
+    - name: Clean
+      run: dotnet nuget locals all --clear
+
     - name: Build
       run: dotnet build src --configuration Release
       env:
