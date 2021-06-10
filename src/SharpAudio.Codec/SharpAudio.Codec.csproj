@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="NLayer.Core" Version="1.15.0" />
-    <PackageReference Include="NVorbis" Version="0.9.0" />
+    <PackageReference Include="NVorbis" Version="0.10.3" />
     <PackageReference Include="System.Memory" Version="4.5.4" />
     <PackageReference Include="FFmpeg.AutoGen" Version="4.4.0" />
   </ItemGroup>
