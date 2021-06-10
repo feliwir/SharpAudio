@@ -39,11 +39,11 @@ jobs:
       run: dotnet build src --configuration Release
 
     - name: Test
-      run: dotnet test src --configuration Release --filter Category!=Interactive
+      run: dotnet test src --configuration Release --collect:"XPlat Code Coverage"
 
     - name: Upload coverage
       uses: codecov/codecov-action@v1
-      
+
     - name: Pack
       run: dotnet pack src --configuration Release --output build/artifacts/${{ matrix.runtime }}
 
