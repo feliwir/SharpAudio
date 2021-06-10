@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
-using SharpDX.X3DAudio;
 using SharpDX.Mathematics.Interop;
 using SharpDX.Multimedia;
+using SharpDX.X3DAudio;
 
 namespace SharpAudio.XA2
 {

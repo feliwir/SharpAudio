@@ -30,25 +30,22 @@ jobs:
     - name: Install .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '3.1.x'
+        dotnet-version: 5.0.202
 
     - name: Clean
       run: dotnet nuget locals all --clear
 
     - name: Build
       run: dotnet build src --configuration Release
-      env:
-        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
 
     - name: Test
       run: dotnet test src --configuration Release --filter Category!=Interactive
-      env:
-        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
 
+    - name: Upload coverage
+      uses: codecov/codecov-action@v1
+      
     - name: Pack
       run: dotnet pack src --configuration Release --output build/artifacts/${{ matrix.runtime }}
-      env:
-        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v1

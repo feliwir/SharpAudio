@@ -59,7 +59,7 @@ namespace SharpAudio.Codec
         /// <returns></returns>
         public long GetSamples(TimeSpan span, ref byte[] data)
         {
-            int numSamples =(int)(span.TotalSeconds * Format.SampleRate * Format.Channels);
+            int numSamples = (int) (span.TotalSeconds * Format.SampleRate * Format.Channels);
 
             return GetSamples(numSamples, ref data);
         }

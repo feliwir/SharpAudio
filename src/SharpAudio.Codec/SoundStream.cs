@@ -218,7 +218,7 @@ namespace SharpAudio.Codec
                         break;
                 }
 
-                Thread.Sleep(2);
+                Thread.Sleep(16);
             }
 
             if (_autoDisposeSink)

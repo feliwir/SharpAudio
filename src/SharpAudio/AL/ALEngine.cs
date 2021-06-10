@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using SharpAudio.ALBinding;
 
 namespace SharpAudio.AL
@@ -27,20 +27,20 @@ namespace SharpAudio.AL
         {
             switch (err)
             {
-            case AlNative.AL_NO_ERROR:
-                return "AL_NO_ERROR";
-            case AlNative.AL_INVALID_NAME:
-                return "AL_INVALID_NAME";
-            case AlNative.AL_INVALID_ENUM:
-                return "AL_INVALID_ENUM";
-            case AlNative.AL_INVALID_VALUE:
-                return "AL_INVALID_VALUE";
-            case AlNative.AL_INVALID_OPERATION:
-                return "AL_INVALID_OPERATION";
-            case AlNative.AL_OUT_OF_MEMORY:
-                return "AL_OUT_OF_MEMORY";
-            default:
-                return "Unknown error code";
+                case AlNative.AL_NO_ERROR:
+                    return "AL_NO_ERROR";
+                case AlNative.AL_INVALID_NAME:
+                    return "AL_INVALID_NAME";
+                case AlNative.AL_INVALID_ENUM:
+                    return "AL_INVALID_ENUM";
+                case AlNative.AL_INVALID_VALUE:
+                    return "AL_INVALID_VALUE";
+                case AlNative.AL_INVALID_OPERATION:
+                    return "AL_INVALID_OPERATION";
+                case AlNative.AL_OUT_OF_MEMORY:
+                    return "AL_OUT_OF_MEMORY";
+                default:
+                    return "Unknown error code";
             }
         }
 
@@ -69,7 +69,7 @@ namespace SharpAudio.AL
 
         protected override void PlatformDispose()
         {
-            AlNative.alcMakeContextCurrent((IntPtr)0);
+            AlNative.alcMakeContextCurrent((IntPtr) 0);
             checkAlcError();
             AlNative.alcDestroyContext(_context);
             checkAlcError();

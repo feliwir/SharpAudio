@@ -18,7 +18,7 @@ namespace SharpAudio.Codec
 
         public SoundSink(AudioEngine audioEngine, Submixer submixer = null, ISoundSinkReceiver receiver = null)
         {
-            _format = new AudioFormat {SampleRate = 44_100, Channels = 2, BitsPerSample = 16};
+            _format = new AudioFormat { SampleRate = 44_100, Channels = 2, BitsPerSample = 16 };
 
             var silenceDataCount = (int) (_format.Channels * _format.SampleRate * sizeof(ushort) * SampleQuantum.TotalSeconds);
 
