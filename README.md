@@ -45,7 +45,7 @@ A high level interface that can load and play sound files is provided in the Sha
     var engine = AudioEngine.CreateDefault();
     var soundStream = new SoundStream(File.OpenRead("test.mp3"), engine);
 
-    soundStream.Volume = 50.0f;
+    soundStream.Volume = 0.5f;
     soundStream.Play();
 ```
 
