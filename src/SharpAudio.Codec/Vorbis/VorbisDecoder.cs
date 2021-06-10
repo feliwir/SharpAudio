@@ -4,7 +4,7 @@ using NVorbis;
 
 namespace SharpAudio.Codec.Vorbis
 {
-    public class VorbisDecoder : Decoder
+    internal class VorbisDecoder : Decoder
     {
         private VorbisReader _reader;
         private float[] _readBuf;

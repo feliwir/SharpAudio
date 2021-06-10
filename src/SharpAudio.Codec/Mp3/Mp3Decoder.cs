@@ -4,7 +4,7 @@ using NLayer;
 
 namespace SharpAudio.Codec.Mp3
 {
-    public class Mp3Decoder : Decoder
+    internal class Mp3Decoder : Decoder
     {
         private MpegFile _mp3Stream;
         private int _index = 0;
@@ -34,6 +34,11 @@ namespace SharpAudio.Codec.Mp3
             int read = _mp3Stream.ReadSamplesInt16(data, 0, 2 * bytes);
 
             return read;
+        }
+
+        public override void Dispose()
+        {
+            _mp3Stream.Dispose();
         }
     }
 }

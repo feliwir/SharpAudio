@@ -2,7 +2,7 @@
 
 namespace SharpAudio.Codec
 {
-    public abstract class Decoder : IDisposable
+    internal abstract class Decoder : IDisposable
     {
         protected AudioFormat _audioFormat;
         protected int _numSamples = 0;

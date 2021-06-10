@@ -8,7 +8,7 @@ using FFmpeg.AutoGen;
 
 namespace SharpAudio.Codec.FFmpeg
 {
-    public class FFmpegDecoder : Decoder
+    internal class FFmpegDecoder : Decoder
     {
         private const int fsStreamSize = 8192;
         private readonly int _DESIRED_CHANNEL_COUNT = 2;
@@ -30,6 +30,7 @@ namespace SharpAudio.Codec.FFmpeg
         private int stream_index;
         private byte[] tempSampleBuf;
         private volatile bool _isDisposed;
+        private Thread _decoderThread;
 
         static FFmpegDecoder()
         {
@@ -89,7 +90,7 @@ namespace SharpAudio.Codec.FFmpeg
             targetStream = src;
             sampleByteSize = _DESIRED_SAMPLE_RATE * _DESIRED_CHANNEL_COUNT * sizeof(ushort);
 
-            Ffmpeg_Initialize();
+            FFmpeg_Initialize();
         }
 
         public override bool IsFinished => _isFinished;
@@ -143,7 +144,7 @@ namespace SharpAudio.Codec.FFmpeg
             return targetStream.Position;
         }
 
-        private unsafe void Ffmpeg_Initialize()
+        private unsafe void FFmpeg_Initialize()
         {
             var inputBuffer = (byte*) ffmpeg.av_malloc(fsStreamSize);
 
@@ -216,8 +217,8 @@ namespace SharpAudio.Codec.FFmpeg
             tempSampleBuf = new byte[_audioFormat.SampleRate * _audioFormat.Channels * 5];
             _slidestream = new CircularBuffer(tempSampleBuf.Length);
 
-            var decoderThread = new Thread(MainLoop);
-            decoderThread.Start();
+            _decoderThread = new Thread(MainLoop);
+            _decoderThread.Start();
 
         }
 
@@ -367,13 +368,11 @@ namespace SharpAudio.Codec.FFmpeg
 
         public override void Dispose()
         {
-            if (!_isDisposed)
-            {
-                if (targetStream.CanSeek)
-                    targetStream.Seek(0, SeekOrigin.Begin);
+            if (targetStream.CanSeek)
+                targetStream.Seek(0, SeekOrigin.Begin);
 
-                _isDisposed = true;
-            }
+            _isDisposed = true;
+            _decoderThread.Join();
         }
     }
 }

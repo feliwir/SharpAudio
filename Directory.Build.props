@@ -1,8 +1,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/feliwir/SharpAudio/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Copyright>Copyright 2020 (c) Stephan Vedder. All rights reserved.</Copyright>
+    <Copyright>Copyright 2021 (c) Stephan Vedder. All rights reserved.</Copyright>
     <Authors>Stephan Vedder</Authors>
     <RepositoryUrl>https://github.com/feliwir/SharpAudio</RepositoryUrl>
   </PropertyGroup>

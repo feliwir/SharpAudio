@@ -20,7 +20,7 @@ namespace SharpAudio.Codec.Wave
         }
     }
 
-    public class WaveDecoder : Decoder
+    internal class WaveDecoder : Decoder
     {
         private RiffHeader _header;
         private WaveFormat _format;
@@ -29,7 +29,7 @@ namespace SharpAudio.Codec.Wave
         private int _samplesLeft;
         private byte[] _decodedData;
 
-        public WaveDecoder(Stream s)
+        internal WaveDecoder(Stream s)
         {
             using (BinaryReader br = new BinaryReader(s))
             {
