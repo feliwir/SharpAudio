@@ -9,7 +9,7 @@ namespace SharpAudio.Codec.Vorbis
         private VorbisReader _reader;
         private float[] _readBuf;
 
-        public override bool IsFinished => throw new NotImplementedException();
+        public override bool IsFinished => _reader.IsEndOfStream;
 
         public override TimeSpan Position => TimeSpan.MinValue;
 
