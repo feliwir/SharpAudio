@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using SharpAudio.ALBinding;
 
 namespace SharpAudio.AL
@@ -22,13 +22,21 @@ namespace SharpAudio.AL
         public override float Volume
         {
             get { return _volume; }
-            set { _volume = value; AlNative.alSourcef(_source, AlNative.AL_GAIN, value); }
+            set
+            {
+                _volume = value; AlNative.alSourcef(_source, AlNative.AL_GAIN, value);
+                ALEngine.checkAlError();
+            }
         }
 
         public override bool Looping
         {
             get { return _looping; }
-            set { _looping = value; AlNative.alSourcei(_source, AlNative.AL_LOOPING, value ? 1 : 0); }
+            set
+            {
+                _looping = value; AlNative.alSourcei(_source, AlNative.AL_LOOPING, value ? 1 : 0);
+                ALEngine.checkAlError();
+            }
         }
 
         public ALSource()
