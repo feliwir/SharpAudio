@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using SharpAudio.ALBinding;
 
 namespace SharpAudio.AL
@@ -23,33 +23,15 @@ namespace SharpAudio.AL
             checkAlError();
         }
 
-        private static String openAlErrorToString(int err)
-        {
-            switch (err)
-            {
-                case AlNative.AL_NO_ERROR:
-                    return "AL_NO_ERROR";
-                case AlNative.AL_INVALID_NAME:
-                    return "AL_INVALID_NAME";
-                case AlNative.AL_INVALID_ENUM:
-                    return "AL_INVALID_ENUM";
-                case AlNative.AL_INVALID_VALUE:
-                    return "AL_INVALID_VALUE";
-                case AlNative.AL_INVALID_OPERATION:
-                    return "AL_INVALID_OPERATION";
-                case AlNative.AL_OUT_OF_MEMORY:
-                    return "AL_OUT_OF_MEMORY";
-                default:
-                    return "Unknown error code";
-            }
-        }
 
         internal static void checkAlError()
         {
             int error = AlNative.alGetError();
             if (error != AlNative.AL_NO_ERROR)
             {
-                throw new SharpAudioException("OpenAL Error: " + openAlErrorToString(error));
+                
+                string formatErrMsg = string.Format("OpenAL Error: {0} - {1}", Marshal.PtrToStringAuto(AlNative.alGetString(error)), AlNative.alcGetCurrentContext().ToString());
+                throw new SharpAudioException(formatErrMsg);
             }
         }
 
@@ -58,7 +40,8 @@ namespace SharpAudio.AL
             int error = AlNative.alcGetError(_device);
             if (error != AlNative.ALC_NO_ERROR)
             {
-                throw new SharpAudioException("OpenAL Error: " + error);
+                string formatErrMsg = string.Format("OpenALc Error: {0}", Marshal.PtrToStringAuto(AlNative.alcGetString(_device, error)));
+                throw new SharpAudioException(formatErrMsg);
             }
         }
 
