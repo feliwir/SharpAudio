@@ -15,7 +15,10 @@ namespace SharpAudio.Tests
         [BackendFact(AudioBackend.OpenAL)]
         public void SpatialOpenAL()
         {
-            TestSpatial(AudioEngine.CreateOpenAL());
+            using (var engine = AudioEngine.CreateOpenAL())
+            {
+                TestSpatial(engine);
+            }
         }
 
         void TestSpatial(AudioEngine engine)

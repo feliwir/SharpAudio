@@ -16,7 +16,10 @@ namespace SharpAudio.Tests
         [BackendFact(AudioBackend.OpenAL)]
         public void SubMixingOpenAL()
         {
-            TestSubMixing(AudioEngine.CreateOpenAL());
+            using (var engine = AudioEngine.CreateOpenAL())
+            {
+                TestSubMixing(engine);
+            }
         }
 
         void TestSubMixing(AudioEngine engine)
