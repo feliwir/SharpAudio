@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 
 #pragma warning disable CS1591
@@ -82,6 +82,11 @@ namespace SharpAudio.ALBinding
         private delegate int AL_getError_t();
         private static AL_getError_t s_al_getError;
         public static int alGetError() => s_al_getError();
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate IntPtr AL_getString_t(int param);
+        private static AL_getString_t s_al_getString;
+        public static IntPtr alGetString(int param) => s_al_getString(param);
 
         /* n refers to an ALsizei */
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -185,6 +190,7 @@ namespace SharpAudio.ALBinding
         private static void LoadAl()
         {
             s_al_getError = LoadFunction<AL_getError_t>("alGetError");
+            s_al_getString = LoadFunction<AL_getString_t>("alGetString");
 
             s_al_isExtensionPresent = LoadFunction<AL_isExtensionPresent_t>("alIsExtensionPresent");
 
