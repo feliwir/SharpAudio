@@ -13,16 +13,22 @@ namespace SharpAudio.AL
 
         public ALEngine(AudioEngineOptions options)
         {
+
+            int[] argument = new int[] { AlNative.ALC_FREQUENCY, options.SampleRate, AlNative.ALC_SYNC, 1 };
+            // opens the default device.
             _device = AlNative.alcOpenDevice(null);
             checkAlcError();
-            _context = AlNative.alcCreateContext(_device, null);
+            _context = AlNative.alcCreateContext(_device, argument);
             checkAlcError();
+            //
+            if (AlNative.alcGetCurrentContext() == IntPtr.Zero)
+            {
             AlNative.alcMakeContextCurrent(_context);
             checkAlcError();
             _floatSupport = AlNative.alIsExtensionPresent("AL_EXT_FLOAT32");
             checkAlError();
         }
-
+        }
 
         internal static void checkAlError()
         {
@@ -52,12 +58,22 @@ namespace SharpAudio.AL
 
         protected override void PlatformDispose()
         {
-            AlNative.alcMakeContextCurrent((IntPtr) 0);
+            if (_context != IntPtr.Zero)
+            {
+                AlNative.alcSuspendContext(_context);
             checkAlcError();
+            }
+            AlNative.alcMakeContextCurrent(IntPtr.Zero);
+            checkAlcError();
+
+            if (_context != IntPtr.Zero)
+            {
             AlNative.alcDestroyContext(_context);
             checkAlcError();
+                this._context = IntPtr.Zero;
             AlNative.alcCloseDevice(_device);
             checkAlcError();
+        }
         }
 
         public override Audio3DEngine Create3DEngine()
