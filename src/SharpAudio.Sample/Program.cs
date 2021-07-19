@@ -26,26 +26,28 @@ namespace SharpAudio.Sample
 
         private static void RunOptionsAndReturnExitCode(Options opts)
         {
-            var engine = AudioEngine.CreateDefault();
-
-            if (engine == null)
+            using (var engine = AudioEngine.CreateDefault())
             {
-                Console.WriteLine("Failed to create an audio backend!");
-            }
 
-            foreach (var file in opts.InputFiles)
-            {
-                var soundStream = new SoundStream(File.OpenRead(file), engine);
-
-                soundStream.Volume = opts.Volume / 100.0f;
-
-                soundStream.Play();
-
-                Console.WriteLine("Playing file with duration: " + soundStream.Duration);
-
-                while (soundStream.IsPlaying)
+                if (engine == null)
                 {
-                    Thread.Sleep(100);
+                    Console.WriteLine("Failed to create an audio backend!");
+                }
+
+                foreach (var file in opts.InputFiles)
+                {
+                    var soundStream = new SoundStream(File.OpenRead(file), engine);
+
+                    soundStream.Volume = opts.Volume / 100.0f;
+
+                    soundStream.Play();
+
+                    Console.WriteLine("Playing file with duration: " + soundStream.Duration);
+
+                    while (soundStream.IsPlaying)
+                    {
+                        Thread.Sleep(100);
+                    }
                 }
             }
         }

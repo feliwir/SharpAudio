@@ -9,10 +9,12 @@ namespace SharpAudio.Tests
         {
             var mp3Stream = typeof(SoundStreams).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.test.mp3");
 
-            var engine = AudioEngine.CreateDefault();
-            using (var soundStream = new SoundStream(mp3Stream, new SoundSink(engine)))
+            using (var engine = AudioEngine.CreateDefault())
             {
-                soundStream.Play();
+                using (var soundStream = new SoundStream(mp3Stream, new SoundSink(engine)))
+                {
+                    soundStream.Play();
+                }
             }
         }
 
@@ -21,15 +23,17 @@ namespace SharpAudio.Tests
         {
             var mp3Stream = typeof(SoundStreams).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.test.mp3");
 
-            var engine = AudioEngine.CreateDefault();
-            var soundStream = new SoundStream(mp3Stream, new SoundSink(engine));
+            using (var engine = AudioEngine.CreateDefault())
+            {
+                var soundStream = new SoundStream(mp3Stream, new SoundSink(engine));
 
-            soundStream.Play();
-            soundStream.Dispose();
-            
-            mp3Stream = typeof(SoundStreams).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.test.mp3");
-            soundStream = new SoundStream(mp3Stream, new SoundSink(engine));
-            soundStream.Volume = 1.0f;
+                soundStream.Play();
+                soundStream.Dispose();
+
+                mp3Stream = typeof(SoundStreams).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.test.mp3");
+                soundStream = new SoundStream(mp3Stream, new SoundSink(engine));
+                soundStream.Volume = 1.0f;
+            }
         }
     }
 }

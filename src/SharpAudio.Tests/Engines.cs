@@ -14,7 +14,10 @@ namespace SharpAudio.Tests
         [BackendFact(AudioBackend.OpenAL)]
         public void CreateOpenAL()
         {
-            TestEngine(AudioEngine.CreateOpenAL());
+            using (var engine = AudioEngine.CreateOpenAL())
+            {
+                TestEngine(engine);
+            }
         }
 
         void TestEngine(AudioEngine engine)
