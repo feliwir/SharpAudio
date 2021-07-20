@@ -18,7 +18,8 @@ namespace SharpAudio.AL
         public ALEngine(AudioEngineOptions options)
         {
             mutex.WaitOne();
-            if (Interlocked.Increment(ref usingResource) == 1)
+            usingResource++;
+            if (usingResource == 1)
             {
                 int[] argument = new int[] { AlNative.ALC_FREQUENCY, options.SampleRate };
                 // opens the default device.
@@ -86,7 +87,7 @@ namespace SharpAudio.AL
                     _device = IntPtr.Zero;
 
                 }
-                Interlocked.Exchange(ref usingResource, 0);
+                usingResource = 0;
             }
             mutex.ReleaseMutex();
         }
