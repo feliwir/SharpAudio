@@ -56,22 +56,23 @@ namespace SharpAudio.Tests
             Assert.True(duration.Seconds == 3);
         }
 
-        [BackendFact(AudioBackend.OpenAL, AudioBackend.XAudio2)]
-        public void Ffmpeg()
-        {
-            var ffmpegStream = typeof(FileFormats).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.sample.flac");
+        // TODO: discover if FFmpeg is available
+        // [BackendFact(AudioBackend.OpenAL, AudioBackend.XAudio2)]
+        // public void FFmpeg()
+        // {
+        //     var ffmpegStream = typeof(FileFormats).Assembly.GetManifestResourceStream("SharpAudio.Tests.Assets.sample.flac");
 
-            var engine = AudioEngine.CreateDefault();
-            var soundStream = new SoundStream(ffmpegStream, engine);
+        //     var engine = AudioEngine.CreateDefault();
+        //     var soundStream = new SoundStream(ffmpegStream, engine);
 
-            Assert.True(soundStream.Format.BitsPerSample == 16);
-            Assert.True(soundStream.Format.Channels == 2);
-            Assert.True(soundStream.Format.SampleRate == 44100);
+        //     Assert.True(soundStream.Format.BitsPerSample == 16);
+        //     Assert.True(soundStream.Format.Channels == 2);
+        //     Assert.True(soundStream.Format.SampleRate == 44100);
 
-            var duration = soundStream.Duration;
+        //     var duration = soundStream.Duration;
 
-            Assert.True(duration.Minutes == 2);
-            Assert.True(duration.Seconds == 2);
-        }
+        //     Assert.True(duration.Minutes == 2);
+        //     Assert.True(duration.Seconds == 2);
+        // }
     }
 }
