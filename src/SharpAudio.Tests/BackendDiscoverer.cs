@@ -52,6 +52,7 @@ namespace SharpAudio.Tests
                 {
                     if (engine != null)
                     {
+                        AvailableBackends.Add(AudioBackend.MediaFoundation);
                         AvailableBackends.Add(AudioBackend.XAudio2);
                     }
                 }

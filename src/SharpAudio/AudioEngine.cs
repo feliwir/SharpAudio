@@ -117,6 +117,9 @@ namespace SharpAudio
         /// </summary>
         protected abstract void PlatformDispose();
 
+        /// <summary>
+        /// Free this instance
+        /// </summary>
         public void Dispose()
         {
             PlatformDispose();

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SharpAudio
+﻿namespace SharpAudio
 {
+    /// <summary>
+    /// Describes the format of a set of samples
+    /// </summary>
     public struct AudioFormat
     {
         /// <summary>

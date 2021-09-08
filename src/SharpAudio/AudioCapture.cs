@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 
 namespace SharpAudio
@@ -16,7 +16,7 @@ namespace SharpAudio
         /// <summary>
         /// Creates a new <see cref="AudioCapture"/> using OpenAL.
         /// </summary>
-        /// <returns>A new <see cref="AudioCapture"/> using the openal API.</returns>
+        /// <returns>A new <see cref="AudioCapture"/> using the OpenAL API.</returns>
         public static AudioCapture CreateOpenAL()
         {
             return CreateOpenAL(new AudioCaptureOptions());
@@ -26,12 +26,38 @@ namespace SharpAudio
         /// Creates a new <see cref="AudioCapture"/> using OpenAL.
         /// </summary>
         /// <param name="options">the settings for this audio capture device</param>
-        /// <returns>A new <see cref="AudioCapture"/> using the openal API. If not possible returns null</returns>
+        /// <returns>A new <see cref="AudioCapture"/> using the OpenAL API. If not possible returns null</returns>
         public static AudioCapture CreateOpenAL(AudioCaptureOptions options)
         {
             try
             {
                 return new AL.ALCapture(options);
+            }
+            catch (TypeInitializationException)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="AudioCapture"/> using MediaFoundation.
+        /// </summary>
+        /// <returns>A new <see cref="AudioCapture"/> using the MediaFoundation API.</returns>
+        public static AudioCapture CreateMediaFoundation()
+        {
+            return CreateMediaFoundation(new AudioCaptureOptions());
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="AudioCapture"/> using MediaFoundation.
+        /// </summary>
+        /// <param name="options">the settings for this audio capture device</param>
+        /// <returns>A new <see cref="AudioCapture"/> using the MediaFoundation API. If not possible returns null</returns>
+        public static AudioCapture CreateMediaFoundation(AudioCaptureOptions options)
+        {
+            try
+            {
+                return new MF.MFCapture(options);
             }
             catch (TypeInitializationException)
             {
@@ -56,7 +82,7 @@ namespace SharpAudio
         public static AudioCapture CreateDefault(AudioCaptureOptions options)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                return CreateOpenAL(options); //TODO
+                return CreateMediaFoundation(options); //TODO
             else
                 return CreateOpenAL(options);
         }
@@ -66,6 +92,9 @@ namespace SharpAudio
         /// </summary>
         protected abstract void PlatformDispose();
 
+        /// <summary>
+        /// Free this instance
+        /// </summary>
         public void Dispose()
         {
             PlatformDispose();

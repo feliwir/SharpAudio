@@ -1,5 +1,4 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 using SharpAudio.ALBinding;
 
 namespace SharpAudio.AL
