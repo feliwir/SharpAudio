@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using SharpDX;
+using Vortice;
 
 namespace SharpAudio.XA2
 {
@@ -8,14 +8,14 @@ namespace SharpAudio.XA2
     {
         private DataStream _dataStream;
 
-        public SharpDX.XAudio2.AudioBuffer Buffer { get; }
+        public Vortice.XAudio2.AudioBuffer Buffer { get; }
 
         public int SizeInBytes { get; private set; }
         public int TotalSamples => SizeInBytes / Format.BytesPerSample;
 
         public XA2Buffer()
         {
-            Buffer = new SharpDX.XAudio2.AudioBuffer();
+            Buffer = new Vortice.XAudio2.AudioBuffer();
         }
 
         public override unsafe void BufferData<T>(T[] buffer, AudioFormat format)

@@ -1,4 +1,4 @@
-﻿using SharpDX.XAudio2;
+﻿using Vortice.XAudio2;
 
 namespace SharpAudio.XA2
 {
@@ -7,12 +7,12 @@ namespace SharpAudio.XA2
 
         private readonly XA2Engine _engine;
 
-        internal SubmixVoice SubMixerVoice { get; }
+        internal IXAudio2SubmixVoice SubMixerVoice { get; }
 
         public XA2Submixer(XA2Engine engine)
         {
             _engine = engine;
-            SubMixerVoice = new SubmixVoice(_engine.Device);
+            SubMixerVoice = _engine.Device.CreateSubmixVoice();
         }
 
         public override float Volume

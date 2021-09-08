@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SharpDX.XAudio2" Version="4.2.0" />
+    <PackageReference Include="Vortice.XAudio2" Version="1.9.130" />
   </ItemGroup>
 
   <ItemGroup>

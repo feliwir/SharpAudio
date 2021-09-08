@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using SharpDX.XAudio2;
+using Vortice.XAudio2;
 
 namespace SharpAudio.XA2
 {
     internal sealed class XA2Engine : AudioEngine
     {
-        internal MasteringVoice MasterVoice { get; }
+        internal IXAudio2MasteringVoice MasterVoice { get; }
 
         public override AudioBackend BackendType => AudioBackend.XAudio2;
-        public XAudio2 Device { get; }
+        public IXAudio2 Device { get; }
 
         private const uint RPC_E_CHANGED_MODE = 0x80010106;
         private const uint COINIT_MULTITHREADED = 0x0;
@@ -29,8 +29,8 @@ namespace SharpAudio.XA2
 
         public XA2Engine(AudioEngineOptions options)
         {
-            Device = new XAudio2(XAudio2Flags.None, ProcessorSpecifier.DefaultProcessor);
-            MasterVoice = new MasteringVoice(Device, options.SampleChannels, options.SampleRate);
+            Device = XAudio2.XAudio2Create();
+            MasterVoice = Device.CreateMasteringVoice(options.SampleChannels, options.SampleRate);
         }
 
         protected override void PlatformDispose()

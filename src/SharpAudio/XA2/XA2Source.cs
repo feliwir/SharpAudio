@@ -1,5 +1,5 @@
-﻿using SharpDX.Multimedia;
-using SharpDX.XAudio2;
+﻿using Vortice.Multimedia;
+using Vortice.XAudio2;
 
 namespace SharpAudio.XA2
 {
@@ -8,7 +8,7 @@ namespace SharpAudio.XA2
         private readonly XA2Engine _engine;
         private readonly XA2Submixer _submixer;
 
-        internal SourceVoice SourceVoice { get; private set; }
+        internal IXAudio2SourceVoice SourceVoice { get; private set; }
 
         public XA2Source(XA2Engine engine, XA2Submixer submixer)
         {
@@ -20,11 +20,12 @@ namespace SharpAudio.XA2
         {
 
             WaveFormat wFmt = new WaveFormat(format.SampleRate, format.BitsPerSample, format.Channels);
-            SourceVoice = new SourceVoice(_engine.Device, wFmt);
+            SourceVoice = _engine.Device.CreateSourceVoice(wFmt);
 
             if (_submixer != null)
             {
-                var vsDesc = new VoiceSendDescriptor(_submixer.SubMixerVoice);
+                var vsDesc = new VoiceSendDescriptor();
+                vsDesc.OutputVoice = _submixer.SubMixerVoice;
                 SourceVoice.SetOutputVoices(new VoiceSendDescriptor[] { vsDesc });
             }
 
@@ -76,7 +77,7 @@ namespace SharpAudio.XA2
             var xaBuffer = (XA2Buffer) buffer;
             if (_looping)
             {
-                xaBuffer.Buffer.LoopCount = SharpDX.XAudio2.AudioBuffer.LoopInfinite;
+                xaBuffer.Buffer.LoopCount = IXAudio2.LoopInfinite;
             }
             SourceVoice.SubmitSourceBuffer(xaBuffer.Buffer, null);
         }

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
-using SharpDX.Mathematics.Interop;
-using SharpDX.Multimedia;
-using SharpDX.X3DAudio;
+using Vortice.Multimedia;
+using Vortice.XAudio2;
 
 namespace SharpAudio.XA2
 {
@@ -17,8 +16,8 @@ namespace SharpAudio.XA2
         {
             _engine = engine;
             _x3DListener = new Listener();
-            _x3DListener.OrientTop = new RawVector3(0, 0, 1);
-            _x3DListener.OrientFront = new RawVector3(0, 1, 0);
+            _x3DListener.OrientTop = Vector3.UnitZ;
+            _x3DListener.OrientFront = Vector3.UnitY;
 
             Speakers channels = (Speakers) _engine.MasterVoice.ChannelMask;
             _x3DAudio = new X3DAudio(channels);
@@ -27,7 +26,7 @@ namespace SharpAudio.XA2
 
         public override void SetListenerPosition(Vector3 position)
         {
-            _x3DListener.Position = new RawVector3(position.X, position.Y, position.Z);
+            _x3DListener.Position = position;
         }
 
         public override void SetSourcePosition(AudioSource source, Vector3 position)
@@ -38,14 +37,14 @@ namespace SharpAudio.XA2
             {
                 emitter = new Emitter();
                 emitter.CurveDistanceScaler = float.MinValue;
-                emitter.OrientTop = new RawVector3(0, 0, 1);
-                emitter.OrientFront = new RawVector3(0, 1, 0);
+                emitter.OrientTop = Vector3.UnitZ;
+                emitter.OrientFront = Vector3.UnitY;
 
                 _x3DEmitters.Add(source, emitter);
             }
 
             emitter.ChannelCount = xa2Source.SourceVoice.VoiceDetails.InputChannelCount;
-            emitter.Position = new RawVector3(position.X, position.Y, position.Z);
+            emitter.Position = new Vector3(position.X, position.Y, position.Z);
 
             var outChannels = _engine.MasterVoice.VoiceDetails.InputChannelCount;
 
@@ -57,8 +56,8 @@ namespace SharpAudio.XA2
 
         public override void SetListenerOrientation(Vector3 top, Vector3 front)
         {
-            _x3DListener.OrientTop = new RawVector3(top.X, top.Y, top.Z);
-            _x3DListener.OrientFront = new RawVector3(front.X, front.Y, front.Z);
+            _x3DListener.OrientTop = top;
+            _x3DListener.OrientFront = front;
         }
     }
 }
