@@ -11,7 +11,7 @@
     <PackageReference Include="NLayer.Core" Version="1.15.0" />
     <PackageReference Include="NVorbis" Version="0.10.4" />
     <PackageReference Include="System.Memory" Version="4.5.4" />
-    <PackageReference Include="FFmpeg.AutoGen" Version="4.4.1.1" />
+    <PackageReference Include="FFmpeg.AutoGen" Version="5.1.0" />
   </ItemGroup>
 
   <ItemGroup>
