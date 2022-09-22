@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Vortice.MediaFoundation" Version="1.9.143" />
+    <PackageReference Include="Vortice.MediaFoundation" Version="2.1.32" />
     <PackageReference Include="Vortice.XAudio2" Version="1.9.143" />
   </ItemGroup>
 
