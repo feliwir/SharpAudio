@@ -32,6 +32,7 @@ namespace SharpAudio.ALBinding
             {
                 names = new[]
                 {
+                    "/usr/local/opt/openal-soft/lib/libopenal.dylib",
                     "libopenal.dylib",
                     "soft_oal.so"
                 };
