@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Vortice.MediaFoundation" Version="1.9.143" />
-    <PackageReference Include="Vortice.XAudio2" Version="1.9.143" />
+    <PackageReference Include="Vortice.XAudio2" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
